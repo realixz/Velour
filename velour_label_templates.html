@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Velour — Label Templates</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Jost:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Jost', sans-serif; background: #f5f5f5; color: #2A2420; padding: 20px; }
+  .instructions { max-width: 720px; margin: 0 auto 40px; padding: 24px; background: #FAF8F4; border: 1px solid #E8E2D8; border-radius: 4px; font-size: 13px; line-height: 1.7; color: #3D3530; }
+  .instructions h2 { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 400; margin-bottom: 12px; }
+  .instructions strong { color: #2A2420; }
+  .instructions .note { color: #8B7355; font-size: 12px; margin-top: 12px; font-style: italic; }
+  .generator { max-width: 720px; margin: 0 auto 20px; padding: 32px; background: #FAF8F4; border: 1px solid #E8E2D8; }
+  .generator h2 { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 400; margin-bottom: 16px; }
+  .generator label { display: block; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #8B7355; margin-bottom: 4px; margin-top: 14px; }
+  .generator input, .generator select { width: 100%; padding: 8px 12px; border: 1px solid #E8E2D8; background: #fff; font-family: 'Jost', sans-serif; font-size: 14px; color: #2A2420; outline: none; border-radius: 2px; }
+  .generator input:focus, .generator select:focus { border-color: #C9A96E; }
+  .or-divider { text-align: center; color: #C4B9A8; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; margin: 18px 0 4px; }
+  .manual-fields { border-top: 1px solid #E8E2D8; margin-top: 10px; padding-top: 4px; }
+  .preview-row { display: flex; gap: 24px; margin-top: 28px; align-items: flex-start; flex-wrap: wrap; }
+  .preview-col { text-align: center; }
+  .preview-col > span { display: block; font-size: 10px; color: #C4B9A8; margin-top: 8px; letter-spacing: 0.1em; text-transform: uppercase; }
+  .bottle-sim { background: linear-gradient(135deg, #e8ddd0 0%, #d4c8b8 40%, #c9bcaa 60%, #ddd2c4 100%); padding: 4px; border-radius: 3px; display: inline-block; }
+  .save-row { display: flex; gap: 10px; margin-top: 6px; justify-content: center; }
+  .save-btn { font-family: 'Jost', sans-serif; font-size: 10px; font-weight: 300; letter-spacing: 0.12em; text-transform: uppercase; padding: 7px 14px; background: #2A2420; color: #FAF8F4; border: none; cursor: pointer; border-radius: 2px; transition: background 0.2s; }
+  .save-btn:hover { background: #8B7355; }
+  .catalog-select { background: #fff; border: 1px solid #C9A96E; font-size: 14px; padding: 10px 12px; cursor: pointer; }
+  .catalog-select option { padding: 4px; }
+  .catalog-select option:disabled { color: #C4B9A8; font-style: italic; }
+</style>
+</head>
+<body>
+
+<div class="instructions">
+  <h2>Velour — Label Templates</h2>
+  <p><strong>How it works:</strong> Pick a fragrance from your catalog dropdown (synced with your website) or type manually. Preview all 3 sizes, then save as PNG.</p>
+  <p><strong>Print shop specs:</strong> Clear/transparent waterproof vinyl. White + gold ink. Sizes: 35x18mm (2ml), 42x22mm (5ml), 50x28mm (10ml). Rounded corners.</p>
+  <p class="note">To add new fragrances, scroll to the bottom of this file's source code and add them to the CATALOG array. Or just use the manual fields.</p>
+</div>
+
+<div class="generator">
+  <h2>Label Generator</h2>
+
+  <label>Pick from your catalog</label>
+  <select id="catalogSelect" class="catalog-select" onchange="loadFromCatalog()">
+    <option value="" disabled selected>— Select a fragrance —</option>
+  </select>
+
+  <div class="or-divider">or enter manually</div>
+
+  <div class="manual-fields">
+    <label>Brand</label>
+    <input type="text" id="inBrand" placeholder="e.g. Initio" oninput="updatePreview()">
+    <label>Fragrance Name</label>
+    <input type="text" id="inName" placeholder="e.g. Side Effect" oninput="updatePreview()">
+    <label>Concentration</label>
+    <select id="inConc" onchange="updatePreview()"><option>EDP</option><option>Extrait</option><option>Parfum</option><option>EDT</option></select>
+    
+    
+  </div>
+
+  <label>Batch Code</label>
+  <input type="text" id="inBatch" placeholder="e.g. 2026-04" value="2026-04" oninput="updatePreview()">
+
+  <div class="preview-row">
+    <div class="preview-col">
+      <div class="bottle-sim"><canvas id="canvas-sm" style="display:block;"></canvas></div>
+      <span>2ml (35×18mm)</span>
+      <div class="save-row"><button class="save-btn" onclick="saveLabel('sm')">Save PNG</button></div>
+    </div>
+    <div class="preview-col">
+      <div class="bottle-sim"><canvas id="canvas-md" style="display:block;"></canvas></div>
+      <span>5ml (42×22mm)</span>
+      <div class="save-row"><button class="save-btn" onclick="saveLabel('md')">Save PNG</button></div>
+    </div>
+    <div class="preview-col">
+      <div class="bottle-sim"><canvas id="canvas-lg" style="display:block;"></canvas></div>
+      <span>10ml (50×28mm)</span>
+      <div class="save-row"><button class="save-btn" onclick="saveLabel('lg')">Save PNG</button></div>
+    </div>
+  </div>
+  <div style="margin-top:24px;text-align:center;">
+    <button class="save-btn" style="padding:12px 28px;font-size:11px;background:#C9A96E;color:#2A2420;" onclick="saveAll()">Save All 3 Sizes</button>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// YOUR CATALOG — edit this list when you add new fragrances
+// Copy the format exactly. This is the only thing you need to update.
+// ============================================================
+const CATALOG = [
+  // { brand, name, conc }
+  { brand: "Byredo", name: "Bal d'Afrique Absolu", conc: "Extrait" },
+  { brand: "Byredo", name: "Mojave Ghost Absolu", conc: "Extrait" },
+  { brand: "Emporio Armani", name: "Stronger With You Intensely", conc: "EDP" },
+  { brand: "Emporio Armani", name: "Stronger With You Powerfully", conc: "EDP" },
+  { brand: "Emporio Armani", name: "Power Of You", conc: "EDP" },
+  { brand: "Tom Ford", name: "Black Orchid", conc: "EDP" },
+  { brand: "Tom Ford", name: "Neroli Portofino", conc: "EDP" },
+  { brand: "Tom Ford", name: "Soleil Blanc", conc: "EDP" },
+  { brand: "Dior", name: "Vanilla Diorama", conc: "EDP" },
+  { brand: "Chanel", name: "Bleu de Chanel L'Exclusif", conc: "Parfum" },
+  { brand: "Initio", name: "Atomic Rose", conc: "EDP" },
+  { brand: "Initio", name: "Side Effect", conc: "EDP" },
+  { brand: "Initio", name: "Musk Therapy", conc: "EDP" },
+  { brand: "Nishane", name: "Ani", conc: "Extrait" },
+];
+
+// Build the dropdown
+function buildCatalogDropdown() {
+  const sel = document.getElementById('catalogSelect');
+  let currentBrand = '';
+  CATALOG.forEach((item, i) => {
+    if (item.brand !== currentBrand) {
+      const optgroup = document.createElement('optgroup');
+      optgroup.label = item.brand;
+      // Add all items for this brand
+      CATALOG.forEach((sub, j) => {
+        if (sub.brand === item.brand) {
+          const opt = document.createElement('option');
+          opt.value = j;
+          opt.textContent = sub.name + ' (' + sub.conc + ')';
+          optgroup.appendChild(opt);
+        }
+      });
+      sel.appendChild(optgroup);
+      currentBrand = item.brand;
+    }
+  });
+}
+
+function loadFromCatalog() {
+  const idx = document.getElementById('catalogSelect').value;
+  if (idx === '') return;
+  const item = CATALOG[parseInt(idx)];
+  document.getElementById('inBrand').value = item.brand;
+  document.getElementById('inName').value = item.name;
+  document.getElementById('inConc').value = item.conc;
+  
+  updatePreview();
+}
+
+// ============================================================
+// DRAWING
+// ============================================================
+const SCALE = 4;
+
+function getValues() {
+  return {
+    brand: document.getElementById('inBrand').value || 'Brand',
+    name: document.getElementById('inName').value || 'Fragrance Name',
+    conc: document.getElementById('inConc').value,
+    batch: document.getElementById('inBatch').value || '2026-04'
+  };
+}
+
+function drawSmall(canvas, transparent) {
+  const v = getValues();
+  const W = 264, H = 136;
+  canvas.width = W * SCALE; canvas.height = H * SCALE;
+  canvas.style.width = (W/2) + 'px'; canvas.style.height = (H/2) + 'px';
+  const ctx = canvas.getContext('2d');
+  ctx.scale(SCALE, SCALE);
+  ctx.clearRect(0, 0, W, H);
+  if (!transparent) {
+    const g = ctx.createLinearGradient(0,0,W,H);
+    g.addColorStop(0,'#e8ddd0'); g.addColorStop(0.4,'#d4c8b8'); g.addColorStop(0.6,'#c9bcaa'); g.addColorStop(1,'#ddd2c4');
+    ctx.fillStyle = g; ctx.fillRect(0,0,W,H);
+  }
+  ctx.strokeStyle = 'rgba(255,255,255,0.6)'; ctx.lineWidth = 1;
+  ctx.strokeRect(4, 4, W-8, H-8);
+  ctx.font = '300 11px Jost, sans-serif';
+  ctx.fillStyle = '#C9A96E';
+  ctx.fillText(v.brand.toUpperCase(), 14, 28);
+  ctx.font = '400 19px "Cormorant Garamond", serif';
+  ctx.fillStyle = '#ffffff';
+  ctx.shadowColor = 'rgba(0,0,0,0.3)'; ctx.shadowBlur = 1; ctx.shadowOffsetY = 1;
+  ctx.fillText(v.name, 14, 52);
+  ctx.shadowBlur = 0; ctx.shadowOffsetY = 0;
+  ctx.fillStyle = '#C9A96E'; ctx.globalAlpha = 0.6;
+  ctx.fillRect(14, 62, W-28, 1);
+  ctx.globalAlpha = 1;
+  ctx.font = '300 12px Jost, sans-serif';
+  ctx.fillStyle = '#ffffff';
+  ctx.shadowColor = 'rgba(0,0,0,0.3)'; ctx.shadowBlur = 1; ctx.shadowOffsetY = 1;
+  ctx.fillText('2ml \u00B7 ' + v.conc, 14, 82);
+  ctx.shadowBlur = 0; ctx.shadowOffsetY = 0;
+  ctx.font = '300 8px Jost, sans-serif';
+  ctx.fillStyle = 'rgba(255,255,255,0.35)';
+  ctx.fillText(v.batch, 14, 96);
+  ctx.font = '400 11px "Cormorant Garamond", serif';
+  ctx.fillStyle = '#C9A96E';
+  ctx.textAlign = 'right';
+  ctx.fillText('VELOUR', W-14, 82);
+  ctx.textAlign = 'left';
+}
+
+function drawMedium(canvas, transparent) {
+  const v = getValues();
+  const W = 318, H = 166;
+  canvas.width = W * SCALE; canvas.height = H * SCALE;
+  canvas.style.width = (W/2) + 'px'; canvas.style.height = (H/2) + 'px';
+  const ctx = canvas.getContext('2d');
+  ctx.scale(SCALE, SCALE);
+  ctx.clearRect(0, 0, W, H);
+  if (!transparent) {
+    const g = ctx.createLinearGradient(0,0,W,H);
+    g.addColorStop(0,'#e8ddd0'); g.addColorStop(0.4,'#d4c8b8'); g.addColorStop(0.6,'#c9bcaa'); g.addColorStop(1,'#ddd2c4');
+    ctx.fillStyle = g; ctx.fillRect(0,0,W,H);
+  }
+  ctx.strokeStyle = 'rgba(255,255,255,0.6)'; ctx.lineWidth = 1;
+  ctx.strokeRect(4, 4, W-8, H-8);
+  ctx.font = '300 13px Jost, sans-serif';
+  ctx.fillStyle = '#C9A96E';
+  ctx.fillText(v.brand.toUpperCase(), 16, 32);
+  ctx.font = '400 23px "Cormorant Garamond", serif';
+  ctx.fillStyle = '#ffffff';
+  ctx.shadowColor = 'rgba(0,0,0,0.3)'; ctx.shadowBlur = 1; ctx.shadowOffsetY = 1;
+  ctx.fillText(v.name, 16, 60);
+  ctx.shadowBlur = 0; ctx.shadowOffsetY = 0;
+  var lineY = 74;
+  ctx.fillStyle = '#C9A96E'; ctx.globalAlpha = 0.6;
+  ctx.fillRect(16, lineY, W-32, 1);
+  ctx.globalAlpha = 1;
+  ctx.font = '300 14px Jost, sans-serif';
+  ctx.fillStyle = '#ffffff';
+  ctx.shadowColor = 'rgba(0,0,0,0.3)'; ctx.shadowBlur = 1; ctx.shadowOffsetY = 1;
+  ctx.fillText('5ml \u00B7 ' + v.conc, 16, lineY + 22);
+  ctx.shadowBlur = 0; ctx.shadowOffsetY = 0;
+  ctx.font = '300 9px Jost, sans-serif';
+  ctx.fillStyle = 'rgba(255,255,255,0.35)';
+  ctx.fillText(v.batch, 16, lineY + 36);
+  ctx.font = '400 13px "Cormorant Garamond", serif';
+  ctx.fillStyle = '#C9A96E';
+  ctx.textAlign = 'right';
+  ctx.fillText('VELOUR', W-16, lineY + 22);
+  ctx.textAlign = 'left';
+}
+
+function drawLarge(canvas, transparent) {
+  const v = getValues();
+  const W = 378, H = 212;
+  canvas.width = W * SCALE; canvas.height = H * SCALE;
+  canvas.style.width = (W/2) + 'px'; canvas.style.height = (H/2) + 'px';
+  const ctx = canvas.getContext('2d');
+  ctx.scale(SCALE, SCALE);
+  ctx.clearRect(0, 0, W, H);
+  if (!transparent) {
+    const g = ctx.createLinearGradient(0,0,W,H);
+    g.addColorStop(0,'#e8ddd0'); g.addColorStop(0.4,'#d4c8b8'); g.addColorStop(0.6,'#c9bcaa'); g.addColorStop(1,'#ddd2c4');
+    ctx.fillStyle = g; ctx.fillRect(0,0,W,H);
+  }
+  ctx.strokeStyle = 'rgba(255,255,255,0.6)'; ctx.lineWidth = 1;
+  ctx.strokeRect(4, 4, W-8, H-8);
+  ctx.font = '300 15px Jost, sans-serif';
+  ctx.fillStyle = '#C9A96E';
+  ctx.fillText(v.brand.toUpperCase(), 18, 36);
+  ctx.font = '400 28px "Cormorant Garamond", serif';
+  ctx.fillStyle = '#ffffff';
+  ctx.shadowColor = 'rgba(0,0,0,0.3)'; ctx.shadowBlur = 1; ctx.shadowOffsetY = 1;
+  ctx.fillText(v.name, 18, 70);
+  ctx.shadowBlur = 0; ctx.shadowOffsetY = 0;
+  var lineY = 86;
+  ctx.fillStyle = '#C9A96E'; ctx.globalAlpha = 0.6;
+  ctx.fillRect(18, lineY, W-36, 1);
+  ctx.globalAlpha = 1;
+  ctx.font = '300 16px Jost, sans-serif';
+  ctx.fillStyle = '#ffffff';
+  ctx.shadowColor = 'rgba(0,0,0,0.3)'; ctx.shadowBlur = 1; ctx.shadowOffsetY = 1;
+  ctx.fillText('10ml \u00B7 ' + v.conc, 18, lineY + 26);
+  ctx.shadowBlur = 0; ctx.shadowOffsetY = 0;
+  ctx.font = '300 11px Jost, sans-serif';
+  ctx.fillStyle = 'rgba(255,255,255,0.4)';
+  ctx.fillText(v.batch, 18, lineY + 44);
+  ctx.font = '400 14px "Cormorant Garamond", serif';
+  ctx.fillStyle = '#C9A96E';
+  ctx.textAlign = 'right';
+  ctx.fillText('VELOUR', W-18, lineY + 26);
+  ctx.textAlign = 'left';
+}
+
+function updatePreview() {
+  drawSmall(document.getElementById('canvas-sm'), false);
+  drawMedium(document.getElementById('canvas-md'), false);
+  drawLarge(document.getElementById('canvas-lg'), false);
+}
+
+function saveLabel(size) {
+  const v = getValues();
+  const temp = document.createElement('canvas');
+  if (size === 'sm') drawSmall(temp, true);
+  else if (size === 'md') drawMedium(temp, true);
+  else drawLarge(temp, true);
+  const link = document.createElement('a');
+  const sizeLabel = size === 'sm' ? '2ml' : size === 'md' ? '5ml' : '10ml';
+  link.download = 'velour-' + v.brand.toLowerCase().replace(/[^a-z0-9]/g,'-').replace(/-+/g,'-') + '-' + v.name.toLowerCase().replace(/[^a-z0-9]/g,'-').replace(/-+/g,'-') + '-' + sizeLabel + '.png';
+  link.href = temp.toDataURL('image/png');
+  link.click();
+}
+
+function saveAll() {
+  saveLabel('sm');
+  setTimeout(() => saveLabel('md'), 300);
+  setTimeout(() => saveLabel('lg'), 600);
+}
+
+// Init
+window.addEventListener('load', () => {
+  buildCatalogDropdown();
+  document.fonts.ready.then(() => updatePreview());
+});
+</script>
+</body>
+</html>
