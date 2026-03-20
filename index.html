@@ -3,21 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Velour</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@300;400&display=swap" rel="stylesheet">
+  <title>Velour — Fragrance Decants & Samples</title>
+  <meta name="description" content="Try the world's finest niche and designer fragrances without committing to a full bottle. Premium decants from Byredo, Tom Ford, Initio, Nishane and more. Shipped from Slovakia across Europe.">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
       --cream: #FAF8F4; --warm-white: #F5F2EC; --sand: #E8E2D8;
       --taupe: #C4B9A8; --brown: #8B7355; --dark: #2A2420;
-      --gold: #C9A96E; --text: #3D3530;
+      --gold: #C9A96E; --text: #3D3530; --accent-green: #7A8B6F;
     }
     html { scroll-behavior: smooth; }
     body { font-family: 'Jost', sans-serif; background: var(--cream); color: var(--text); font-weight: 300; overflow-x: hidden; }
 
     /* NAV */
-    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; display: flex; justify-content: space-between; align-items: center; padding: 28px 60px; background: transparent; transition: background 0.4s, padding 0.4s; }
-    nav.scrolled { background: rgba(250,248,244,0.95); backdrop-filter: blur(10px); padding: 18px 60px; border-bottom: 1px solid var(--sand); }
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; display: flex; justify-content: space-between; align-items: center; padding: 28px 60px; background: transparent; transition: background 0.4s, padding 0.4s, box-shadow 0.4s; }
+    nav.scrolled { background: rgba(250,248,244,0.97); backdrop-filter: blur(12px); padding: 18px 60px; box-shadow: 0 1px 0 var(--sand); }
     .nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 300; letter-spacing: 0.25em; color: var(--dark); text-decoration: none; text-transform: uppercase; }
     .nav-right { display: flex; align-items: center; gap: 40px; }
     .nav-links { display: flex; gap: 40px; list-style: none; }
@@ -25,8 +26,19 @@
     .nav-links a:hover { opacity: 1; }
     .cart-btn { position: relative; background: none; border: none; cursor: pointer; display: flex; align-items: center; gap: 8px; font-family: 'Jost', sans-serif; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text); opacity: 0.7; transition: opacity 0.2s; padding: 0; }
     .cart-btn:hover { opacity: 1; }
-    .cart-count { position: absolute; top: -8px; right: -10px; background: var(--gold); color: var(--dark); font-size: 9px; font-weight: 400; width: 16px; height: 16px;  display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.2s; }
+    .cart-count { position: absolute; top: -8px; right: -10px; background: var(--gold); color: var(--dark); font-size: 9px; font-weight: 400; width: 16px; height: 16px; border-radius: 50%; display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.2s, transform 0.3s; }
     .cart-count.visible { opacity: 1; }
+    .cart-count.pop { transform: scale(1.3); }
+
+    /* MOBILE MENU */
+    .menu-toggle { display: none; background: none; border: none; cursor: pointer; padding: 4px; }
+    .menu-toggle span { display: block; width: 20px; height: 1.5px; background: var(--dark); margin: 5px 0; transition: all 0.3s; }
+    .menu-toggle.open span:nth-child(1) { transform: rotate(45deg) translate(4px, 4px); }
+    .menu-toggle.open span:nth-child(2) { opacity: 0; }
+    .menu-toggle.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+    .mobile-menu { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(250,248,244,0.98); backdrop-filter: blur(20px); z-index: 190; flex-direction: column; align-items: center; justify-content: center; gap: 32px; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+    .mobile-menu.open { opacity: 1; pointer-events: all; }
+    .mobile-menu a { font-family: 'Cormorant Garamond', serif; font-size: 32px; font-weight: 300; color: var(--dark); text-decoration: none; letter-spacing: 0.1em; }
 
     /* CART DRAWER */
     .cart-overlay { position: fixed; inset: 0; background: rgba(42,36,32,0.4); z-index: 300; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
@@ -51,7 +63,7 @@
     .cart-item-size { font-size: 11px; color: var(--taupe); margin-bottom: 8px; }
     .cart-item-bottom { display: flex; justify-content: space-between; align-items: center; }
     .cart-item-price { font-size: 13px; color: var(--brown); letter-spacing: 0.05em; }
-    .cart-item-remove { background: none; border: none; cursor: pointer; font-size: 11px; color: var(--taupe); letter-spacing: 0.1em; text-transform: uppercase; transition: color 0.2s; padding: 0; }
+    .cart-item-remove { background: none; border: none; cursor: pointer; font-size: 11px; color: var(--taupe); letter-spacing: 0.1em; text-transform: uppercase; transition: color 0.2s; padding: 0; font-family: 'Jost', sans-serif; }
     .cart-item-remove:hover { color: var(--dark); }
     .cart-footer { padding: 24px 32px 32px; border-top: 1px solid var(--sand); }
     .cart-subtotal { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
@@ -66,7 +78,7 @@
     .hero { min-height: 100vh; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; overflow: hidden; padding: 0 0 80px; }
     .hero-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; filter: grayscale(30%) sepia(20%) brightness(1.05); }
     .hero-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(250,248,244,0.15) 0%, rgba(250,248,244,0.05) 40%, rgba(250,248,244,0.7) 75%, rgba(250,248,244,1) 100%); }
-    .hero-center { position: absolute; top: 38%; left: 50%; transform: translate(-50%, -50%); border-radius: 4px; text-align: center; opacity: 0; animation: fadeIn 1.2s 0.4s forwards; }
+    .hero-center { position: absolute; top: 38%; left: 50%; transform: translate(-50%, -50%); text-align: center; opacity: 0; animation: fadeIn 1.2s 0.4s forwards; }
     .hero-center-name { font-family: 'Cormorant Garamond', serif; font-size: clamp(72px, 10vw, 130px); font-weight: 300; letter-spacing: 0.25em; color: var(--dark); line-height: 1; text-transform: uppercase; }
     .hero-center-line { width: 60px; height: 1px; background: var(--gold); margin: 12px auto; }
     .hero-center-sub { font-size: 11px; letter-spacing: 0.35em; text-transform: uppercase; color: var(--brown); }
@@ -81,7 +93,13 @@
     /* DIVIDER */
     .divider { display: flex; align-items: center; gap: 24px; padding: 0 60px; margin: 20px 0; }
     .divider-line { flex: 1; height: 1px; background: var(--sand); }
-    .divider-text { font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--taupe); }
+    .divider-text { font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--taupe); white-space: nowrap; }
+
+    /* TRUST BAR */
+    .trust-bar { padding: 48px 60px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; }
+    .trust-item { text-align: center; }
+    .trust-icon { font-size: 20px; margin-bottom: 10px; display: block; color: var(--gold); }
+    .trust-label { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text); opacity: 0.7; line-height: 1.5; }
 
     /* SERVICES */
     .services { padding: 100px 60px; background: var(--warm-white); }
@@ -99,20 +117,20 @@
     .service-desc { font-size: 13px; line-height: 1.8; color: var(--text); opacity: 0.75; }
 
     /* CATALOG */
-    .catalog { padding: 100px 60px; }
+    .catalog { padding: 100px 60px; background: var(--warm-white); }
     .catalog-controls { margin-top: 48px; margin-bottom: 40px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
     .filter-label { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--taupe); margin-right: 4px; }
     .filter-btn { font-family: 'Jost', sans-serif; font-size: 11px; font-weight: 300; letter-spacing: 0.1em; padding: 8px 18px; border: 1px solid var(--sand); background: transparent; color: var(--text); cursor: pointer; transition: all 0.2s; border-radius: 40px; }
     .filter-btn:hover { border-color: var(--taupe); }
     .filter-btn.active { background: var(--dark); border-color: var(--dark); color: var(--cream); }
     .catalog-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
-    .product-card { background: var(--warm-white); overflow: hidden; transition: transform 0.3s; }
+    .product-card { background: var(--cream); overflow: hidden; transition: transform 0.3s; }
     .product-card:hover { transform: translateY(-4px); }
     .product-card.hidden { display: none; }
     .product-visual { height: 200px; background: var(--sand); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
     .product-bottle { width: 56px; height: 100px; background: linear-gradient(160deg, #EDE8DF, #C4B9A8); border-radius: 28px 28px 6px 6px; position: relative; }
     .product-bottle::before { content: ''; position: absolute; top: -14px; left: 50%; transform: translateX(-50%); width: 14px; height: 16px; background: var(--dark); border-radius: 3px 3px 0 0; }
-    .product-bottle::after { content: ''; position: absolute; top: 12%; left: 15%; width: 22%; height: 45%; background: rgba(255,255,255,0.35);  }
+    .product-bottle::after { content: ''; position: absolute; top: 12%; left: 15%; width: 22%; height: 45%; background: rgba(255,255,255,0.35); }
     .product-visual img { transition: transform 0.5s cubic-bezier(0.4,0,0.2,1); }
     .product-visual:hover img { transform: scale(1.15); }
     .product-brand-tag { position: absolute; bottom: 12px; left: 16px; font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--brown); }
@@ -132,10 +150,30 @@
     .add-to-cart-btn:hover { background: var(--brown); }
     .add-to-cart-btn.added { background: var(--gold); color: var(--dark); }
     .no-results { grid-column: 1 / -1; text-align: center; padding: 60px 0; font-family: 'Cormorant Garamond', serif; font-size: 24px; color: var(--taupe); font-style: italic; display: none; }
+    .out-of-stock-badge { font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--taupe); background: var(--sand); padding: 4px 10px; border-radius: 2px; display: inline-block; }
+
+    /* HOW IT WORKS */
+    .how-it-works { padding: 100px 60px; background: var(--cream); }
+    .steps-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; margin-top: 48px; }
+    .step { text-align: center; }
+    .step-num { width: 48px; height: 48px; border: 1px solid var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-family: 'Cormorant Garamond', serif; font-size: 20px; color: var(--gold); }
+    .step-title { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 400; color: var(--dark); margin-bottom: 10px; }
+    .step-desc { font-size: 12px; line-height: 1.7; color: var(--text); opacity: 0.7; }
+
+    /* FAQ */
+    .faq { padding: 100px 60px; background: var(--warm-white); }
+    .faq-grid { max-width: 700px; margin-top: 48px; }
+    .faq-item { border-bottom: 1px solid var(--sand); }
+    .faq-question { width: 100%; background: none; border: none; text-align: left; padding: 24px 0; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-family: 'Jost', sans-serif; font-size: 14px; font-weight: 300; color: var(--dark); letter-spacing: 0.03em; transition: color 0.2s; }
+    .faq-question:hover { color: var(--brown); }
+    .faq-question::after { content: '+'; font-size: 20px; color: var(--gold); transition: transform 0.3s; flex-shrink: 0; margin-left: 16px; }
+    .faq-item.open .faq-question::after { transform: rotate(45deg); }
+    .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.3s; }
+    .faq-answer-inner { padding: 0 0 24px; font-size: 13px; line-height: 1.8; color: var(--text); opacity: 0.75; }
 
     /* INSTAGRAM CTA */
-    .instagram { padding: 120px 60px; text-align: center; background: var(--dark); position: relative; overflow: hidden; margin-top: 100px; }
-    .instagram::before { content: 'VELOUR'; position: absolute; font-family: 'Cormorant Garamond', serif; font-size: 200px; font-weight: 300; color: rgba(255,255,255,0.03); top: 50%; left: 50%; transform: translate(-50%, -50%); border-radius: 4px; white-space: nowrap; pointer-events: none; letter-spacing: 0.2em; }
+    .instagram { padding: 120px 60px; text-align: center; background: var(--dark); position: relative; overflow: hidden; }
+    .instagram::before { content: 'VELOUR'; position: absolute; font-family: 'Cormorant Garamond', serif; font-size: 200px; font-weight: 300; color: rgba(255,255,255,0.03); top: 50%; left: 50%; transform: translate(-50%, -50%); white-space: nowrap; pointer-events: none; letter-spacing: 0.2em; }
     .instagram-eyebrow { font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 24px; }
     .instagram-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(40px, 5vw, 64px); font-weight: 300; color: var(--cream); line-height: 1.15; margin-bottom: 20px; }
     .instagram-title em { font-style: italic; color: var(--gold); }
@@ -144,9 +182,17 @@
     .btn-instagram:hover { background: var(--gold); color: var(--dark); }
 
     /* FOOTER */
-    footer { padding: 40px 60px; background: var(--dark); border-top: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; align-items: center; }
-    .footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 18px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--cream); opacity: 0.5; }
-    .footer-note { font-size: 11px; color: rgba(250,248,244,0.3); letter-spacing: 0.05em; }
+    footer { padding: 48px 60px 32px; background: var(--dark); border-top: 1px solid rgba(255,255,255,0.08); }
+    .footer-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 40px; gap: 40px; }
+    .footer-brand { }
+    .footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 22px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--cream); opacity: 0.8; display: block; margin-bottom: 12px; }
+    .footer-tagline { font-size: 12px; color: rgba(250,248,244,0.35); line-height: 1.6; max-width: 240px; }
+    .footer-col { }
+    .footer-col-title { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(250,248,244,0.5); margin-bottom: 16px; }
+    .footer-col a, .footer-col span { display: block; font-size: 12px; color: rgba(250,248,244,0.35); text-decoration: none; margin-bottom: 8px; line-height: 1.5; transition: color 0.2s; }
+    .footer-col a:hover { color: var(--gold); }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,0.06); padding-top: 24px; display: flex; justify-content: space-between; align-items: center; }
+    .footer-copy { font-size: 11px; color: rgba(250,248,244,0.25); letter-spacing: 0.05em; }
 
     /* TOAST */
     .toast { position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--dark); color: var(--cream); font-size: 12px; letter-spacing: 0.1em; padding: 14px 24px; border-radius: 2px; z-index: 500; opacity: 0; transition: all 0.3s; white-space: nowrap; }
@@ -158,16 +204,32 @@
     .reveal.visible { opacity: 1; transform: translateY(0); }
 
     @media (max-width: 900px) {
-      nav { padding: 20px 24px; } nav.scrolled { padding: 14px 24px; } .nav-links { display: none; }
-      .hero { padding: 0 0 60px; } .hero-center-name { font-size: 56px; }
-      .services { padding: 60px 24px; } .services-grid { grid-template-columns: 1fr; gap: 2px; }
-      .catalog { padding: 60px 24px; } .catalog-grid { grid-template-columns: 1fr 1fr; }
-      .instagram { padding: 80px 24px; margin-top: 60px; }
-      footer { padding: 28px 24px; flex-direction: column; gap: 8px; text-align: center; }
+      nav { padding: 20px 24px; }
+      nav.scrolled { padding: 14px 24px; }
+      .nav-links { display: none; }
+      .menu-toggle { display: block; }
+      .mobile-menu { display: flex; }
+      .hero { padding: 0 0 60px; }
+      .hero-center-name { font-size: 56px; }
+      .services { padding: 60px 24px; }
+      .services-grid { grid-template-columns: 1fr !important; gap: 2px; }
+      .trust-bar { padding: 32px 24px; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+      .catalog { padding: 60px 24px; }
+      .catalog-grid { grid-template-columns: 1fr 1fr; }
+      .how-it-works { padding: 60px 24px; }
+      .steps-grid { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+      .faq { padding: 60px 24px; }
+      .instagram { padding: 80px 24px; }
+      footer { padding: 40px 24px 24px; }
+      .footer-top { flex-direction: column; gap: 32px; }
+      .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
       .divider { padding: 0 24px; }
       .cart-drawer { width: 100vw; }
     }
-    @media (max-width: 600px) { .catalog-grid { grid-template-columns: 1fr; } }
+    @media (max-width: 600px) {
+      .catalog-grid { grid-template-columns: 1fr; }
+      .steps-grid { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
@@ -177,7 +239,7 @@
   <div class="cart-drawer" id="cartDrawer">
     <div class="cart-header">
       <span class="cart-title">Your cart</span>
-      <button class="cart-close" id="cartClose">✕</button>
+      <button class="cart-close" id="cartClose">&#10005;</button>
     </div>
     <div class="cart-items" id="cartItems">
       <div class="cart-empty">
@@ -188,11 +250,18 @@
     <div class="cart-footer">
       <div class="cart-subtotal">
         <span class="cart-subtotal-label">Subtotal</span>
-        <span class="cart-subtotal-amount" id="cartTotal">€0</span>
+        <span class="cart-subtotal-amount" id="cartTotal">&euro;0</span>
       </div>
-      <p class="cart-note">Shipping calculated at checkout. Orders are processed via Instagram DM — you'll receive a message from velour.sk to confirm your order and arrange payment.</p>
+      <p class="cart-note">Shipping within Slovakia: &euro;2. EU shipping: &euro;5. Orders confirmed via Instagram DM.</p>
       <button class="cart-checkout-btn" id="checkoutBtn" disabled>Send order via Instagram</button>
     </div>
+  </div>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#services" onclick="closeMobileMenu()">Services</a>
+    <a href="#catalog" onclick="closeMobileMenu()">Catalog</a>
+    <a href="#faq" onclick="closeMobileMenu()">FAQ</a>
   </div>
 
   <!-- NAV -->
@@ -202,10 +271,14 @@
       <ul class="nav-links">
         <li><a href="#services">Services</a></li>
         <li><a href="#catalog">Catalog</a></li>
+        <li><a href="#faq">FAQ</a></li>
       </ul>
       <button class="cart-btn" id="cartBtn">
         Cart
         <span class="cart-count" id="cartCount">0</span>
+      </button>
+      <button class="menu-toggle" id="menuToggle" aria-label="Menu">
+        <span></span><span></span><span></span>
       </button>
     </div>
   </nav>
@@ -216,43 +289,57 @@
     <div class="hero-overlay"></div>
     <div class="hero-center">
       <div class="hero-center-name">Velour</div>
-
     </div>
     <div class="hero-text">
-      <p class="hero-eyebrow">Decants · Personal Shopping · Proxy</p>
+      <p class="hero-eyebrow">Decants &middot; Samples &middot; Boutique Exclusives</p>
       <h1 class="hero-title">Scent, <em>curated</em> for you.</h1>
-      <p class="hero-sub">The world's finest fragrances — sampled, sourced and delivered to your door.</p>
-      <a href="#catalog" class="hero-cta">Browse the catalog &nbsp;→</a>
+      <p class="hero-sub">The world's finest fragrances &mdash; sampled, sourced and delivered to your door from Slovakia.</p>
+      <a href="#catalog" class="hero-cta">Browse the catalog &nbsp;&rarr;</a>
     </div>
   </section>
 
   <div class="divider">
     <div class="divider-line"></div>
-    <span class="divider-text">Est. 2026 · Trenčín</span>
+    <span class="divider-text">Est. 2026 &middot; Tren&#269;&#237;n</span>
     <div class="divider-line"></div>
+  </div>
+
+  <!-- TRUST BAR -->
+  <div class="trust-bar reveal">
+    <div class="trust-item">
+      <span class="trust-icon">&#9830;</span>
+      <span class="trust-label">100% Authentic<br>Always from original bottles</span>
+    </div>
+    <div class="trust-item">
+      <span class="trust-icon">&#9878;</span>
+      <span class="trust-label">EU Shipping<br>&euro;2 SK &middot; &euro;5 Europe</span>
+    </div>
+    <div class="trust-item">
+      <span class="trust-icon">&#10022;</span>
+      <span class="trust-label">Hand-decanted<br>Clean glass atomizers</span>
+    </div>
+    <div class="trust-item">
+      <span class="trust-icon">&#9825;</span>
+      <span class="trust-label">Personal service<br>DM me anytime</span>
+    </div>
   </div>
 
   <!-- SERVICES -->
   <section class="services" id="services">
     <div class="section-header reveal">
       <p class="section-eyebrow">What I offer</p>
-      <h2 class="section-title">Three ways to get your <em>perfect</em> scent</h2>
+      <h2 class="section-title">Two ways to get your <em>perfect</em> scent</h2>
     </div>
-    <div class="services-grid">
+    <div class="services-grid" style="grid-template-columns: repeat(2, 1fr);">
       <div class="service-card reveal">
         <div class="service-num">01</div>
-        <div class="service-name">Decants & Samples</div>
-        <p class="service-desc">Try before you commit. I decant from full bottles of niche and designer fragrances so you can explore without spending a fortune.</p>
+        <div class="service-name">Decants &amp; Samples</div>
+        <p class="service-desc">Try before you commit. I decant from full bottles of niche and designer fragrances into clean glass atomizers &mdash; so you can explore without spending a fortune. Available in 2ml, 5ml and 10ml.</p>
       </div>
       <div class="service-card reveal">
         <div class="service-num">02</div>
-        <div class="service-name">Personal Shopper</div>
-        <p class="service-desc">Looking for something not in my catalog? Send me a message and I'll source it for you from the best retailers worldwide.</p>
-      </div>
-      <div class="service-card reveal">
-        <div class="service-num">03</div>
-        <div class="service-name">Proxy Buying</div>
-        <p class="service-desc">Can't get a fragrance in your country? I source and ship from international retailers — Selfridges, Sephora, niche houses — directly to you.</p>
+        <div class="service-name">Boutique Exclusives</div>
+        <p class="service-desc">Fragrances you can't buy online &mdash; like Louis Vuitton, Chanel Les Exclusifs and other boutique-only lines. I source them personally from European boutiques and decant them for you.</p>
       </div>
     </div>
   </section>
@@ -277,251 +364,272 @@
     <div class="catalog-grid">
 
       <div class="product-card reveal" data-brand="byredo">
-         <div class="product-visual"><img src="byredo-baldafrique absolu.png" alt="Byredo Bal d'Afrique Absolu" style="width:auto;height:120%;object-fit:contain;mix-blend-mode:multiply;"><span class="product-brand-tag">Byredo</span></div>
+        <div class="product-visual"><img src="byredo-baldafrique absolu.png" alt="Byredo Bal d'Afrique Absolu" style="width:auto;height:120%;object-fit:contain;mix-blend-mode:multiply;"><span class="product-brand-tag">Byredo</span></div>
         <div class="product-info">
           <div class="product-brand">Byredo</div>
           <div class="product-name">Bal d'Afrique Absolu</div>
-          <div class="product-notes">Neroli · African Marigold · Vetiver · Musk</div>
-          <div class="product-desc">Bright and warm at once. Inspired by the artistic scene of 1920s Paris — a joyful, golden fragrance that feels like a celebration.</div>
+          <div class="product-notes">Neroli &middot; African Marigold &middot; Vetiver &middot; Musk</div>
+          <div class="product-desc">Bright and warm at once. Inspired by the artistic scene of 1920s Paris &mdash; a joyful, golden fragrance that feels like a celebration.</div>
           <div class="product-actions">
             <div class="size-selector">
-              <button class="size-btn selected" data-size="2ml" data-price="4">2ml — €4</button>
-              <button class="size-btn" data-size="5ml" data-price="9">5ml — €9</button>
-              <button class="size-btn" data-size="10ml" data-price="15">10ml — €15</button>
+              <button class="size-btn selected" data-size="2ml" data-price="8">2ml &mdash; &euro;8</button>
+              <button class="size-btn" data-size="5ml" data-price="19">5ml &mdash; &euro;19</button>
+              <button class="size-btn" data-size="10ml" data-price="34">10ml &mdash; &euro;34</button>
             </div>
             <div class="product-bottom">
-              <span class="product-price">From €4</span>
-              <button class="add-to-cart-btn" data-name="Bal d'Afrique" data-brand="Byredo">Add to cart</button>
+              <span class="product-price">From &euro;8</span>
+              <button class="add-to-cart-btn" data-name="Bal d'Afrique Absolu" data-brand="Byredo">Add to cart</button>
             </div>
           </div>
         </div>
       </div>
 
       <div class="product-card reveal" data-brand="byredo">
-  <div class="product-visual"><img src="byredo-mojave-ghost-absolu.png" alt="Byredo Mojave Ghost Absolu" style="width:auto;height:160%;object-fit:contain;mix-blend-mode:multiply;"><span class="product-brand-tag">Byredo</span></div>
-  <div class="product-info">
-    <div class="product-brand">Byredo</div>
-    <div class="product-name">Mojave Ghost Absolu</div>
-    <div class="product-notes">Ambrette · Magnolia · Sandalwood · Amberwood</div>
-    <div class="product-desc">The desert at dusk in a bottle. Mojave Ghost Absolu takes the original's airy, almost otherworldly quality and concentrates it — warmer, denser, more hypnotic.</div>
-    <div class="product-actions">
-      <div class="size-selector">
-        <button class="size-btn selected" data-size="2ml" data-price="5">2ml — €5</button>
-        <button class="size-btn" data-size="5ml" data-price="10">5ml — €10</button>
-        <button class="size-btn" data-size="10ml" data-price="17">10ml — €17</button>
-      </div>
-      <div class="product-bottom">
-        <span class="product-price">From €5</span>
-        <button class="add-to-cart-btn" data-name="Mojave Ghost Absolu" data-brand="Byredo">Add to cart</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-      <div class="product-card reveal" data-brand="emporio-armani">
-<div class="product-visual"><img src="emporio armani-intensely.png" alt="Stronger With You Intensely" style="width:auto;height:105%;object-fit:contain;mix-blend-mode:multiply;margin-bottom:35px;"><span class="product-brand-tag">Emporio Armani</span></div>
-  <div class="product-info">
-    <div class="product-brand">Emporio Armani</div>
-    <div class="product-name">Stronger With You Intensely</div>
-    <div class="product-notes">Chestnut · Pink Pepper · Vanilla · Patchouli</div>
-    <div class="product-desc">The darker, richer version of the original. A sweet and spicy warmth that wraps around you like a second skin — bold enough to make an entrance, smooth enough to stay.</div>
-    <div class="product-actions">
-      <div class="size-selector">
-        <button class="size-btn selected" data-size="2ml" data-price="4">2ml — €4</button>
-        <button class="size-btn" data-size="5ml" data-price="8">5ml — €8</button>
-        <button class="size-btn" data-size="10ml" data-price="14">10ml — €14</button>
-      </div>
-      <div class="product-bottom">
-        <span class="product-price">From €4</span>
-        <button class="add-to-cart-btn" data-name="Stronger With You Intensely" data-brand="Emporio Armani">Add to cart</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="product-card reveal" data-brand="emporio-armani">
-<div class="product-visual"><img src="emporio armani-powerfully.png" alt="Stronger With You Powerfully" style="width:auto;height:85%;object-fit:contain;mix-blend-mode:multiply;"><span class="product-brand-tag">Emporio Armani</span></div>
-  <div class="product-info">
-    <div class="product-brand">Emporio Armani</div>
-    <div class="product-name">Stronger With You Powerfully</div>
-    <div class="product-notes">Cardamom · Sage · Amber · Cedarwood</div>
-    <div class="product-desc">Crisp and commanding. A woody aromatic with real backbone — clean and sharp on the opening, warm and grounded in the dry down.</div>
-    <div class="product-actions">
-      <div class="size-selector">
-        <button class="size-btn selected" data-size="2ml" data-price="4">2ml — €4</button>
-        <button class="size-btn" data-size="5ml" data-price="8">5ml — €8</button>
-        <button class="size-btn" data-size="10ml" data-price="14">10ml — €14</button>
-      </div>
-      <div class="product-bottom">
-        <span class="product-price">From €4</span>
-        <button class="add-to-cart-btn" data-name="Stronger With You Powerfully" data-brand="Emporio Armani">Add to cart</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="product-card reveal" data-brand="emporio-armani">
-<div class="product-visual"><img src="emporio armani-power of you.png" alt="Power Of You" style="width:auto;height:115%;object-fit:contain;mix-blend-mode:multiply;"><span class="product-brand-tag">Emporio Armani</span></div>
-  <div class="product-info">
-    <div class="product-brand">Emporio Armani</div>
-    <div class="product-name">Power Of You</div>
-    <div class="product-notes">Bergamot · Vetiver · Musks · Amberwood</div>
-    <div class="product-desc">Fresh, clean, and effortlessly modern. Power Of You is the kind of fragrance that feels right every day — easygoing confidence in a bottle.</div>
-    <div class="product-actions">
-      <div class="size-selector">
-        <button class="size-btn selected" data-size="2ml" data-price="4">2ml — €4</button>
-        <button class="size-btn" data-size="5ml" data-price="8">5ml — €8</button>
-        <button class="size-btn" data-size="10ml" data-price="13">10ml — €13</button>
-      </div>
-      <div class="product-bottom">
-        <span class="product-price">From €4</span>
-        <button class="add-to-cart-btn" data-name="Power Of You" data-brand="Emporio Armani">Add to cart</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-      <div class="product-card reveal" data-brand="tom-ford">
-<div class="product-visual"><img src="tom ford-black orchid.png" alt="Tom Ford Black Orchid" style="width:auto;height:105%;object-fit:contain;mix-blend-mode:multiply;"><span class="product-brand-tag">Tom Ford</span></div>
+        <div class="product-visual"><img src="byredo-mojave-ghost-absolu.png" alt="Byredo Mojave Ghost Absolu" style="width:auto;height:160%;object-fit:contain;mix-blend-mode:multiply;"><span class="product-brand-tag">Byredo</span></div>
         <div class="product-info">
-          <div class="product-brand">Tom Ford</div>
-          <div class="product-name">Black Orchid</div>
-          <div class="product-notes">Black Truffle · Ylang Ylang · Dark Chocolate · Patchouli</div>
-          <div class="product-desc">Dramatic and sensual. One of the most iconic launches of the 2000s — dark, opulent, and impossible to ignore.</div>
+          <div class="product-brand">Byredo</div>
+          <div class="product-name">Mojave Ghost Absolu</div>
+          <div class="product-notes">Ambrette &middot; Magnolia &middot; Sandalwood &middot; Amberwood</div>
+          <div class="product-desc">The desert at dusk in a bottle. Mojave Ghost Absolu takes the original's airy quality and concentrates it &mdash; warmer, denser, more hypnotic.</div>
           <div class="product-actions">
             <div class="size-selector">
-              <button class="size-btn selected" data-size="2ml" data-price="5">2ml — €5</button>
-              <button class="size-btn" data-size="5ml" data-price="10">5ml — €10</button>
-              <button class="size-btn" data-size="10ml" data-price="18">10ml — €18</button>
+              <button class="size-btn selected" data-size="2ml" data-price="8">2ml &mdash; &euro;8</button>
+              <button class="size-btn" data-size="5ml" data-price="19">5ml &mdash; &euro;19</button>
+              <button class="size-btn" data-size="10ml" data-price="34">10ml &mdash; &euro;34</button>
             </div>
             <div class="product-bottom">
-              <span class="product-price">From €5</span>
-              <button class="add-to-cart-btn" data-name="Black Orchid" data-brand="Tom Ford">Add to cart</button>
+              <span class="product-price">From &euro;8</span>
+              <button class="add-to-cart-btn" data-name="Mojave Ghost Absolu" data-brand="Byredo">Add to cart</button>
             </div>
           </div>
         </div>
       </div>
 
-    <div class="product-card reveal" data-brand="dior">
-  <div class="product-visual"><img src="dior-vanilla-diorama.png" alt="Dior Vanilla Diorama" style="width:auto;height:85%;object-fit:contain;mix-blend-mode:multiply;"><span class="product-brand-tag">Dior</span></div>
-  <div class="product-info">
-    <div class="product-brand">Dior</div>
-    <div class="product-name">Vanilla Diorama</div>
-    <div class="product-notes">Vanilla · Iris · Sandalwood · Musk</div>
-    <div class="product-desc">Dior's most elegant take on vanilla. Creamy and sophisticated without a trace of sweetness — iris keeps it cool and powdery while sandalwood gives it depth. Vanilla the way a couture house does it.</div>
-    <div class="product-actions">
-      <div class="size-selector">
-        <button class="size-btn selected" data-size="2ml" data-price="6">2ml — €6</button>
-        <button class="size-btn" data-size="5ml" data-price="12">5ml — €12</button>
-        <button class="size-btn" data-size="10ml" data-price="21">10ml — €21</button>
+      <div class="product-card reveal" data-brand="emporio-armani">
+        <div class="product-visual"><img src="emporio armani-intensely.png" alt="Stronger With You Intensely" style="width:auto;height:105%;object-fit:contain;mix-blend-mode:multiply;margin-bottom:35px;"><span class="product-brand-tag">Emporio Armani</span></div>
+        <div class="product-info">
+          <div class="product-brand">Emporio Armani</div>
+          <div class="product-name">Stronger With You Intensely</div>
+          <div class="product-notes">Chestnut &middot; Pink Pepper &middot; Vanilla &middot; Patchouli</div>
+          <div class="product-desc">The darker, richer version of the original. Sweet and spicy warmth that wraps around you &mdash; bold enough to make an entrance, smooth enough to stay.</div>
+          <div class="product-actions">
+            <div class="size-selector">
+              <button class="size-btn selected" data-size="2ml" data-price="5">2ml &mdash; &euro;5</button>
+              <button class="size-btn" data-size="5ml" data-price="9">5ml &mdash; &euro;9</button>
+              <button class="size-btn" data-size="10ml" data-price="17">10ml &mdash; &euro;17</button>
+            </div>
+            <div class="product-bottom">
+              <span class="product-price">From &euro;5</span>
+              <button class="add-to-cart-btn" data-name="Stronger With You Intensely" data-brand="Emporio Armani">Add to cart</button>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="product-bottom">
-        <span class="product-price">From €6</span>
-        <button class="add-to-cart-btn" data-name="Vanilla Diorama" data-brand="Dior">Add to cart</button>
-      </div>
-    </div>
-  </div>
-</div>
 
-  <div class="product-card reveal" data-brand="chanel">
-  <div class="product-visual"><img src="chanel-bleu-exclusif.png" alt="Chanel Bleu de Chanel L'Exclusif" style="width:auto;height:150%;object-fit:contain;mix-blend-mode:multiply;"><span class="product-brand-tag">Chanel</span></div>
-  <div class="product-info">
-    <div class="product-brand">Chanel</div>
-    <div class="product-name">Bleu de Chanel L'Exclusif</div>
-    <div class="product-notes">Citrus · Incense · Cedar · Labdanum · Vetiver</div>
-    <div class="product-desc">The elevated chapter of an icon. L'Exclusif takes everything that made Bleu great and pushes it deeper — more incense, more mystery, more presence. This is Bleu stripped of any compromise, built for those who already know.</div>
-    <div class="product-actions">
-      <div class="size-selector">
-        <button class="size-btn selected" data-size="2ml" data-price="6">2ml — €6</button>
-        <button class="size-btn" data-size="5ml" data-price="12">5ml — €12</button>
-        <button class="size-btn" data-size="10ml" data-price="20">10ml — €20</button>
+      <div class="product-card reveal" data-brand="emporio-armani">
+        <div class="product-visual"><img src="emporio armani-powerfully.png" alt="Stronger With You Powerfully" style="width:auto;height:85%;object-fit:contain;mix-blend-mode:multiply;"><span class="product-brand-tag">Emporio Armani</span></div>
+        <div class="product-info">
+          <div class="product-brand">Emporio Armani</div>
+          <div class="product-name">Stronger With You Powerfully</div>
+          <div class="product-notes">Cardamom &middot; Sage &middot; Amber &middot; Cedarwood</div>
+          <div class="product-desc">Crisp and commanding. A woody aromatic with real backbone &mdash; clean and sharp on the opening, warm and grounded in the dry down.</div>
+          <div class="product-actions">
+            <div class="size-selector">
+              <button class="size-btn selected" data-size="2ml" data-price="5">2ml &mdash; &euro;5</button>
+              <button class="size-btn" data-size="5ml" data-price="9">5ml &mdash; &euro;9</button>
+              <button class="size-btn" data-size="10ml" data-price="17">10ml &mdash; &euro;17</button>
+            </div>
+            <div class="product-bottom">
+              <span class="product-price">From &euro;5</span>
+              <button class="add-to-cart-btn" data-name="Stronger With You Powerfully" data-brand="Emporio Armani">Add to cart</button>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="product-bottom">
-        <span class="product-price">From €6</span>
-        <button class="add-to-cart-btn" data-name="Bleu de Chanel L'Exclusif" data-brand="Chanel">Add to cart</button>
+
+      <div class="product-card reveal" data-brand="emporio-armani">
+        <div class="product-visual"><img src="emporio armani-power of you.png" alt="Power Of You" style="width:auto;height:115%;object-fit:contain;mix-blend-mode:multiply;"><span class="product-brand-tag">Emporio Armani</span></div>
+        <div class="product-info">
+          <div class="product-brand">Emporio Armani</div>
+          <div class="product-name">Power Of You</div>
+          <div class="product-notes">Bergamot &middot; Vetiver &middot; Musks &middot; Amberwood</div>
+          <div class="product-desc">Fresh, clean, and effortlessly modern. The kind of fragrance that feels right every day &mdash; easygoing confidence in a bottle.</div>
+          <div class="product-actions">
+            <div class="size-selector">
+              <button class="size-btn selected" data-size="2ml" data-price="5">2ml &mdash; &euro;5</button>
+              <button class="size-btn" data-size="5ml" data-price="9">5ml &mdash; &euro;9</button>
+              <button class="size-btn" data-size="10ml" data-price="17">10ml &mdash; &euro;17</button>
+            </div>
+            <div class="product-bottom">
+              <span class="product-price">From &euro;5</span>
+              <button class="add-to-cart-btn" data-name="Power Of You" data-brand="Emporio Armani">Add to cart</button>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-</div>
+
+      <div class="product-card reveal" data-brand="tom-ford">
+        <div class="product-visual"><img src="tom ford-neroli-portofino.png" alt="Tom Ford Neroli Portofino" style="width:auto;height:100%;object-fit:contain;mix-blend-mode:multiply;"><span class="product-brand-tag">Tom Ford</span></div>
+        <div class="product-info">
+          <div class="product-brand">Tom Ford</div>
+          <div class="product-name">Neroli Portofino</div>
+          <div class="product-notes">Neroli &middot; Bergamot &middot; Lavender &middot; Amber</div>
+          <div class="product-desc">The Italian Riviera in a bottle. Crisp citrus and neroli open into aromatic lavender and floral orange blossom, finished with a warm amber base. Effortlessly elegant summer fragrance.</div>
+          <div class="product-actions">
+            <div class="size-selector">
+              <button class="size-btn selected" data-size="2ml" data-price="5">2ml &mdash; &euro;5</button>
+              <button class="size-btn" data-size="5ml" data-price="10">5ml &mdash; &euro;10</button>
+              <button class="size-btn" data-size="10ml" data-price="18">10ml &mdash; &euro;18</button>
+            </div>
+            <div class="product-bottom">
+              <span class="product-price">From &euro;5</span>
+              <button class="add-to-cart-btn" data-name="Neroli Portofino" data-brand="Tom Ford">Add to cart</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card reveal" data-brand="tom-ford">
+        <div class="product-visual"><img src="tom ford-soleil-blanc.png" alt="Tom Ford Soleil Blanc" style="width:auto;height:100%;object-fit:contain;mix-blend-mode:multiply;"><span class="product-brand-tag">Tom Ford</span></div>
+        <div class="product-info">
+          <div class="product-brand">Tom Ford</div>
+          <div class="product-name">Soleil Blanc</div>
+          <div class="product-notes">Coco de Mer &middot; Ylang Ylang &middot; Cardamom &middot; Amber</div>
+          <div class="product-desc">Sun-soaked and addictive. A sultry solar floral with creamy coconut and warm amber that makes every day feel like an endless summer on a private island.</div>
+          <div class="product-actions">
+            <div class="size-selector">
+              <button class="size-btn selected" data-size="2ml" data-price="5">2ml &mdash; &euro;5</button>
+              <button class="size-btn" data-size="5ml" data-price="10">5ml &mdash; &euro;10</button>
+              <button class="size-btn" data-size="10ml" data-price="18">10ml &mdash; &euro;18</button>
+            </div>
+            <div class="product-bottom">
+              <span class="product-price">From &euro;5</span>
+              <button class="add-to-cart-btn" data-name="Soleil Blanc" data-brand="Tom Ford">Add to cart</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card reveal" data-brand="dior">
+        <div class="product-visual"><img src="dior-vanilla-diorama.png" alt="Dior Vanilla Diorama" style="width:auto;height:85%;object-fit:contain;mix-blend-mode:multiply;"><span class="product-brand-tag">Dior</span></div>
+        <div class="product-info">
+          <div class="product-brand">Dior</div>
+          <div class="product-name">Vanilla Diorama</div>
+          <div class="product-notes">Vanilla &middot; Iris &middot; Sandalwood &middot; Musk</div>
+          <div class="product-desc">Dior's most elegant take on vanilla. Creamy and sophisticated without a trace of sweetness &mdash; iris keeps it cool while sandalwood gives it depth.</div>
+          <div class="product-actions">
+            <div class="size-selector">
+              <button class="size-btn selected" data-size="2ml" data-price="8">2ml &mdash; &euro;8</button>
+              <button class="size-btn" data-size="5ml" data-price="19">5ml &mdash; &euro;19</button>
+              <button class="size-btn" data-size="10ml" data-price="34">10ml &mdash; &euro;34</button>
+            </div>
+            <div class="product-bottom">
+              <span class="product-price">From &euro;8</span>
+              <button class="add-to-cart-btn" data-name="Vanilla Diorama" data-brand="Dior">Add to cart</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card reveal" data-brand="chanel">
+        <div class="product-visual"><img src="chanel-bleu-exclusif.png" alt="Chanel Bleu de Chanel L'Exclusif" style="width:auto;height:150%;object-fit:contain;mix-blend-mode:multiply;"><span class="product-brand-tag">Chanel</span></div>
+        <div class="product-info">
+          <div class="product-brand">Chanel</div>
+          <div class="product-name">Bleu de Chanel L'Exclusif</div>
+          <div class="product-notes">Citrus &middot; Incense &middot; Cedar &middot; Labdanum &middot; Vetiver</div>
+          <div class="product-desc">The elevated chapter of an icon. L'Exclusif takes everything that made Bleu great and pushes it deeper &mdash; more incense, more mystery, more presence.</div>
+          <div class="product-actions">
+            <div class="size-selector">
+              <button class="size-btn selected" data-size="2ml" data-price="5">2ml &mdash; &euro;5</button>
+              <button class="size-btn" data-size="5ml" data-price="13">5ml &mdash; &euro;13</button>
+              <button class="size-btn" data-size="10ml" data-price="25">10ml &mdash; &euro;25</button>
+            </div>
+            <div class="product-bottom">
+              <span class="product-price">From &euro;5</span>
+              <button class="add-to-cart-btn" data-name="Bleu de Chanel L'Exclusif" data-brand="Chanel">Add to cart</button>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <div class="product-card reveal" data-brand="initio">
         <div class="product-visual"><img src="initio-atomic-rose.png" alt="Initio Atomic Rose" style="width:auto;height:85%;object-fit:contain;mix-blend-mode:multiply;"><span class="product-brand-tag">Initio</span></div>
         <div class="product-info">
           <div class="product-brand">Initio</div>
           <div class="product-name">Atomic Rose</div>
-          <div class="product-notes">Rose · Musk · Sandalwood · Benzoin</div>
-          <div class="product-desc">A rose that hits hard. Powerful and radiant, built for projection — this is the rose for people who don't think they like rose.</div>
+          <div class="product-notes">Rose &middot; Musk &middot; Sandalwood &middot; Benzoin</div>
+          <div class="product-desc">A rose that hits hard. Powerful and radiant, built for projection &mdash; this is the rose for people who don't think they like rose.</div>
           <div class="product-actions">
             <div class="size-selector">
-              <button class="size-btn selected" data-size="2ml" data-price="7">2ml — €7</button>
-              <button class="size-btn" data-size="5ml" data-price="14">5ml — €14</button>
-              <button class="size-btn" data-size="10ml" data-price="24">10ml — €24</button>
+              <button class="size-btn selected" data-size="2ml" data-price="8">2ml &mdash; &euro;8</button>
+              <button class="size-btn" data-size="5ml" data-price="19">5ml &mdash; &euro;19</button>
+              <button class="size-btn" data-size="10ml" data-price="34">10ml &mdash; &euro;34</button>
             </div>
             <div class="product-bottom">
-              <span class="product-price">From €7</span>
+              <span class="product-price">From &euro;8</span>
               <button class="add-to-cart-btn" data-name="Atomic Rose" data-brand="Initio">Add to cart</button>
             </div>
           </div>
         </div>
       </div>
 
-           <div class="product-card reveal" data-brand="initio">
-<div class="product-visual"><img src="initio-side-effect.png" alt="Initio Side Effect" style="width:auto;height:85%;object-fit:contain;mix-blend-mode:multiply;"><span class="product-brand-tag">Initio</span></div>
-  <div class="product-info">
-    <div class="product-brand">Initio</div>
-    <div class="product-name">Side Effect</div>
-    <div class="product-notes">Rum · Tobacco · Vanilla</div>
-    <div class="product-desc">Addictive in the most literal sense. Side Effect wraps you in a warm, skin-close vanilla that never feels sweet or heavy — just deeply, dangerously comfortable.</div>
-    <div class="product-actions">
-      <div class="size-selector">
-        <button class="size-btn selected" data-size="2ml" data-price="0">2ml — €0</button>
-        <button class="size-btn" data-size="5ml" data-price="0">5ml — €0</button>
-        <button class="size-btn" data-size="10ml" data-price="0">10ml — €0</button>
+      <div class="product-card reveal" data-brand="initio">
+        <div class="product-visual"><img src="initio-side-effect.png" alt="Initio Side Effect" style="width:auto;height:85%;object-fit:contain;mix-blend-mode:multiply;"><span class="product-brand-tag">Initio</span></div>
+        <div class="product-info">
+          <div class="product-brand">Initio</div>
+          <div class="product-name">Side Effect</div>
+          <div class="product-notes">Rum &middot; Tobacco &middot; Vanilla</div>
+          <div class="product-desc">Addictive in the most literal sense. Side Effect wraps you in a warm, skin-close vanilla that never feels sweet or heavy &mdash; just deeply, dangerously comfortable.</div>
+          <div class="product-actions">
+            <div class="size-selector">
+              <button class="size-btn selected" data-size="2ml" data-price="8">2ml &mdash; &euro;8</button>
+              <button class="size-btn" data-size="5ml" data-price="19">5ml &mdash; &euro;19</button>
+              <button class="size-btn" data-size="10ml" data-price="34">10ml &mdash; &euro;34</button>
+            </div>
+            <div class="product-bottom">
+              <span class="product-price">From &euro;8</span>
+              <button class="add-to-cart-btn" data-name="Side Effect" data-brand="Initio">Add to cart</button>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="product-bottom">
-        <span class="product-price">From €0</span>
-        <button class="add-to-cart-btn" data-name="FRAGRANCE NAME" data-brand="Initio">Add to cart</button>
-      </div>
-    </div>
-  </div>
-</div>
 
-<div class="product-card reveal" data-brand="initio">
-  <div class="product-visual"><img src="initio-musk-therapy.png" alt="Initio Musk Therapy" style="width:auto;height:85%;object-fit:contain;mix-blend-mode:multiply;"><span class="product-brand-tag">Initio</span></div>
-  <div class="product-info">
-    <div class="product-brand">Initio</div>
-    <div class="product-name">Musk Therapy</div>
-    <div class="product-notes">Musk · Iris · Sandalwood · Cashmere Wood</div>
-    <div class="product-desc">Clean musk taken to its purest form. Soft, skin-close and almost meditative — Musk Therapy feels less like a fragrance you wear and more like a second skin you never want to take off. Quietly addictive in the best possible way.</div>
-    <div class="product-actions">
-      <div class="size-selector">
-        <button class="size-btn selected" data-size="2ml" data-price="7">2ml — €7</button>
-        <button class="size-btn" data-size="5ml" data-price="14">5ml — €14</button>
-        <button class="size-btn" data-size="10ml" data-price="24">10ml — €24</button>
+      <div class="product-card reveal" data-brand="initio">
+        <div class="product-visual"><img src="initio-musk-therapy.png" alt="Initio Musk Therapy" style="width:auto;height:85%;object-fit:contain;mix-blend-mode:multiply;"><span class="product-brand-tag">Initio</span></div>
+        <div class="product-info">
+          <div class="product-brand">Initio</div>
+          <div class="product-name">Musk Therapy</div>
+          <div class="product-notes">Musk &middot; Iris &middot; Sandalwood &middot; Cashmere Wood</div>
+          <div class="product-desc">Clean musk taken to its purest form. Soft, skin-close and almost meditative &mdash; less like a fragrance you wear and more like a second skin.</div>
+          <div class="product-actions">
+            <div class="size-selector">
+              <button class="size-btn selected" data-size="2ml" data-price="8">2ml &mdash; &euro;8</button>
+              <button class="size-btn" data-size="5ml" data-price="19">5ml &mdash; &euro;19</button>
+              <button class="size-btn" data-size="10ml" data-price="34">10ml &mdash; &euro;34</button>
+            </div>
+            <div class="product-bottom">
+              <span class="product-price">From &euro;8</span>
+              <button class="add-to-cart-btn" data-name="Musk Therapy" data-brand="Initio">Add to cart</button>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="product-bottom">
-        <span class="product-price">From €7</span>
-        <button class="add-to-cart-btn" data-name="Musk Therapy" data-brand="Initio">Add to cart</button>
-      </div>
-    </div>
-  </div>
-</div>
 
       <div class="product-card reveal" data-brand="nishane">
         <div class="product-visual"><img src="nishane-ani.png" alt="Nishane Ani" style="width:auto;height:180%;object-fit:contain;mix-blend-mode:multiply;"><span class="product-brand-tag">Nishane</span></div>
         <div class="product-info">
           <div class="product-brand">Nishane</div>
           <div class="product-name">Ani</div>
-          <div class="product-notes">Bergamot · Jasmine · Sandalwood · Vanilla</div>
+          <div class="product-notes">Bergamot &middot; Jasmine &middot; Sandalwood &middot; Vanilla</div>
           <div class="product-desc">Warm, creamy, and enveloping. Ani wraps you in a soft floral vanilla that feels luxurious without being sweet or heavy.</div>
           <div class="product-actions">
             <div class="size-selector">
-              <button class="size-btn selected" data-size="2ml" data-price="5">2ml — €5</button>
-              <button class="size-btn" data-size="5ml" data-price="10">5ml — €10</button>
-              <button class="size-btn" data-size="10ml" data-price="18">10ml — €18</button>
+              <button class="size-btn selected" data-size="2ml" data-price="7">2ml &mdash; &euro;7</button>
+              <button class="size-btn" data-size="5ml" data-price="16">5ml &mdash; &euro;16</button>
+              <button class="size-btn" data-size="10ml" data-price="26">10ml &mdash; &euro;26</button>
             </div>
             <div class="product-bottom">
-              <span class="product-price">From €5</span>
+              <span class="product-price">From &euro;7</span>
               <button class="add-to-cart-btn" data-name="Ani" data-brand="Nishane">Add to cart</button>
             </div>
           </div>
@@ -532,17 +640,99 @@
     </div>
   </section>
 
+  <!-- HOW IT WORKS -->
+  <section class="how-it-works" id="how-it-works">
+    <div class="section-header reveal">
+      <p class="section-eyebrow">Simple process</p>
+      <h2 class="section-title">How it <em>works</em></h2>
+    </div>
+    <div class="steps-grid">
+      <div class="step reveal">
+        <div class="step-num">1</div>
+        <div class="step-title">Browse &amp; Choose</div>
+        <div class="step-desc">Pick your fragrances and sizes from the catalog, or ask me for a recommendation.</div>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">2</div>
+        <div class="step-title">Send Your Order</div>
+        <div class="step-desc">Add to cart and send your order via Instagram DM. I'll confirm availability and total.</div>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">3</div>
+        <div class="step-title">Pay Securely</div>
+        <div class="step-desc">Bank transfer or Revolut. I'll send payment details in our DM conversation.</div>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">4</div>
+        <div class="step-title">Receive &amp; Enjoy</div>
+        <div class="step-desc">Your decants arrive in labeled glass atomizers, carefully packaged and shipped within 1&ndash;3 days.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq" id="faq">
+    <div class="section-header reveal">
+      <p class="section-eyebrow">Questions</p>
+      <h2 class="section-title">Frequently <em>asked</em></h2>
+    </div>
+    <div class="faq-grid">
+      <div class="faq-item reveal">
+        <button class="faq-question">Are these authentic fragrances?</button>
+        <div class="faq-answer"><div class="faq-answer-inner">Always. Every decant is hand-poured from a genuine, full-size bottle that I personally own. I purchase exclusively from authorized retailers and can provide proof of purchase for any fragrance on request.</div></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-question">What kind of bottles do you use?</button>
+        <div class="faq-answer"><div class="faq-answer-inner">Clean glass spray atomizers with a fine mist. Each bottle is labeled with the fragrance name, brand, and size. They're pocket-friendly and perfect for travel or daily carry.</div></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-question">How much is shipping?</button>
+        <div class="faq-answer"><div class="faq-answer-inner">Shipping within Slovakia is &euro;2 via Slov. Po&scaron;ta. EU shipping is &euro;5. Orders are typically dispatched within 1&ndash;3 business days. Tracking is provided for every order.</div></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-question">Can I request a fragrance that's not listed?</button>
+        <div class="faq-answer"><div class="faq-answer-inner">Absolutely. If I don't have it in stock, I can source it. Just DM me on Instagram with what you're looking for and I'll let you know the price and timeline.</div></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-question">How do I pay?</button>
+        <div class="faq-answer"><div class="faq-answer-inner">Bank transfer (Slovak IBAN) or Revolut. After you send your order via Instagram DM, I'll confirm everything and send you payment details. No payment upfront on the website.</div></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-question">What if I don't like a fragrance?</button>
+        <div class="faq-answer"><div class="faq-answer-inner">That's exactly why decants exist &mdash; to try before you commit. While I can't offer refunds on opened decants (for hygiene reasons), I'm always happy to help you find something you'll love. DM me and I'll guide you.</div></div>
+      </div>
+    </div>
+  </section>
+
   <!-- INSTAGRAM CTA -->
   <section class="instagram" id="order">
     <p class="instagram-eyebrow reveal">Don't see what you're looking for?</p>
     <h2 class="instagram-title reveal">One <em>message</em> away<br>from any fragrance.</h2>
-    <p class="instagram-sub reveal">If it's not in the catalog, just ask. I source from retailers worldwide and can get almost anything — DM me on Instagram.</p>
-    <a href="https://instagram.com/velour.sk" target="_blank" class="btn-instagram reveal">→ &nbsp; Message me on Instagram</a>
+    <p class="instagram-sub reveal">Looking for something specific? Whether it's a boutique exclusive or a fragrance not yet in the catalog &mdash; just ask. DM me on Instagram.</p>
+    <a href="https://instagram.com/velour.sk" target="_blank" class="btn-instagram reveal">&rarr; &nbsp; Message me on Instagram</a>
   </section>
 
   <footer>
-    <span class="footer-logo">Velour</span>
-    <span class="footer-note">Slovakia · © 2026</span>
+    <div class="footer-top">
+      <div class="footer-brand">
+        <span class="footer-logo">Velour</span>
+        <span class="footer-tagline">Premium fragrance decants, shipped from Tren&#269;&#237;n, Slovakia across Europe.</span>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Navigate</div>
+        <a href="#services">Services</a>
+        <a href="#catalog">Catalog</a>
+        <a href="#faq">FAQ</a>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Contact</div>
+        <a href="https://instagram.com/velour.sk" target="_blank">Instagram @velour.sk</a>
+        <span>Tren&#269;&#237;n, Slovakia</span>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copy">&copy; 2026 Velour. All fragrances are trademarks of their respective owners.</span>
+    </div>
   </footer>
 
   <div class="toast" id="toast"></div>
@@ -551,6 +741,20 @@
     // Nav scroll
     const nav = document.getElementById('nav');
     window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 40));
+
+    // Mobile menu
+    const menuToggle = document.getElementById('menuToggle');
+    const mobileMenu = document.getElementById('mobileMenu');
+    menuToggle.addEventListener('click', () => {
+      menuToggle.classList.toggle('open');
+      mobileMenu.classList.toggle('open');
+      document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+    });
+    function closeMobileMenu() {
+      menuToggle.classList.remove('open');
+      mobileMenu.classList.remove('open');
+      document.body.style.overflow = '';
+    }
 
     // Scroll reveal
     const observer = new IntersectionObserver((entries) => {
@@ -592,15 +796,17 @@
     // CART
     let cart = [];
 
-    function getCart() { return cart; }
-
     function updateCartUI() {
       const total = cart.reduce((sum, item) => sum + item.price, 0);
       const count = cart.length;
       const countEl = document.getElementById('cartCount');
       countEl.textContent = count;
       countEl.classList.toggle('visible', count > 0);
-      document.getElementById('cartTotal').textContent = '€' + total;
+      // pop animation
+      countEl.classList.add('pop');
+      setTimeout(() => countEl.classList.remove('pop'), 200);
+
+      document.getElementById('cartTotal').textContent = '\u20AC' + total;
       document.getElementById('checkoutBtn').disabled = count === 0;
 
       const itemsEl = document.getElementById('cartItems');
@@ -610,13 +816,13 @@
       }
       itemsEl.innerHTML = cart.map((item, i) => `
         <div class="cart-item">
-          <div class="cart-item-visual"><div class="cart-item-bottle"></div></div>
+          <div class="cart-item-visual">${item.image ? `<img src="${item.image}" style="width:100%;height:100%;object-fit:contain;mix-blend-mode:multiply;">` : `<div class="cart-item-bottle"></div>`}</div>
           <div class="cart-item-info">
             <div class="cart-item-brand">${item.brand}</div>
             <div class="cart-item-name">${item.name}</div>
             <div class="cart-item-size">${item.size}</div>
             <div class="cart-item-bottom">
-              <span class="cart-item-price">€${item.price}</span>
+              <span class="cart-item-price">\u20AC${item.price}</span>
               <button class="cart-item-remove" onclick="removeFromCart(${i})">Remove</button>
             </div>
           </div>
@@ -636,20 +842,23 @@
       setTimeout(() => t.classList.remove('show'), 2500);
     }
 
+    // Add individual products
     document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         const card = btn.closest('.product-card');
         const selectedSize = card.querySelector('.size-btn.selected');
         if (!selectedSize) return;
+        const img = card.querySelector('.product-visual img');
         const item = {
           name: btn.dataset.name,
           brand: btn.dataset.brand,
           size: selectedSize.dataset.size,
-          price: parseInt(selectedSize.dataset.price)
+          price: parseInt(selectedSize.dataset.price),
+          image: img ? img.src : ''
         };
         cart.push(item);
         updateCartUI();
-        btn.textContent = '✓ Added';
+        btn.textContent = '\u2713 Added';
         btn.classList.add('added');
         setTimeout(() => { btn.textContent = 'Add to cart'; btn.classList.remove('added'); }, 1800);
         showToast(item.name + ' (' + item.size + ') added to cart');
@@ -665,14 +874,43 @@
     document.getElementById('cartClose').addEventListener('click', closeCart);
     cartOverlay.addEventListener('click', closeCart);
 
-    // Checkout — sends order via Instagram DM
+    // Checkout — copy order + open Instagram
     document.getElementById('checkoutBtn').addEventListener('click', () => {
       if (cart.length === 0) return;
-      const orderLines = cart.map(item => `${item.brand} - ${item.name} (${item.size}) €${item.price}`).join('%0A');
+      const orderLines = cart.map(item => `${item.brand} \u2014 ${item.name} (${item.size}) \u20AC${item.price}`).join('\n');
       const total = cart.reduce((sum, item) => sum + item.price, 0);
-      const message = `Hi! I'd like to order:%0A%0A${orderLines}%0A%0ATotal: €${total}%0A%0APlease let me know how to proceed!`;
-      window.open(`https://instagram.com/velour.sk`, '_blank');
-      showToast('Opening Instagram — paste your order in the DM!');
+      const message = `Hi! I'd like to order:\n\n${orderLines}\n\nTotal: \u20AC${total}\n\nPlease let me know how to proceed!`;
+
+      // Try to copy to clipboard
+      navigator.clipboard.writeText(message).then(() => {
+        showToast('Order copied! Paste it in Instagram DM');
+      }).catch(() => {
+        showToast('Opening Instagram \u2014 send your order in the DM!');
+      });
+
+      setTimeout(() => {
+        window.open('https://instagram.com/velour.sk', '_blank');
+      }, 600);
+    });
+
+    // FAQ accordion
+    document.querySelectorAll('.faq-question').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const item = btn.parentElement;
+        const answer = item.querySelector('.faq-answer');
+        const isOpen = item.classList.contains('open');
+
+        // Close all
+        document.querySelectorAll('.faq-item').forEach(i => {
+          i.classList.remove('open');
+          i.querySelector('.faq-answer').style.maxHeight = null;
+        });
+
+        if (!isOpen) {
+          item.classList.add('open');
+          answer.style.maxHeight = answer.scrollHeight + 'px';
+        }
+      });
     });
   </script>
 </body>
