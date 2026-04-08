@@ -90,9 +90,14 @@
 
     /* HERO */
     .hero { min-height: 100vh; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; overflow: hidden; padding: 0 0 80px; }
-    .hero-bg { position: absolute; inset: -20%; width: 140%; height: 140%; object-fit: cover; object-position: center; filter: grayscale(30%) sepia(20%) brightness(1.05); will-change: transform; }
+    .hero-bg-wrap { position: absolute; inset: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: space-between; padding: 100px 16px 180px; will-change: transform; }
+    .hero-bg-left { width: 38%; height: 100%; object-fit: contain; flex-shrink: 0; filter: grayscale(15%) sepia(10%) brightness(1.05); object-position: left center; margin-top: 80px; margin-left: 40px; }
+    .hero-bg-right-group { width: 42%; height: 100%; display: flex; align-items: flex-end; justify-content: center; gap: 20px; }
+    .hero-bg-right-img { width: 46%; height: 84%; object-fit: contain; flex-shrink: 0; filter: grayscale(15%) sepia(10%) brightness(1.05); mix-blend-mode: multiply; }
+    .hero-bg-right-1 { margin-bottom: 0; transform: translateX(130px) translateY(110px) scale(1.5); transform-origin: bottom center; }
+    .hero-bg-right-2 { margin-bottom: 0; }
     .hero-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(250,248,244,0.15) 0%, rgba(250,248,244,0.05) 40%, rgba(250,248,244,0.7) 75%, rgba(250,248,244,1) 100%); }
-    .hero-center { position: absolute; top: 38%; left: 50%; transform: translate(-50%, -50%); text-align: center; opacity: 0; animation: fadeIn 1.2s 0.4s forwards; }
+    .hero-center { position: absolute; top: 22%; left: 50%; transform: translate(-50%, -50%); text-align: center; opacity: 0; animation: fadeIn 1.2s 0.4s forwards; }
     .hero-center-name { font-family: 'Cormorant Garamond', serif; font-size: clamp(72px, 10vw, 130px); font-weight: 300; letter-spacing: 0.25em; color: var(--dark); line-height: 1; text-transform: uppercase; }
     .hero-center-line { display: flex; align-items: center; justify-content: center; gap: 10px; margin: 14px auto; }
     .hero-center-line::before, .hero-center-line::after { content: ''; display: block; width: 32px; height: 1px; background: var(--gold); opacity: 0.7; }
@@ -185,6 +190,9 @@
     .no-results { grid-column: 1 / -1; text-align: center; padding: 60px 0; font-family: 'Cormorant Garamond', serif; font-size: 24px; color: var(--taupe); font-style: italic; display: none; }
     .out-of-stock-badge { font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--taupe); background: var(--sand); padding: 4px 10px; border-radius: 2px; display: inline-block; }
 
+    /* HERO BG PHOTO */
+    .hero-bg-photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 40%; opacity: 0.55; filter: grayscale(10%) sepia(10%); z-index: 0; }
+
     /* HOW IT WORKS */
     .how-it-works { padding: 100px 60px; background: var(--cream); }
     .steps-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; margin-top: 56px; }
@@ -274,6 +282,11 @@
       .steps-grid { grid-template-columns: 1fr; }
       .section-eyebrow { font-size: 9px; }
       .instagram-eyebrow::before, .instagram-eyebrow::after { display: none; }
+      .hero-bg-wrap { position: absolute; top: 0; left: 0; right: 0; bottom: auto; height: 72vh; flex-direction: column; justify-content: space-between; align-items: center; padding: 56px 0 0; }
+      .hero-bg-left { width: 62%; height: 42%; object-position: center bottom; -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 30%, black 70%, transparent 100%); mask-image: linear-gradient(to bottom, transparent 0%, black 30%, black 70%, transparent 100%); }
+      .hero-center { top: 43%; }
+      .hero-bg-right-group { width: 72%; height: 42%; align-items: center; gap: 8px; }
+      .hero-bg-right-img { height: 88%; width: 44%; margin-bottom: 0 !important; -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 30%, black 70%, transparent 100%); mask-image: linear-gradient(to bottom, transparent 0%, black 30%, black 70%, transparent 100%); }
     }
   </style>
 </head>
@@ -328,7 +341,9 @@
 
   <!-- HERO -->
   <section class="hero">
-    <img class="hero-bg" src="hero.png" alt="Velour fragrance decants" />
+    <img src="background.jpg" alt="" aria-hidden="true" class="hero-bg-photo" />
+    <div class="hero-bg-wrap">
+    </div>
     <div class="hero-overlay"></div>
     <div class="hero-center">
       <div class="hero-center-name">Velour</div>
@@ -379,6 +394,9 @@
       <span class="ticker-name">Dior</span><span class="ticker-dot">&middot;</span>
       <span class="ticker-name">Emporio Armani</span><span class="ticker-dot">&middot;</span>
       <span class="ticker-name">Louis Vuitton</span><span class="ticker-dot">&middot;</span>
+      <span class="ticker-name">Orto Parisi</span><span class="ticker-dot">&middot;</span>
+      <span class="ticker-name">Nasomatto</span><span class="ticker-dot">&middot;</span>
+      <span class="ticker-name">Ex Nihilo</span><span class="ticker-dot">&middot;</span>
       <span class="ticker-name">Byredo</span><span class="ticker-dot">&middot;</span>
       <span class="ticker-name">Initio</span><span class="ticker-dot">&middot;</span>
       <span class="ticker-name">Nishane</span><span class="ticker-dot">&middot;</span>
@@ -387,6 +405,9 @@
       <span class="ticker-name">Dior</span><span class="ticker-dot">&middot;</span>
       <span class="ticker-name">Emporio Armani</span><span class="ticker-dot">&middot;</span>
       <span class="ticker-name">Louis Vuitton</span><span class="ticker-dot">&middot;</span>
+      <span class="ticker-name">Orto Parisi</span><span class="ticker-dot">&middot;</span>
+      <span class="ticker-name">Nasomatto</span><span class="ticker-dot">&middot;</span>
+      <span class="ticker-name">Ex Nihilo</span><span class="ticker-dot">&middot;</span>
     </div>
   </div>
 
@@ -511,99 +532,120 @@
         brand: "Byredo", name: "Bal d'Afrique Absolu", dataBrand: "byredo",
         notes: ["Neroli", "African Marigold", "Vetiver", "Musk"],
         desc: "Bright and warm at once. Inspired by the artistic scene of 1920s Paris — a joyful, golden fragrance that feels like a celebration.",
-        sizes: [{size:"2ml",price:8},{size:"5ml",price:19},{size:"10ml",price:34}],
+        sizes: [{size:"1ml",price:6},{size:"2ml",price:11.5},{size:"5ml",price:29}],
         image: "byredo-baldafrique absolu.png", imgStyle: "height:120%", badge: null
       },
       {
         brand: "Byredo", name: "Mojave Ghost Absolu", dataBrand: "byredo",
         notes: ["Ambrette", "Magnolia", "Sandalwood", "Amberwood"],
         desc: "The desert at dusk in a bottle. Mojave Ghost Absolu takes the original's airy quality and concentrates it — warmer, denser, more hypnotic.",
-        sizes: [{size:"2ml",price:8},{size:"5ml",price:19},{size:"10ml",price:34}],
+        sizes: [{size:"1ml",price:6},{size:"2ml",price:11.5},{size:"5ml",price:29}],
         image: "byredo-mojave-ghost-absolu.png", imgStyle: "height:160%", badge: null
       },
       {
         brand: "Emporio Armani", name: "Stronger With You Intensely", dataBrand: "emporio-armani",
         notes: ["Chestnut", "Pink Pepper", "Vanilla", "Patchouli"],
         desc: "The darker, richer version of the original. Sweet and spicy warmth that wraps around you — bold enough to make an entrance, smooth enough to stay.",
-        sizes: [{size:"2ml",price:5},{size:"5ml",price:9},{size:"10ml",price:17}],
+        sizes: [{size:"1ml",price:2},{size:"2ml",price:3.5},{size:"5ml",price:9}],
         image: "emporio armani-intensely.png", imgStyle: "height:105%;margin-bottom:35px", badge: "popular"
       },
       {
         brand: "Emporio Armani", name: "Stronger With You Powerfully", dataBrand: "emporio-armani",
         notes: ["Cardamom", "Sage", "Amber", "Cedarwood"],
         desc: "Crisp and commanding. A woody aromatic with real backbone — clean and sharp on the opening, warm and grounded in the dry down.",
-        sizes: [{size:"2ml",price:5},{size:"5ml",price:9},{size:"10ml",price:17}],
+        sizes: [{size:"1ml",price:2},{size:"2ml",price:3.5},{size:"5ml",price:9}],
         image: "emporio armani-powerfully.png", imgStyle: "height:85%", badge: null
       },
       {
         brand: "Emporio Armani", name: "Power Of You", dataBrand: "emporio-armani",
         notes: ["Bergamot", "Vetiver", "Musks", "Amberwood"],
         desc: "Fresh, clean, and effortlessly modern. The kind of fragrance that feels right every day — easygoing confidence in a bottle.",
-        sizes: [{size:"2ml",price:5},{size:"5ml",price:9},{size:"10ml",price:17}],
+        sizes: [{size:"1ml",price:2},{size:"2ml",price:3.5},{size:"5ml",price:9}],
         image: "emporio armani-power of you.png", imgStyle: "height:115%", badge: null
       },
       {
         brand: "Tom Ford", name: "Neroli Portofino", dataBrand: "tom-ford",
         notes: ["Neroli", "Bergamot", "Lavender", "Amber"],
         desc: "The Italian Riviera in a bottle. Crisp citrus and neroli open into aromatic lavender and floral orange blossom, finished with a warm amber base. Effortlessly elegant summer fragrance.",
-        sizes: [{size:"2ml",price:5},{size:"5ml",price:10},{size:"10ml",price:18}],
+        sizes: [{size:"1ml",price:6},{size:"2ml",price:11.5},{size:"5ml",price:28}],
         image: "tom ford-neroli-portofino.png", imgStyle: "height:100%", badge: null
       },
       {
         brand: "Tom Ford", name: "Soleil Blanc", dataBrand: "tom-ford",
         notes: ["Coco de Mer", "Ylang Ylang", "Cardamom", "Amber"],
         desc: "Sun-soaked and addictive. A sultry solar floral with creamy coconut and warm amber that makes every day feel like an endless summer on a private island.",
-        sizes: [{size:"2ml",price:5},{size:"5ml",price:10},{size:"10ml",price:18}],
+        sizes: [{size:"1ml",price:4},{size:"2ml",price:6.5},{size:"5ml",price:17}],
         image: "tom ford-soleil-blanc.png", imgStyle: "height:100%", badge: null
       },
       {
         brand: "Dior", name: "Vanilla Diorama", dataBrand: "dior",
         notes: ["Vanilla", "Iris", "Sandalwood", "Musk"],
         desc: "Dior's most elegant take on vanilla. Creamy and sophisticated without a trace of sweetness — iris keeps it cool while sandalwood gives it depth.",
-        sizes: [{size:"2ml",price:8},{size:"5ml",price:19},{size:"10ml",price:34}],
+        sizes: [{size:"1ml",price:7},{size:"2ml",price:12.5},{size:"5ml",price:32}],
         image: "dior-vanilla-diorama.png", imgStyle: "height:85%", badge: null
       },
       {
         brand: "Chanel", name: "Bleu de Chanel L'Exclusif", dataBrand: "chanel",
         notes: ["Citrus", "Incense", "Cedar", "Labdanum", "Vetiver"],
         desc: "The elevated chapter of an icon. L'Exclusif takes everything that made Bleu great and pushes it deeper — more incense, more mystery, more presence.",
-        sizes: [{size:"2ml",price:5},{size:"5ml",price:13},{size:"10ml",price:25}],
+        sizes: [{size:"1ml",price:5},{size:"2ml",price:9.5},{size:"5ml",price:23}],
         image: "chanel-bleu-exclusif.png", imgStyle: "height:150%", badge: "popular"
       },
       {
         brand: "Initio", name: "Atomic Rose", dataBrand: "initio",
         notes: ["Rose", "Musk", "Sandalwood", "Benzoin"],
         desc: "A rose that hits hard. Powerful and radiant, built for projection — this is the rose for people who don't think they like rose.",
-        sizes: [{size:"2ml",price:8},{size:"5ml",price:19},{size:"10ml",price:34}],
+        sizes: [{size:"1ml",price:6},{size:"2ml",price:11.5},{size:"5ml",price:28}],
         image: "initio-atomic-rose.png", imgStyle: "height:85%", badge: null
       },
       {
         brand: "Initio", name: "Side Effect", dataBrand: "initio",
         notes: ["Rum", "Tobacco", "Vanilla"],
         desc: "Addictive in the most literal sense. Side Effect wraps you in a warm, skin-close vanilla that never feels sweet or heavy — just deeply, dangerously comfortable.",
-        sizes: [{size:"2ml",price:8},{size:"5ml",price:19},{size:"10ml",price:34}],
+        sizes: [{size:"1ml",price:6},{size:"2ml",price:11.5},{size:"5ml",price:28}],
         image: "initio-side-effect.png", imgStyle: "height:85%", badge: "popular"
       },
       {
         brand: "Initio", name: "Musk Therapy", dataBrand: "initio",
         notes: ["Musk", "Iris", "Sandalwood", "Cashmere Wood"],
         desc: "Clean musk taken to its purest form. Soft, skin-close and almost meditative — less like a fragrance you wear and more like a second skin.",
-        sizes: [{size:"2ml",price:8},{size:"5ml",price:19},{size:"10ml",price:34}],
+        sizes: [{size:"1ml",price:6},{size:"2ml",price:11.5},{size:"5ml",price:28}],
         image: "initio-musk-therapy.png", imgStyle: "height:85%", badge: null
       },
       {
         brand: "Nishane", name: "Ani", dataBrand: "nishane",
         notes: ["Bergamot", "Jasmine", "Sandalwood", "Vanilla"],
         desc: "Warm, creamy, and enveloping. Ani wraps you in a soft floral vanilla that feels luxurious without being sweet or heavy.",
-        sizes: [{size:"2ml",price:7},{size:"5ml",price:16},{size:"10ml",price:26}],
+        sizes: [{size:"1ml",price:4},{size:"2ml",price:8.5},{size:"5ml",price:21}],
         image: "nishane-ani.png", imgStyle: "height:180%", badge: null
       },
       {
         brand: "Louis Vuitton", name: "Imagination", dataBrand: "louis-vuitton",
         notes: ["Calabrian Bergamot", "Cedarwood", "Ambroxan", "White Musk"],
         desc: "A burst of citrus that melts into clean, airy woods. Imagination is Louis Vuitton at its most effortless \u2014 bright, modern, and impossibly fresh.",
-        sizes: [{size:"2ml",price:12},{size:"5ml",price:28},{size:"10ml",price:50}],
+        sizes: [{size:"1ml",price:6},{size:"2ml",price:11.5},{size:"5ml",price:29}],
         image: "louis-vuitton-imagination.png", imgStyle: "height:120%", badge: "new"
+      },
+      {
+        brand: "Orto Parisi", name: "Bergamask", dataBrand: "orto-parisi",
+        notes: ["Bergamot", "Lavender", "Musk", "Cedar", "Tonka"],
+        desc: "The tension between two extremes in one bottle. A blast of cold, sharp Calabrian bergamot that slowly surrenders to a warm, skin-close musk — primal and refined at once.",
+        sizes: [{size:"1ml",price:4},{size:"2ml",price:7.5},{size:"5ml",price:18}],
+        image: "orto-parisi-bergamask.png", imgStyle: "height:90%;margin-top:20px", badge: null
+      },
+      {
+        brand: "Nasomatto", name: "Silver Musk", dataBrand: "nasomatto",
+        notes: ["Musk"],
+        desc: "The scent of skin, amplified. Pure synthetic musks so heavy they're almost felt more than smelled — clean, creamy, and quietly unforgettable.",
+        sizes: [{size:"1ml",price:3},{size:"2ml",price:4.5},{size:"5ml",price:12}],
+        image: "nasomatto-silver-musk.png", imgStyle: "height:90%;margin-top:20px", badge: null
+      },
+      {
+        brand: "Ex Nihilo", name: "Blue Talisman", dataBrand: "ex-nihilo",
+        notes: ["Pear", "Bergamot", "Mandarin", "Ginger", "Orange Blossom", "Cedar", "Musk"],
+        desc: "A luminous, skin-warming talisman. Bright citrus and juicy pear open like sunlight before settling into a soft, woody embrace — effortlessly wearable and quietly magnetic.",
+        sizes: [{size:"1ml",price:6},{size:"2ml",price:11},{size:"5ml",price:28}],
+        image: "ex nihilo-blue talisman.png", imgStyle: "height:90%;margin-top:10px", badge: null
       }
     ];
 
@@ -672,7 +714,6 @@
           <div class="product-card reveal" data-brand="${product.dataBrand}">
             <div class="product-visual">
               <img src="${product.image}" alt="${product.brand} ${product.name}" style="width:auto;${product.imgStyle};object-fit:contain;mix-blend-mode:multiply;" loading="lazy">
-              <span class="product-brand-tag">${product.brand}</span>
               ${badgeHtml}
             </div>
             <div class="product-info">
@@ -923,12 +964,12 @@
     generateSchemaData();
 
     // PARALLAX — hero background moves slower on scroll
-    const heroBg = document.querySelector('.hero-bg');
+    const heroBgWrap = document.querySelector('.hero-bg-wrap');
     const heroSection = document.querySelector('.hero');
     window.addEventListener('scroll', () => {
       const scrolled = window.scrollY;
       if (scrolled < heroSection.offsetHeight) {
-        heroBg.style.transform = 'translateY(' + (scrolled * 0.35) + 'px)';
+        heroBgWrap.style.transform = 'translateY(' + (scrolled * 0.35) + 'px)';
       }
     }, { passive: true });
   </script>
