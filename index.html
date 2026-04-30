@@ -311,8 +311,8 @@
         <span class="cart-subtotal-label">Medzisúčet</span>
         <span class="cart-subtotal-amount" id="cartTotal">&euro;0</span>
       </div>
-      <p class="cart-note">Doprava: &euro;2 Slovensko &middot; &euro;3 Česko. Objednávky potvrdené cez Instagram DM.</p>
-      <button class="cart-checkout-btn" id="checkoutBtn" disabled>Odoslať objednávku cez Instagram</button>
+      <p class="cart-note">Doprava: &euro;2 Slovensko &middot; &euro;3 Česko.</p>
+      <button class="cart-checkout-btn" id="checkoutBtn" disabled>Pokračovať k pokladni</button>
     </div>
   </div>
 
@@ -448,12 +448,12 @@
       <div class="step reveal">
         <div class="step-num">2</div>
         <div class="step-title">Pošli objednávku</div>
-        <div class="step-desc">Pridaj do košíka a pošli objednávku cez Instagram DM. Potvrdím dostupnosť a celkovú sumu.</div>
+        <div class="step-desc">Pridaj vône do košíka a pokračuj k bezpečnej online pokladni.</div>
       </div>
       <div class="step reveal">
         <div class="step-num">3</div>
         <div class="step-title">Bezpečná platba</div>
-        <div class="step-desc">Bankový prevod alebo Revolut. Platobné údaje ti pošlem v DM.</div>
+        <div class="step-desc">Bezpečná online platba kartou, Apple Pay alebo Google Pay.</div>
       </div>
       <div class="step reveal">
         <div class="step-num">4</div>
@@ -484,11 +484,11 @@
       </div>
       <div class="faq-item reveal">
         <button class="faq-question" aria-expanded="false">Môžem si objednať vôňu, ktorá nie je v katalógu?<span class="faq-question-icon">+</span></button>
-        <div class="faq-answer"><div class="faq-answer-inner">Samozrejme. Ak ju nemám na sklade, viem ju zohnať. Napíš mi na Instagram čo hľadáš a dám ti vedieť cenu a termín.</div></div>
+        <div class="faq-answer"><div class="faq-answer-inner">Samozrejme. Ak ju nemám na sklade, viem ju zohnať. Kontaktuj ma a dám ti vedieť cenu a termín.</div></div>
       </div>
       <div class="faq-item reveal">
         <button class="faq-question" aria-expanded="false">Ako môžem zaplatiť?<span class="faq-question-icon">+</span></button>
-        <div class="faq-answer"><div class="faq-answer-inner">Bankový prevod (slovenský IBAN) alebo Revolut. Po odoslaní objednávky cez Instagram DM všetko potvrdím a pošlem platobné údaje. Na webe nič vopred neplatíš.</div></div>
+        <div class="faq-answer"><div class="faq-answer-inner">Bezpečná online platba kartou, Apple Pay alebo Google Pay priamo na webe.</div></div>
       </div>
       <div class="faq-item reveal">
         <button class="faq-question" aria-expanded="false">Čo ak sa mi vôňa nebude páčiť?<span class="faq-question-icon">+</span></button>
@@ -497,11 +497,11 @@
     </div>
   </section>
 
-  <!-- INSTAGRAM CTA -->
-  <section class="instagram" id="order">
+  <!-- INSTAGRAM REQUEST CTA -->
+  <section class="instagram" id="request">
     <p class="instagram-eyebrow reveal">Nenašiel si čo hľadáš?</p>
-    <h2 class="instagram-title reveal">Jedna <em>správa</em> ťa delí<br>od akejkoľvek vône.</h2>
-    <p class="instagram-sub reveal">Hľadáš niečo konkrétne? Ak to ešte nie je v katalógu, stačí sa opýtať &mdash; napíš mi na Instagram.</p>
+    <h2 class="instagram-title reveal">Chýba ti nejaká <em>vôňa</em>?</h2>
+    <p class="instagram-sub reveal">Ak vôňa nie je v katalógu, napíš mi na Instagram — rád ju pridám do obchodu.</p>
     <a href="https://instagram.com/velour.sk" target="_blank" class="btn-instagram reveal">&rarr; &nbsp; Napíš mi na Instagram</a>
   </section>
 
@@ -963,19 +963,7 @@
     // Checkout
     document.getElementById('checkoutBtn').addEventListener('click', () => {
       if (cart.length === 0) return;
-      const orderLines = cart.map(item => `${item.brand} \u2014 ${item.name} (${item.size}) \u20AC${item.price}`).join('\n');
-      const total = cart.reduce((sum, item) => sum + item.price, 0);
-      const message = `Ahoj! Chcel by som si objednať:\n\n${orderLines}\n\nSpolu: €${total}\n\nDaj mi vedieť ako postupovať!`;
-
-      navigator.clipboard.writeText(message).then(() => {
-        showToast('Objednávka skopírovaná! Vlož ju do Instagram DM');
-      }).catch(() => {
-        showToast('Otváram Instagram — pošli objednávku v DM!');
-      });
-
-      setTimeout(() => {
-        window.open('https://instagram.com/velour.sk', '_blank');
-      }, 600);
+      showToast('Pokladňa čoskoro k dispozícii');
     });
 
     // FAQ accordion
