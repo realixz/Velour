@@ -31,7 +31,8 @@
     /* NAV */
     nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; display: flex; justify-content: space-between; align-items: center; padding: 28px 60px; background: transparent; transition: background 0.4s, padding 0.4s, box-shadow 0.4s; }
     nav.scrolled { background: rgba(250,248,244,0.97); backdrop-filter: blur(12px); padding: 18px 60px; box-shadow: 0 1px 0 var(--sand); }
-    .nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 300; letter-spacing: 0.25em; color: var(--dark); text-decoration: none; text-transform: uppercase; }
+    .nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 300; letter-spacing: 0.25em; color: var(--dark); text-decoration: none; text-transform: uppercase; opacity: 0; transition: opacity 0.4s; }
+    nav.scrolled .nav-logo { opacity: 1; }
     .nav-right { display: flex; align-items: center; gap: 40px; }
     .nav-links { display: flex; gap: 40px; list-style: none; }
     .nav-links a { font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text); text-decoration: none; opacity: 0.7; transition: opacity 0.2s; position: relative; padding-bottom: 2px; }
@@ -284,7 +285,7 @@
       .instagram-eyebrow::before, .instagram-eyebrow::after { display: none; }
       .hero-bg-wrap { position: absolute; top: 0; left: 0; right: 0; bottom: auto; height: 72vh; flex-direction: column; justify-content: space-between; align-items: center; padding: 56px 0 0; }
       .hero-bg-left { width: 62%; height: 42%; object-position: center bottom; -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 30%, black 70%, transparent 100%); mask-image: linear-gradient(to bottom, transparent 0%, black 30%, black 70%, transparent 100%); }
-      .hero-center { top: 43%; }
+      .hero-center { top: 13%; }
       .hero-bg-right-group { width: 72%; height: 42%; align-items: center; gap: 8px; }
       .hero-bg-right-img { height: 88%; width: 44%; margin-bottom: 0 !important; -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 30%, black 70%, transparent 100%); mask-image: linear-gradient(to bottom, transparent 0%, black 30%, black 70%, transparent 100%); }
     }
@@ -296,28 +297,28 @@
   <div class="cart-overlay" id="cartOverlay"></div>
   <div class="cart-drawer" id="cartDrawer">
     <div class="cart-header">
-      <span class="cart-title">Your cart</span>
-      <button class="cart-close" id="cartClose" aria-label="Close cart">&#10005;</button>
+      <span class="cart-title">Váš košík</span>
+      <button class="cart-close" id="cartClose" aria-label="Zavrieť košík">&#10005;</button>
     </div>
     <div class="cart-items" id="cartItems">
       <div class="cart-empty">
-        <div class="cart-empty-title">Your cart is empty</div>
-        <div class="cart-empty-sub">Add a fragrance to get started</div>
+        <div class="cart-empty-title">Váš košík je prázdny</div>
+        <div class="cart-empty-sub">Pridajte vôňu pre začiatok</div>
       </div>
     </div>
     <div class="cart-footer">
       <div class="cart-subtotal">
-        <span class="cart-subtotal-label">Subtotal</span>
+        <span class="cart-subtotal-label">Medzisúčet</span>
         <span class="cart-subtotal-amount" id="cartTotal">&euro;0</span>
       </div>
-      <p class="cart-note">Shipping: &euro;2 Slovakia &middot; &euro;3 Czechia. Orders confirmed via Instagram DM.</p>
-      <button class="cart-checkout-btn" id="checkoutBtn" disabled>Send order via Instagram</button>
+      <p class="cart-note">Doprava: &euro;2 Slovensko &middot; &euro;3 Česko. Objednávky potvrdené cez Instagram DM.</p>
+      <button class="cart-checkout-btn" id="checkoutBtn" disabled>Odoslať objednávku cez Instagram</button>
     </div>
   </div>
 
   <!-- MOBILE MENU -->
   <div class="mobile-menu" id="mobileMenu">
-    <a href="#catalog" onclick="closeMobileMenu()">Catalog</a>
+    <a href="#catalog" onclick="closeMobileMenu()">Katalóg</a>
     <a href="#faq" onclick="closeMobileMenu()">FAQ</a>
   </div>
 
@@ -326,11 +327,11 @@
     <a href="#" class="nav-logo">Velour</a>
     <div class="nav-right">
       <ul class="nav-links">
-        <li><a href="#catalog">Catalog</a></li>
+        <li><a href="#catalog">Katalóg</a></li>
         <li><a href="#faq">FAQ</a></li>
       </ul>
-      <button class="cart-btn" id="cartBtn" aria-label="Open cart">
-        Cart
+      <button class="cart-btn" id="cartBtn" aria-label="Otvoriť košík">
+        Košík
         <span class="cart-count" id="cartCount">0</span>
       </button>
       <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
@@ -341,19 +342,17 @@
 
   <!-- HERO -->
   <section class="hero">
-    <img src="background.jpg" alt="" aria-hidden="true" class="hero-bg-photo" />
+    <img src="background.JPG" alt="" aria-hidden="true" class="hero-bg-photo" />
     <div class="hero-bg-wrap">
     </div>
     <div class="hero-overlay"></div>
     <div class="hero-center">
       <div class="hero-center-name">Velour</div>
       <div class="hero-center-line"><span></span></div>
-      <div class="hero-center-sub">Decants &middot; Samples</div>
     </div>
     <div class="hero-text">
-      <h1 class="hero-title"><span class="hero-word" style="animation-delay:1s">Scent,</span> <span class="hero-word" style="animation-delay:1.2s"><em>curated</em></span> <span class="hero-word" style="animation-delay:1.4s">for</span> <span class="hero-word" style="animation-delay:1.6s">you.</span></h1>
-      <p class="hero-sub">The world's finest fragrances &mdash; sampled, sourced and delivered to your door from Slovakia.</p>
-      <a href="#catalog" class="hero-cta">Browse the catalog &nbsp;&rarr;</a>
+      <h1 class="hero-title"><span class="hero-word" style="animation-delay:1s">V&#244;&#328;a,</span> <span class="hero-word" style="animation-delay:1.2s">ktor&#225;</span> <span class="hero-word" style="animation-delay:1.4s">ide</span> <span class="hero-word" style="animation-delay:1.6s">s</span> <span class="hero-word" style="animation-delay:1.8s">tebou</span> <span class="hero-word" style="animation-delay:2s; color:var(--gold)">V&#352;ADE</span></h1>
+      <a href="#catalog" class="hero-cta">Prezrieť katalóg &nbsp;&rarr;</a>
     </div>
   </section>
 
@@ -367,19 +366,19 @@
   <div class="trust-bar reveal">
     <div class="trust-item">
       <div class="trust-icon-wrap"><span class="trust-icon">&#9830;</span></div>
-      <span class="trust-label">100% Authentic<br>Always from original bottles</span>
+      <span class="trust-label">100% Originál<br>Vždy z originálnych fliaš</span>
     </div>
     <div class="trust-item">
       <div class="trust-icon-wrap"><span class="trust-icon">&#9878;</span></div>
-      <span class="trust-label">SK &amp; CZ Shipping<br>&euro;2 Slovakia &middot; &euro;3 Czechia</span>
+      <span class="trust-label">Doprava SK &amp; CZ<br>&euro;2 Slovensko &middot; &euro;3 Česko</span>
     </div>
     <div class="trust-item">
       <div class="trust-icon-wrap"><span class="trust-icon">&#10022;</span></div>
-      <span class="trust-label">Hand-decanted<br>Clean glass atomizers</span>
+      <span class="trust-label">Ručne plnené<br>Čisté sklenené rozprašovače</span>
     </div>
     <div class="trust-item">
       <div class="trust-icon-wrap"><span class="trust-icon">&#9825;</span></div>
-      <span class="trust-label">Personal service<br>DM me anytime</span>
+      <span class="trust-label">Osobný prístup<br>Napíš mi kedykoľvek</span>
     </div>
   </div>
 
@@ -397,6 +396,10 @@
       <span class="ticker-name">Orto Parisi</span><span class="ticker-dot">&middot;</span>
       <span class="ticker-name">Nasomatto</span><span class="ticker-dot">&middot;</span>
       <span class="ticker-name">Ex Nihilo</span><span class="ticker-dot">&middot;</span>
+      <span class="ticker-name">Yves Saint Laurent</span><span class="ticker-dot">&middot;</span>
+      <span class="ticker-name">Xerjoff</span><span class="ticker-dot">&middot;</span>
+      <span class="ticker-name">Sospiro</span><span class="ticker-dot">&middot;</span>
+      <span class="ticker-name">Dannam</span><span class="ticker-dot">&middot;</span>
       <span class="ticker-name">Byredo</span><span class="ticker-dot">&middot;</span>
       <span class="ticker-name">Initio</span><span class="ticker-dot">&middot;</span>
       <span class="ticker-name">Nishane</span><span class="ticker-dot">&middot;</span>
@@ -408,50 +411,54 @@
       <span class="ticker-name">Orto Parisi</span><span class="ticker-dot">&middot;</span>
       <span class="ticker-name">Nasomatto</span><span class="ticker-dot">&middot;</span>
       <span class="ticker-name">Ex Nihilo</span><span class="ticker-dot">&middot;</span>
+      <span class="ticker-name">Yves Saint Laurent</span><span class="ticker-dot">&middot;</span>
+      <span class="ticker-name">Xerjoff</span><span class="ticker-dot">&middot;</span>
+      <span class="ticker-name">Sospiro</span><span class="ticker-dot">&middot;</span>
+      <span class="ticker-name">Dannam</span><span class="ticker-dot">&middot;</span>
     </div>
   </div>
 
   <!-- CATALOG -->
   <section class="catalog" id="catalog">
     <div class="section-header reveal">
-      <p class="section-eyebrow">The collection</p>
-      <h2 class="section-title">Browse by <em>brand</em></h2>
+      <p class="section-eyebrow">Kolekcia</p>
+      <h2 class="section-title">Prehliadať podľa <em>značky</em></h2>
     </div>
     <div class="catalog-controls reveal">
       <span class="filter-label">Filter</span>
       <div id="filterButtons"></div>
     </div>
     <div class="catalog-grid" id="catalogGrid">
-      <div class="no-results" id="no-results">No fragrances found for this brand.</div>
+      <div class="no-results" id="no-results">Pre túto značku sa nenašli žiadne vône.</div>
     </div>
   </section>
 
   <!-- HOW IT WORKS -->
   <section class="how-it-works" id="how-it-works">
     <div class="section-header reveal">
-      <p class="section-eyebrow">Simple process</p>
-      <h2 class="section-title">How it <em>works</em></h2>
+      <p class="section-eyebrow">Jednoduchý proces</p>
+      <h2 class="section-title">Ako to <em>funguje</em></h2>
     </div>
     <div class="steps-grid">
       <div class="step reveal">
         <div class="step-num">1</div>
-        <div class="step-title">Browse &amp; Choose</div>
-        <div class="step-desc">Pick your fragrances and sizes from the catalog, or ask me for a recommendation.</div>
+        <div class="step-title">Prehľadaj &amp; Vyber</div>
+        <div class="step-desc">Vyber si vône a veľkosti z katalógu, alebo sa ma spýtaj na odporúčanie.</div>
       </div>
       <div class="step reveal">
         <div class="step-num">2</div>
-        <div class="step-title">Send Your Order</div>
-        <div class="step-desc">Add to cart and send your order via Instagram DM. I'll confirm availability and total.</div>
+        <div class="step-title">Pošli objednávku</div>
+        <div class="step-desc">Pridaj do košíka a pošli objednávku cez Instagram DM. Potvrdím dostupnosť a celkovú sumu.</div>
       </div>
       <div class="step reveal">
         <div class="step-num">3</div>
-        <div class="step-title">Pay Securely</div>
-        <div class="step-desc">Bank transfer or Revolut. I'll send payment details in our DM conversation.</div>
+        <div class="step-title">Bezpečná platba</div>
+        <div class="step-desc">Bankový prevod alebo Revolut. Platobné údaje ti pošlem v DM.</div>
       </div>
       <div class="step reveal">
         <div class="step-num">4</div>
-        <div class="step-title">Receive &amp; Enjoy</div>
-        <div class="step-desc">Your decants arrive in labeled glass atomizers, carefully packaged and shipped within 1&ndash;3 days.</div>
+        <div class="step-title">Prijmi &amp; Užívaj</div>
+        <div class="step-desc">Tvoje dekanty prídu v označených sklenených rozprašovačoch, starostlivo zabalené a odoslané do 1&ndash;3 dní.</div>
       </div>
     </div>
   </section>
@@ -459,64 +466,64 @@
   <!-- FAQ -->
   <section class="faq" id="faq">
     <div class="section-header reveal">
-      <p class="section-eyebrow">Questions</p>
-      <h2 class="section-title">Frequently <em>asked</em></h2>
+      <p class="section-eyebrow">Otázky</p>
+      <h2 class="section-title">Často <em>kladené</em></h2>
     </div>
     <div class="faq-grid">
       <div class="faq-item reveal">
-        <button class="faq-question" aria-expanded="false">Are these authentic fragrances?<span class="faq-question-icon">+</span></button>
-        <div class="faq-answer"><div class="faq-answer-inner">Always. Every decant is hand-poured from a genuine, full-size bottle that I personally own. I purchase exclusively from authorized retailers and can provide proof of purchase for any fragrance on request.</div></div>
+        <button class="faq-question" aria-expanded="false">Sú tieto vône originálne?<span class="faq-question-icon">+</span></button>
+        <div class="faq-answer"><div class="faq-answer-inner">Vždy. Každý dekant je ručne plnený z originálnej fľaše, ktorú osobne vlastním. Nakupujem výlučne od autorizovaných predajcov a na požiadanie viem doložiť doklad o kúpe pre akúkoľvek vôňu.</div></div>
       </div>
       <div class="faq-item reveal">
-        <button class="faq-question" aria-expanded="false">What kind of bottles do you use?<span class="faq-question-icon">+</span></button>
-        <div class="faq-answer"><div class="faq-answer-inner">Clean glass spray atomizers with a fine mist. Each bottle is labeled with the fragrance name, brand, and size. They're pocket-friendly and perfect for travel or daily carry.</div></div>
+        <button class="faq-question" aria-expanded="false">Aké fľaše používate?<span class="faq-question-icon">+</span></button>
+        <div class="faq-answer"><div class="faq-answer-inner">Čisté sklenené rozprašovače s jemnou hmlou. Každá fľaša je označená názvom vône, značkou a objemom. Sú kompaktné a ideálne na cestovanie alebo každodenné nosenie.</div></div>
       </div>
       <div class="faq-item reveal">
-        <button class="faq-question" aria-expanded="false">How much is shipping?<span class="faq-question-icon">+</span></button>
-        <div class="faq-answer"><div class="faq-answer-inner">Shipping within Slovakia is &euro;2 via Slov. Po&scaron;ta. Shipping to Czech Republic is &euro;3. Orders are typically dispatched within 1&ndash;3 business days. Tracking is provided for every order.</div></div>
+        <button class="faq-question" aria-expanded="false">Koľko stojí doprava?<span class="faq-question-icon">+</span></button>
+        <div class="faq-answer"><div class="faq-answer-inner">Doprava v rámci Slovenska je &euro;2 cez Slov. Po&scaron;tu. Doprava do Českej republiky je &euro;3. Objednávky sú zvyčajne odoslané do 1&ndash;3 pracovných dní. Sledovanie zásielky je súčasťou každej objednávky.</div></div>
       </div>
       <div class="faq-item reveal">
-        <button class="faq-question" aria-expanded="false">Can I request a fragrance that's not listed?<span class="faq-question-icon">+</span></button>
-        <div class="faq-answer"><div class="faq-answer-inner">Absolutely. If I don't have it in stock, I can source it. Just DM me on Instagram with what you're looking for and I'll let you know the price and timeline.</div></div>
+        <button class="faq-question" aria-expanded="false">Môžem si objednať vôňu, ktorá nie je v katalógu?<span class="faq-question-icon">+</span></button>
+        <div class="faq-answer"><div class="faq-answer-inner">Samozrejme. Ak ju nemám na sklade, viem ju zohnať. Napíš mi na Instagram čo hľadáš a dám ti vedieť cenu a termín.</div></div>
       </div>
       <div class="faq-item reveal">
-        <button class="faq-question" aria-expanded="false">How do I pay?<span class="faq-question-icon">+</span></button>
-        <div class="faq-answer"><div class="faq-answer-inner">Bank transfer (Slovak IBAN) or Revolut. After you send your order via Instagram DM, I'll confirm everything and send you payment details. No payment upfront on the website.</div></div>
+        <button class="faq-question" aria-expanded="false">Ako môžem zaplatiť?<span class="faq-question-icon">+</span></button>
+        <div class="faq-answer"><div class="faq-answer-inner">Bankový prevod (slovenský IBAN) alebo Revolut. Po odoslaní objednávky cez Instagram DM všetko potvrdím a pošlem platobné údaje. Na webe nič vopred neplatíš.</div></div>
       </div>
       <div class="faq-item reveal">
-        <button class="faq-question" aria-expanded="false">What if I don't like a fragrance?<span class="faq-question-icon">+</span></button>
-        <div class="faq-answer"><div class="faq-answer-inner">That's exactly why decants exist &mdash; to try before you commit. While I can't offer refunds on opened decants (for hygiene reasons), I'm always happy to help you find something you'll love. DM me and I'll guide you.</div></div>
+        <button class="faq-question" aria-expanded="false">Čo ak sa mi vôňa nebude páčiť?<span class="faq-question-icon">+</span></button>
+        <div class="faq-answer"><div class="faq-answer-inner">Práve preto existujú dekanty &mdash; aby si mohol vyskúšať pred kúpou. Na otvorené dekanty refundáciu neponúkam (z hygienických dôvodov), ale vždy rád pomôžem nájsť vôňu, ktorá ti sadne. Napíš mi.</div></div>
       </div>
     </div>
   </section>
 
   <!-- INSTAGRAM CTA -->
   <section class="instagram" id="order">
-    <p class="instagram-eyebrow reveal">Don't see what you're looking for?</p>
-    <h2 class="instagram-title reveal">One <em>message</em> away<br>from any fragrance.</h2>
-    <p class="instagram-sub reveal">Looking for something specific? If it's not in the catalog yet, just ask &mdash; DM me on Instagram.</p>
-    <a href="https://instagram.com/velour.sk" target="_blank" class="btn-instagram reveal">&rarr; &nbsp; Message me on Instagram</a>
+    <p class="instagram-eyebrow reveal">Nenašiel si čo hľadáš?</p>
+    <h2 class="instagram-title reveal">Jedna <em>správa</em> ťa delí<br>od akejkoľvek vône.</h2>
+    <p class="instagram-sub reveal">Hľadáš niečo konkrétne? Ak to ešte nie je v katalógu, stačí sa opýtať &mdash; napíš mi na Instagram.</p>
+    <a href="https://instagram.com/velour.sk" target="_blank" class="btn-instagram reveal">&rarr; &nbsp; Napíš mi na Instagram</a>
   </section>
 
   <footer>
     <div class="footer-top">
       <div class="footer-brand">
         <span class="footer-logo">Velour</span>
-        <span class="footer-tagline">Premium fragrance decants, shipped from Tren&#269;&#237;n, Slovakia across Europe.</span>
+        <span class="footer-tagline">Prémiové dekanty vôní, zasielané z Trenčína po celej Európe.</span>
       </div>
       <div class="footer-col">
-        <div class="footer-col-title">Navigate</div>
-        <a href="#catalog">Catalog</a>
+        <div class="footer-col-title">Navigácia</div>
+        <a href="#catalog">Katalóg</a>
         <a href="#faq">FAQ</a>
       </div>
       <div class="footer-col">
-        <div class="footer-col-title">Contact</div>
+        <div class="footer-col-title">Kontakt</div>
         <a href="https://instagram.com/velour.sk" target="_blank">Instagram @velour.sk</a>
-        <span>Tren&#269;&#237;n, Slovakia</span>
+        <span>Tren&#269;&#237;n, Slovensko</span>
       </div>
     </div>
     <div class="footer-bottom">
-      <span class="footer-copy">&copy; 2026 Velour. All fragrances are trademarks of their respective owners.</span>
+      <span class="footer-copy">&copy; 2026 Velour. Všetky vône sú ochrannými známkami svojich príslušných vlastníkov.</span>
     </div>
   </footer>
 
@@ -531,121 +538,156 @@
       {
         brand: "Byredo", name: "Bal d'Afrique Absolu", dataBrand: "byredo",
         notes: ["Neroli", "African Marigold", "Vetiver", "Musk"],
-        desc: "Bright and warm at once. Inspired by the artistic scene of 1920s Paris — a joyful, golden fragrance that feels like a celebration.",
+        desc: "Jasný a teplý zároveň. Inšpirovaný umeleckou scénou Paríža 20. rokov — radostná, zlatá vôňa, ktorá sa cíti ako oslava.",
         sizes: [{size:"1ml",price:6},{size:"2ml",price:11.5},{size:"5ml",price:29}],
         image: "byredo-baldafrique absolu.png", imgStyle: "height:120%", badge: null
       },
       {
         brand: "Byredo", name: "Mojave Ghost Absolu", dataBrand: "byredo",
         notes: ["Ambrette", "Magnolia", "Sandalwood", "Amberwood"],
-        desc: "The desert at dusk in a bottle. Mojave Ghost Absolu takes the original's airy quality and concentrates it — warmer, denser, more hypnotic.",
+        desc: "Púšť za súmraku vo fľaši. Mojave Ghost Absolu berie vzdušnosť originálu a koncentruje ju — teplejšia, hutnejšia, hypnotickejšia.",
         sizes: [{size:"1ml",price:6},{size:"2ml",price:11.5},{size:"5ml",price:29}],
         image: "byredo-mojave-ghost-absolu.png", imgStyle: "height:160%", badge: null
       },
       {
         brand: "Emporio Armani", name: "Stronger With You Intensely", dataBrand: "emporio-armani",
         notes: ["Chestnut", "Pink Pepper", "Vanilla", "Patchouli"],
-        desc: "The darker, richer version of the original. Sweet and spicy warmth that wraps around you — bold enough to make an entrance, smooth enough to stay.",
+        desc: "Tmavšia, bohatšia verzia originálu. Sladká a korenistá vrúčnosť, ktorá ťa obalí — dosť odvážna na nezabudnuteľný vstup, dosť hladká na to, aby zostala.",
         sizes: [{size:"1ml",price:2},{size:"2ml",price:3.5},{size:"5ml",price:9}],
         image: "emporio armani-intensely.png", imgStyle: "height:105%;margin-bottom:35px", badge: "popular"
       },
       {
         brand: "Emporio Armani", name: "Stronger With You Powerfully", dataBrand: "emporio-armani",
         notes: ["Cardamom", "Sage", "Amber", "Cedarwood"],
-        desc: "Crisp and commanding. A woody aromatic with real backbone — clean and sharp on the opening, warm and grounded in the dry down.",
+        desc: "Ostrá a rozhodná. Drevitá aromatická vôňa s pevnou kostrou — čistá a ostrá na otvorení, teplá a ukotvená v doznení.",
         sizes: [{size:"1ml",price:2},{size:"2ml",price:3.5},{size:"5ml",price:9}],
         image: "emporio armani-powerfully.png", imgStyle: "height:85%", badge: null
       },
       {
         brand: "Emporio Armani", name: "Power Of You", dataBrand: "emporio-armani",
         notes: ["Bergamot", "Vetiver", "Musks", "Amberwood"],
-        desc: "Fresh, clean, and effortlessly modern. The kind of fragrance that feels right every day — easygoing confidence in a bottle.",
+        desc: "Svieža, čistá a bezstarostne moderná. Vôňa, ktorá sa hodí na každý deň — ľahká sebadôvera vo fľaši.",
         sizes: [{size:"1ml",price:2},{size:"2ml",price:3.5},{size:"5ml",price:9}],
         image: "emporio armani-power of you.png", imgStyle: "height:115%", badge: null
       },
       {
         brand: "Tom Ford", name: "Neroli Portofino", dataBrand: "tom-ford",
         notes: ["Neroli", "Bergamot", "Lavender", "Amber"],
-        desc: "The Italian Riviera in a bottle. Crisp citrus and neroli open into aromatic lavender and floral orange blossom, finished with a warm amber base. Effortlessly elegant summer fragrance.",
+        desc: "Talianska riviéra vo fľaši. Ostrá citrusová neroli sa otvorí do aromatickej levandule a kvetového pomarančového kvetu, ukončená teplou ambrovou bázou. Bez námahy elegantná letná vôňa.",
         sizes: [{size:"1ml",price:6},{size:"2ml",price:11.5},{size:"5ml",price:28}],
         image: "tom ford-neroli-portofino.png", imgStyle: "height:100%", badge: null
       },
       {
         brand: "Tom Ford", name: "Soleil Blanc", dataBrand: "tom-ford",
         notes: ["Coco de Mer", "Ylang Ylang", "Cardamom", "Amber"],
-        desc: "Sun-soaked and addictive. A sultry solar floral with creamy coconut and warm amber that makes every day feel like an endless summer on a private island.",
+        desc: "Preniknutá slnkom a návyková. Zmyselná solárna kvetová vôňa s krémovým kokosovým orieškom a teplou ambrovou, ktorá spraví každý deň ako nekonečné leto na súkromnom ostrove.",
         sizes: [{size:"1ml",price:4},{size:"2ml",price:6.5},{size:"5ml",price:17}],
         image: "tom ford-soleil-blanc.png", imgStyle: "height:100%", badge: null
       },
       {
         brand: "Dior", name: "Vanilla Diorama", dataBrand: "dior",
         notes: ["Vanilla", "Iris", "Sandalwood", "Musk"],
-        desc: "Dior's most elegant take on vanilla. Creamy and sophisticated without a trace of sweetness — iris keeps it cool while sandalwood gives it depth.",
+        desc: "Najelegantnejší pohľad Dioru na vanilku. Krémová a sofistikovaná bez náznaku sladkosti — iris ju udržiava chladnou, zatiaľ čo santalové drevo jej dáva hĺbku.",
         sizes: [{size:"1ml",price:7},{size:"2ml",price:12.5},{size:"5ml",price:32}],
         image: "dior-vanilla-diorama.png", imgStyle: "height:85%", badge: null
       },
       {
         brand: "Chanel", name: "Bleu de Chanel L'Exclusif", dataBrand: "chanel",
         notes: ["Citrus", "Incense", "Cedar", "Labdanum", "Vetiver"],
-        desc: "The elevated chapter of an icon. L'Exclusif takes everything that made Bleu great and pushes it deeper — more incense, more mystery, more presence.",
+        desc: "Povýšená kapitola ikony. L'Exclusif berie všetko, čo robilo Bleu skvelým, a posúva to hlbšie — viac kadidla, viac mystéria, viac prítomnosti.",
         sizes: [{size:"1ml",price:5},{size:"2ml",price:9.5},{size:"5ml",price:23}],
         image: "chanel-bleu-exclusif.png", imgStyle: "height:150%", badge: "popular"
       },
       {
         brand: "Initio", name: "Atomic Rose", dataBrand: "initio",
         notes: ["Rose", "Musk", "Sandalwood", "Benzoin"],
-        desc: "A rose that hits hard. Powerful and radiant, built for projection — this is the rose for people who don't think they like rose.",
+        desc: "Ruža, ktorá udrie silno. Výrazná a žiarivá, stvorená na projekciu — toto je ruža pre ľudí, ktorí si myslia, že ruža nie je pre nich.",
         sizes: [{size:"1ml",price:6},{size:"2ml",price:11.5},{size:"5ml",price:28}],
         image: "initio-atomic-rose.png", imgStyle: "height:85%", badge: null
       },
       {
         brand: "Initio", name: "Side Effect", dataBrand: "initio",
         notes: ["Rum", "Tobacco", "Vanilla"],
-        desc: "Addictive in the most literal sense. Side Effect wraps you in a warm, skin-close vanilla that never feels sweet or heavy — just deeply, dangerously comfortable.",
+        desc: "Návyková v tom najpriamejšom zmysle. Side Effect ťa obalí teplou, na kožu blízkou vanilkou, ktorá nikdy nepôsobí sladko ani ťažko — len hlboko, nebezpečne pohodlne.",
         sizes: [{size:"1ml",price:6},{size:"2ml",price:11.5},{size:"5ml",price:28}],
         image: "initio-side-effect.png", imgStyle: "height:85%", badge: "popular"
       },
       {
         brand: "Initio", name: "Musk Therapy", dataBrand: "initio",
         notes: ["Musk", "Iris", "Sandalwood", "Cashmere Wood"],
-        desc: "Clean musk taken to its purest form. Soft, skin-close and almost meditative — less like a fragrance you wear and more like a second skin.",
+        desc: "Čistý mošus dovedený do jeho najčistejšej podoby. Jemný, blízky koži a takmer meditatívny — menej ako vôňa, ktorú nosíš, a viac ako druhá koža.",
         sizes: [{size:"1ml",price:6},{size:"2ml",price:11.5},{size:"5ml",price:28}],
         image: "initio-musk-therapy.png", imgStyle: "height:85%", badge: null
       },
       {
         brand: "Nishane", name: "Ani", dataBrand: "nishane",
         notes: ["Bergamot", "Jasmine", "Sandalwood", "Vanilla"],
-        desc: "Warm, creamy, and enveloping. Ani wraps you in a soft floral vanilla that feels luxurious without being sweet or heavy.",
+        desc: "Teplá, krémová a obaľujúca. Ani ťa obalí jemnou kvetovou vanilkou, ktorá pôsobí luxusne bez toho, aby bola sladká alebo ťažká.",
         sizes: [{size:"1ml",price:4},{size:"2ml",price:8.5},{size:"5ml",price:21}],
         image: "nishane-ani.png", imgStyle: "height:180%", badge: null
       },
       {
         brand: "Louis Vuitton", name: "Imagination", dataBrand: "louis-vuitton",
         notes: ["Calabrian Bergamot", "Cedarwood", "Ambroxan", "White Musk"],
-        desc: "A burst of citrus that melts into clean, airy woods. Imagination is Louis Vuitton at its most effortless \u2014 bright, modern, and impossibly fresh.",
+        desc: "V\u00fdbuch citrusov, ktor\u00fd sa roztop\u00ed do \u010dist\u00e9ho, vzdu\u0161n\u00e9ho dreva. Imagination je Louis Vuitton vo svojej naj\u013eah\u0161ej forme \u2014 jasn\u00fd, modern\u00fd a neuverite\u013ene svie\u017ei.",
         sizes: [{size:"1ml",price:6},{size:"2ml",price:11.5},{size:"5ml",price:29}],
         image: "louis-vuitton-imagination.png", imgStyle: "height:120%", badge: "new"
       },
       {
         brand: "Orto Parisi", name: "Bergamask", dataBrand: "orto-parisi",
         notes: ["Bergamot", "Lavender", "Musk", "Cedar", "Tonka"],
-        desc: "The tension between two extremes in one bottle. A blast of cold, sharp Calabrian bergamot that slowly surrenders to a warm, skin-close musk — primal and refined at once.",
+        desc: "Napätie medzi dvoma extrémami v jednej fľaši. Výbuch studeného, ostrého kalábrijského bergamotu, ktorý sa pomaly vzdáva teplému, na kožu blízkemu mošusu — pôvodný a rafinovaný zároveň.",
         sizes: [{size:"1ml",price:4},{size:"2ml",price:7.5},{size:"5ml",price:18}],
         image: "orto-parisi-bergamask.png", imgStyle: "height:90%;margin-top:20px", badge: null
       },
       {
         brand: "Nasomatto", name: "Silver Musk", dataBrand: "nasomatto",
         notes: ["Musk"],
-        desc: "The scent of skin, amplified. Pure synthetic musks so heavy they're almost felt more than smelled — clean, creamy, and quietly unforgettable.",
+        desc: "Vôňa kože, zosilnená. Čisté syntetické mošusy tak ťažké, že ich skôr cítiš než čucháš — čisté, krémové a ticho nezabudnuteľné.",
         sizes: [{size:"1ml",price:3},{size:"2ml",price:4.5},{size:"5ml",price:12}],
         image: "nasomatto-silver-musk.png", imgStyle: "height:90%;margin-top:20px", badge: null
       },
       {
         brand: "Ex Nihilo", name: "Blue Talisman", dataBrand: "ex-nihilo",
         notes: ["Pear", "Bergamot", "Mandarin", "Ginger", "Orange Blossom", "Cedar", "Musk"],
-        desc: "A luminous, skin-warming talisman. Bright citrus and juicy pear open like sunlight before settling into a soft, woody embrace — effortlessly wearable and quietly magnetic.",
+        desc: "Žiarivý talizman, ktorý ohreje kožu. Jasné citrusy a šťavnatá hruška sa otvoria ako slnečné svetlo, kým sa usadia v jemnom, drevitom objatí — ľahko nositeľný a ticho magnetický.",
         sizes: [{size:"1ml",price:6},{size:"2ml",price:11},{size:"5ml",price:28}],
         image: "ex nihilo-blue talisman.png", imgStyle: "height:90%;margin-top:10px", badge: null
+      },
+      {
+        brand: "Yves Saint Laurent", name: "Babycat Raw Bourbon", dataBrand: "yves-saint-laurent",
+        notes: ["Pink Pepper", "Black Pepper", "Elemi", "Saffron", "Vanilla", "Cedarwood", "Suede"],
+        desc: "Divoká a zmyselná. Korenistý peprom nabitý úvod sa roztáva do krémovej vanilky a jemnej semišovej kože — odvážna, no zostáva na koži ako druhá.",
+        sizes: [{size:"1ml",price:5},{size:"2ml",price:10},{size:"5ml",price:26}],
+        image: "ysl-babycat.png", imgStyle: "height:90%;margin-top:10px", badge: null
+      },
+      {
+        brand: "Xerjoff", name: "Cruz del Sur II", dataBrand: "xerjoff",
+        notes: ["Mango", "Guava", "Pineapple", "Apple Blossom", "Black Currant", "Violet Leaf", "Milk", "Dried Fruits", "Musk", "Vetiver", "Cedar"],
+        desc: "Tropický výbuch, ktorý sa mení na niečo hlbšie. Mango, guava a ananás otvoria vôňu ako slnečný deň, kým čierne ríbezle a fialový list dodajú tajomstvo — základ z mlieka, sušeného ovocia a cédra zostane na koži dlho po odchode.",
+        sizes: [{size:"1ml",price:6},{size:"2ml",price:11},{size:"5ml",price:29}],
+        image: "xerjoff-cruzdelsur.png", imgStyle: "height:100%;margin-top:0px", badge: null
+      },
+      {
+        brand: "Sospiro", name: "Vibrato", dataBrand: "sospiro",
+        notes: ["Grapefruit", "Bergamot", "Jasmine", "Magnolia", "Ginger", "Herbal Notes", "Powdery Notes", "Musk", "Cedar", "Amber", "Patchouli", "Orris Root"],
+        desc: "Svieži a púdrovito elegantný. Grep a bergamot s jazmínom a magnóliou otvoria vôňu ako ranný vzduch, kým zázvor a bylinné tóny dodajú charakter — základ z pačuli, orrisového koreňa a cédrového dreva zostane jemne púdrovitý a trvalý.",
+        sizes: [{size:"1ml",price:4},{size:"2ml",price:7},{size:"5ml",price:18}],
+        image: "sospiro-vibrato.png", imgStyle: "height:90%;margin-top:10px", badge: null
+      },
+      {
+        brand: "Louis Vuitton", name: "Attrape-Rêves", dataBrand: "louis-vuitton",
+        notes: ["Litchi", "Bergamot", "Ginger", "Peony", "Turkish Rose", "Cacao", "Patchouli"],
+        desc: "Sladký sen s nečakanou hĺbkou. Šťavnaté lychee a bergamot s nádychom zázvoru otvoria vôňu svieže, kým pivónia a turecká ruža s kakaom vytvoria zmyselné srdce — základ z pačuli dodá zemitú, trvalú stopu.",
+        sizes: [{size:"1ml",price:6},{size:"2ml",price:11},{size:"5ml",price:30}],
+        image: "louis-vuitton-attrape-reves.png", imgStyle: "height:110%;margin-top:-25px", badge: null
+      },
+      {
+        brand: "Dannam", name: "Pomelo Oolong", dataBrand: "dannam",
+        notes: ["Oolong Tea", "Pomelo", "Osmanthus", "White Musk", "Porcelain"],
+        desc: "Minimalistická krása v čistej forme. Oolong čaj a pomelo sa prelínajú s kvetmi osmanthus do tichej, meditatívnej kompozície — biely pižmo a porcelánová čistota zanechajú stopu jemnú ako šepot.",
+        sizes: [{size:"1ml",price:6},{size:"2ml",price:12},{size:"5ml",price:32}],
+        image: "dannam-pomelo-oolong.png", imgStyle: "height:90%;margin-top:10px", badge: null
       }
     ];
 
@@ -728,8 +770,8 @@
                   `).join('')}
                 </div>
                 <div class="product-bottom">
-                  <span class="product-price">From &euro;${minPrice}</span>
-                  <button class="add-to-cart-btn" data-name="${product.name}" data-brand="${product.brand}">Add to cart</button>
+                  <span class="product-price">Od &euro;${minPrice}</span>
+                  <button class="add-to-cart-btn" data-name="${product.name}" data-brand="${product.brand}">Pridať do košíka</button>
                 </div>
               </div>
             </div>
@@ -744,7 +786,7 @@
         noResults.style.display = 'none';
       }
 
-      grid.innerHTML = html + (productsToShow.length === 0 ? '' : '<div class="no-results" id="no-results">No fragrances found for this brand.</div>');
+      grid.innerHTML = html + (productsToShow.length === 0 ? '' : '<div class="no-results" id="no-results">Pre túto značku sa nenašli žiadne vône.</div>');
 
       // Re-observe newly added elements
       document.querySelectorAll('.reveal').forEach(el => {
@@ -797,10 +839,10 @@
           cart.push(item);
           updateCartUI();
           saveCart();
-          btn.textContent = '✓ Added';
+          btn.textContent = '✓ Pridané';
           btn.classList.add('added');
-          setTimeout(() => { btn.textContent = 'Add to cart'; btn.classList.remove('added'); }, 1800);
-          showToast(item.name + ' (' + item.size + ') added to cart');
+          setTimeout(() => { btn.textContent = 'Pridať do košíka'; btn.classList.remove('added'); }, 1800);
+          showToast(item.name + ' (' + item.size + ') pridané do košíka');
         });
       });
     }
@@ -889,7 +931,7 @@
             <div class="cart-item-size">${item.size}</div>
             <div class="cart-item-bottom">
               <span class="cart-item-price">&euro;${item.price}</span>
-              <button class="cart-item-remove" onclick="removeFromCart(${i})">Remove</button>
+              <button class="cart-item-remove" onclick="removeFromCart(${i})">Odstrániť</button>
             </div>
           </div>
         </div>
@@ -923,12 +965,12 @@
       if (cart.length === 0) return;
       const orderLines = cart.map(item => `${item.brand} \u2014 ${item.name} (${item.size}) \u20AC${item.price}`).join('\n');
       const total = cart.reduce((sum, item) => sum + item.price, 0);
-      const message = `Hi! I'd like to order:\n\n${orderLines}\n\nTotal: \u20AC${total}\n\nPlease let me know how to proceed!`;
+      const message = `Ahoj! Chcel by som si objednať:\n\n${orderLines}\n\nSpolu: €${total}\n\nDaj mi vedieť ako postupovať!`;
 
       navigator.clipboard.writeText(message).then(() => {
-        showToast('Order copied! Paste it in Instagram DM');
+        showToast('Objednávka skopírovaná! Vlož ju do Instagram DM');
       }).catch(() => {
-        showToast('Opening Instagram — send your order in the DM!');
+        showToast('Otváram Instagram — pošli objednávku v DM!');
       });
 
       setTimeout(() => {
