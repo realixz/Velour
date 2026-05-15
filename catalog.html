@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Velour — Katalóg Vôní</title>
+  <meta name="description" content="Celý katalóg prémiových dekantov vôní. Byredo, Tom Ford, Initio, Nishane, Chanel a ďalšie. Filtruj podľa značky alebo veľkosti. Zasielame z Trenčína po celej Európe.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://velour.sk/catalog.html">
+  <meta property="og:title" content="Velour — Katalóg Vôní">
+  <meta property="og:description" content="Celý katalóg prémiových dekantov vôní. Byredo, Tom Ford, Initio, Nishane, Chanel a ďalšie.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://velour.sk/catalog.html">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --cream: #FAF8F4; --warm-white: #F5F2EC; --sand: #E8E2D8;
+      --taupe: #C4B9A8; --brown: #8B7355; --dark: #1E1A17;
+      --gold: #BF9A58; --text: #3D3530; --accent-green: #7A8B6F;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Jost', sans-serif; background: var(--cream); color: var(--text); font-weight: 300; overflow-x: hidden; }
+
+    /* NAV */
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; display: flex; justify-content: space-between; align-items: center; padding: 28px 60px; background: rgba(250,248,244,0.97); backdrop-filter: blur(12px); box-shadow: 0 1px 0 var(--sand); transition: padding 0.4s; }
+    nav.scrolled { padding: 18px 60px; }
+    .nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 300; letter-spacing: 0.25em; color: var(--dark); text-decoration: none; text-transform: uppercase; }
+    .nav-right { display: flex; align-items: center; gap: 40px; }
+    .nav-links { display: flex; gap: 40px; list-style: none; }
+    .nav-links a { font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text); text-decoration: none; opacity: 0.7; transition: opacity 0.2s; position: relative; padding-bottom: 2px; }
+    .nav-links a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 1px; background: var(--gold); transition: width 0.3s; }
+    .nav-links a:hover { opacity: 1; }
+    .nav-links a:hover::after { width: 100%; }
+    .nav-links a.active { opacity: 1; }
+    .nav-links a.active::after { width: 100%; }
+    .cart-btn { position: relative; background: none; border: none; cursor: pointer; display: flex; align-items: center; gap: 8px; font-family: 'Jost', sans-serif; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text); opacity: 0.7; transition: opacity 0.2s; padding: 0; }
+    .cart-btn:hover { opacity: 1; }
+    .cart-count { position: absolute; top: -8px; right: -10px; background: var(--gold); color: var(--dark); font-size: 9px; font-weight: 400; width: 16px; height: 16px; border-radius: 50%; display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.2s, transform 0.3s; }
+    .cart-count.visible { opacity: 1; }
+    .cart-count.pop { transform: scale(1.3); }
+
+    /* MOBILE MENU */
+    .menu-toggle { display: none; background: none; border: none; cursor: pointer; padding: 4px; }
+    .menu-toggle span { display: block; width: 20px; height: 1.5px; background: var(--dark); margin: 5px 0; transition: all 0.3s; }
+    .menu-toggle.open span:nth-child(1) { transform: rotate(45deg) translate(4px, 4px); }
+    .menu-toggle.open span:nth-child(2) { opacity: 0; }
+    .menu-toggle.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+    .mobile-menu { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(250,248,244,0.98); backdrop-filter: blur(20px); z-index: 190; flex-direction: column; align-items: center; justify-content: center; gap: 32px; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+    .mobile-menu.open { opacity: 1; pointer-events: all; }
+    .mobile-menu a { font-family: 'Cormorant Garamond', serif; font-size: 32px; font-weight: 300; color: var(--dark); text-decoration: none; letter-spacing: 0.1em; }
+
+    /* CART DRAWER */
+    .cart-overlay { position: fixed; inset: 0; background: rgba(42,36,32,0.4); z-index: 300; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+    .cart-overlay.open { opacity: 1; pointer-events: all; }
+    .cart-drawer { position: fixed; top: 0; right: 0; bottom: 0; width: 420px; max-width: 100vw; background: var(--cream); z-index: 400; transform: translateX(100%); transition: transform 0.4s cubic-bezier(0.4,0,0.2,1); display: flex; flex-direction: column; }
+    .cart-drawer.open { transform: translateX(0); }
+    .cart-header { padding: 32px 32px 24px; border-bottom: 1px solid var(--sand); display: flex; justify-content: space-between; align-items: center; }
+    .cart-title { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 300; color: var(--dark); }
+    .cart-close { background: none; border: none; cursor: pointer; font-size: 20px; color: var(--taupe); line-height: 1; padding: 4px; transition: color 0.2s; }
+    .cart-close:hover { color: var(--dark); }
+    .cart-items { flex: 1; overflow-y: auto; padding: 24px 32px; }
+    .cart-empty { text-align: center; padding: 60px 0; }
+    .cart-empty-title { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-style: italic; color: var(--taupe); margin-bottom: 8px; }
+    .cart-empty-sub { font-size: 12px; color: var(--taupe); letter-spacing: 0.05em; }
+    .cart-item { display: flex; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--sand); }
+    .cart-item-visual { width: 56px; height: 72px; background: var(--sand); border-radius: 4px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+    .cart-item-bottle { width: 20px; height: 36px; background: linear-gradient(160deg, #EDE8DF, #C4B9A8); border-radius: 10px 10px 2px 2px; position: relative; }
+    .cart-item-bottle::before { content: ''; position: absolute; top: -5px; left: 50%; transform: translateX(-50%); width: 6px; height: 6px; background: var(--dark); border-radius: 1px 1px 0 0; }
+    .cart-item-info { flex: 1; }
+    .cart-item-brand { font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 3px; }
+    .cart-item-name { font-family: 'Cormorant Garamond', serif; font-size: 16px; color: var(--dark); margin-bottom: 4px; }
+    .cart-item-size { font-size: 11px; color: var(--taupe); margin-bottom: 8px; }
+    .cart-item-bottom { display: flex; justify-content: space-between; align-items: center; }
+    .cart-item-price { font-size: 13px; color: var(--brown); letter-spacing: 0.05em; }
+    .cart-item-remove { background: none; border: none; cursor: pointer; font-size: 11px; color: var(--taupe); letter-spacing: 0.1em; text-transform: uppercase; transition: color 0.2s; padding: 0; font-family: 'Jost', sans-serif; }
+    .cart-item-remove:hover { color: var(--dark); }
+    .cart-item-qty { display: flex; align-items: center; gap: 0; border: 1px solid var(--sand); border-radius: 3px; overflow: hidden; }
+    .cart-item-qty-btn { background: none; border: none; cursor: pointer; width: 28px; height: 26px; display: flex; align-items: center; justify-content: center; font-size: 15px; color: var(--taupe); transition: background 0.15s, color 0.15s; font-family: 'Jost', sans-serif; font-weight: 300; line-height: 1; }
+    .cart-item-qty-btn:hover { background: var(--sand); color: var(--dark); }
+    .cart-item-qty-num { font-size: 11px; min-width: 22px; text-align: center; color: var(--dark); border-left: 1px solid var(--sand); border-right: 1px solid var(--sand); line-height: 26px; }
+    .cart-footer { padding: 24px 32px 32px; border-top: 1px solid var(--sand); }
+    .cart-subtotal { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+    .cart-subtotal-label { font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--taupe); }
+    .cart-subtotal-amount { font-family: 'Cormorant Garamond', serif; font-size: 22px; color: var(--dark); }
+    .cart-note { font-size: 11px; color: var(--taupe); line-height: 1.6; margin-bottom: 20px; }
+    .cart-checkout-btn { width: 100%; padding: 18px; background: var(--dark); color: var(--cream); border: none; font-family: 'Jost', sans-serif; font-size: 11px; font-weight: 300; letter-spacing: 0.25em; text-transform: uppercase; cursor: pointer; transition: background 0.3s; }
+    .cart-checkout-btn:hover { background: var(--brown); }
+    .cart-checkout-btn:disabled { opacity: 0.4; cursor: default; }
+
+    /* CATALOG PAGE HEADER */
+    .catalog-page-header {
+      padding: 140px 60px 72px;
+      text-align: center;
+      background: var(--cream);
+      border-bottom: 1px solid var(--sand);
+      position: relative;
+      overflow: hidden;
+    }
+    .catalog-page-header::before {
+      content: 'VELOUR';
+      position: absolute;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 200px;
+      font-weight: 300;
+      color: rgba(30,26,23,0.025);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      white-space: nowrap;
+      letter-spacing: 0.2em;
+      user-select: none;
+      pointer-events: none;
+    }
+    .catalog-page-header-inner { position: relative; z-index: 1; }
+    .catalog-page-eyebrow { font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 20px; display: flex; align-items: center; justify-content: center; gap: 14px; }
+    .catalog-page-eyebrow::before, .catalog-page-eyebrow::after { content: ''; display: inline-block; width: 28px; height: 1px; background: var(--gold); opacity: 0.6; }
+    .catalog-page-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(48px, 6vw, 84px); font-weight: 300; color: var(--dark); line-height: 1.1; margin-bottom: 20px; }
+    .catalog-page-title em { font-style: italic; color: var(--brown); }
+    .catalog-page-divider { display: flex; align-items: center; gap: 14px; justify-content: center; margin-bottom: 20px; }
+    .catalog-page-divider::before, .catalog-page-divider::after { content: ''; display: block; width: 32px; height: 1px; background: var(--gold); opacity: 0.55; }
+    .catalog-page-divider span { display: block; width: 4px; height: 4px; background: var(--gold); transform: rotate(45deg); opacity: 0.6; }
+    .catalog-page-sub { font-size: 13px; color: var(--text); opacity: 0.6; line-height: 1.85; max-width: 340px; margin: 0 auto; }
+
+    /* CATALOG */
+    .catalog { padding: 64px 60px 100px; background: var(--warm-white); }
+    .catalog-controls { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 48px; }
+    .filter-label { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--taupe); margin-right: 6px; min-width: 52px; }
+    .filter-btn { font-family: 'Jost', sans-serif; font-size: 10px; font-weight: 300; letter-spacing: 0.14em; padding: 8px 20px; border: 1px solid var(--sand); background: transparent; color: var(--text); cursor: pointer; transition: all 0.25s; border-radius: 40px; text-transform: uppercase; }
+    .filter-btn:hover { border-color: var(--gold); color: var(--brown); }
+    .filter-btn.active { background: var(--dark); border-color: var(--dark); color: var(--cream); }
+    .catalog-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .product-card { background: var(--cream); overflow: hidden; transition: transform 0.4s cubic-bezier(0.4,0,0.2,1), box-shadow 0.4s cubic-bezier(0.4,0,0.2,1); box-shadow: 0 2px 12px rgba(30,26,23,0.05); }
+    .product-card:hover { transform: translateY(-8px); box-shadow: 0 20px 56px rgba(30,26,23,0.12); }
+    .product-card.hidden { display: none; }
+    .product-visual { height: 280px; background: radial-gradient(ellipse at 50% 65%, #EDE8DF, var(--sand)); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+    .product-visual::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 60px; background: linear-gradient(to top, rgba(250,248,244,0.5), transparent); pointer-events: none; z-index: 1; }
+    .product-bottle { width: 56px; height: 100px; background: linear-gradient(160deg, #EDE8DF, #C4B9A8); border-radius: 28px 28px 6px 6px; position: relative; }
+    .product-bottle::before { content: ''; position: absolute; top: -14px; left: 50%; transform: translateX(-50%); width: 14px; height: 16px; background: var(--dark); border-radius: 3px 3px 0 0; }
+    .product-bottle::after { content: ''; position: absolute; top: 12%; left: 15%; width: 22%; height: 45%; background: rgba(255,255,255,0.35); }
+    .product-visual img { transition: transform 0.6s cubic-bezier(0.4,0,0.2,1); position: relative; z-index: 0; }
+    .product-card:hover .product-visual img { transform: scale(1.07); }
+    .product-brand-tag { position: absolute; bottom: 14px; left: 18px; font-size: 9px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--brown); z-index: 2; opacity: 0.8; }
+    .product-badge { position: absolute; top: 14px; right: 14px; font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; padding: 5px 11px; border-radius: 2px; z-index: 2; }
+    .badge-new { background: var(--gold); color: var(--dark); }
+    .badge-popular { background: var(--accent-green); color: white; }
+    .product-info { padding: 22px 26px 26px; }
+    .product-brand { font-size: 9px; letter-spacing: 0.26em; text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
+    .product-name { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 400; color: var(--dark); margin-bottom: 12px; line-height: 1.15; }
+    .product-notes { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 14px; }
+    .note-pill { font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--brown); background: var(--warm-white); border: 1px solid var(--sand); padding: 3px 9px; border-radius: 2px; }
+    .product-desc { font-size: 12px; line-height: 1.75; color: var(--text); opacity: 0.68; margin-bottom: 18px; }
+    .product-actions { border-top: 1px solid var(--sand); padding-top: 18px; }
+    .size-selector { display: flex; gap: 6px; margin-bottom: 14px; flex-wrap: wrap; }
+    .size-btn { font-family: 'Jost', sans-serif; font-size: 10px; font-weight: 300; letter-spacing: 0.08em; padding: 7px 13px; border: 1px solid var(--sand); background: transparent; color: var(--text); cursor: pointer; transition: all 0.2s; border-radius: 3px; }
+    .size-btn:hover { border-color: var(--gold); color: var(--brown); }
+    .size-btn.selected { background: var(--dark); border-color: var(--dark); color: var(--cream); }
+    .product-bottom { display: flex; justify-content: space-between; align-items: center; }
+    .product-price { font-family: 'Cormorant Garamond', serif; font-size: 16px; color: var(--brown); letter-spacing: 0.03em; }
+    .add-to-cart-btn { font-family: 'Jost', sans-serif; font-size: 10px; font-weight: 300; letter-spacing: 0.2em; text-transform: uppercase; padding: 11px 22px; background: var(--dark); color: var(--cream); border: none; cursor: pointer; transition: background 0.25s, letter-spacing 0.25s; border-radius: 2px; }
+    .add-to-cart-btn:hover { background: var(--brown); letter-spacing: 0.26em; }
+    .add-to-cart-btn.added { background: var(--gold); color: var(--dark); letter-spacing: 0.2em; }
+    .no-results { grid-column: 1 / -1; text-align: center; padding: 60px 0; font-family: 'Cormorant Garamond', serif; font-size: 24px; color: var(--taupe); font-style: italic; display: none; }
+
+    /* PRODUCT CARD LINKS */
+    .product-visual-link { display: block; text-decoration: none; }
+    .product-name-link { text-decoration: none; color: inherit; display: block; }
+    .product-name-link:hover .product-name { color: var(--brown); transition: color 0.2s; }
+
+    /* DIVIDER */
+    .divider { display: flex; align-items: center; gap: 24px; padding: 0 60px; margin: 20px 0; }
+    .divider-line { flex: 1; height: 1px; background: var(--sand); }
+    .divider-text { font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--taupe); white-space: nowrap; }
+
+    /* SECTION SHARED */
+    .section-eyebrow { font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; display: flex; align-items: center; gap: 14px; }
+    .section-eyebrow::before { content: ''; display: inline-block; width: 28px; height: 1px; background: var(--gold); opacity: 0.7; flex-shrink: 0; }
+
+    /* BACK TO TOP */
+    .back-to-top { position: fixed; bottom: 32px; right: 32px; width: 44px; height: 44px; background: var(--dark); color: var(--cream); border: none; border-radius: 50%; cursor: pointer; font-size: 18px; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.3s, background 0.2s; z-index: 100; }
+    .back-to-top.visible { opacity: 1; pointer-events: all; }
+    .back-to-top:hover { background: var(--brown); }
+
+    /* FOOTER */
+    footer { padding: 48px 60px 32px; background: var(--dark); border-top: 1px solid rgba(255,255,255,0.08); }
+    .footer-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 40px; gap: 40px; }
+    .footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 22px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--cream); opacity: 0.8; display: block; margin-bottom: 12px; }
+    .footer-tagline { font-size: 12px; color: rgba(250,248,244,0.35); line-height: 1.6; max-width: 240px; }
+    .footer-col-title { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(250,248,244,0.5); margin-bottom: 16px; }
+    .footer-col a, .footer-col span { display: block; font-size: 12px; color: rgba(250,248,244,0.35); text-decoration: none; margin-bottom: 8px; line-height: 1.5; transition: color 0.2s; }
+    .footer-col a:hover { color: var(--gold); }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,0.06); padding-top: 24px; display: flex; justify-content: space-between; align-items: center; }
+    .footer-copy { font-size: 11px; color: rgba(250,248,244,0.25); letter-spacing: 0.05em; }
+
+    /* TOAST */
+    .toast { position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--dark); color: var(--cream); font-size: 12px; letter-spacing: 0.1em; padding: 14px 24px; border-radius: 2px; z-index: 500; opacity: 0; transition: all 0.3s; white-space: nowrap; }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    .reveal { opacity: 0; transform: translateY(32px); transition: opacity 0.7s, transform 0.7s; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 900px) {
+      nav { padding: 20px 24px; }
+      nav.scrolled { padding: 14px 24px; }
+      .nav-links { display: none; }
+      .menu-toggle { display: block; }
+      .mobile-menu { display: flex; }
+      .catalog-page-header { padding: 100px 24px 56px; }
+      .catalog-page-header::before { font-size: 100px; }
+      .catalog { padding: 48px 24px 80px; }
+      .catalog-grid { grid-template-columns: 1fr 1fr; }
+      footer { padding: 40px 24px 24px; }
+      .footer-top { flex-direction: column; gap: 32px; }
+      .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
+      .cart-drawer { width: 100vw; }
+      .product-visual { height: 240px; }
+    }
+    @media (max-width: 600px) {
+      .catalog-grid { grid-template-columns: 1fr; }
+      .catalog-page-eyebrow::before, .catalog-page-eyebrow::after { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- CART OVERLAY & DRAWER -->
+  <div class="cart-overlay" id="cartOverlay"></div>
+  <div class="cart-drawer" id="cartDrawer">
+    <div class="cart-header">
+      <span class="cart-title">Váš košík</span>
+      <button class="cart-close" id="cartClose" aria-label="Zavrieť košík">&#10005;</button>
+    </div>
+    <div class="cart-items" id="cartItems">
+      <div class="cart-empty">
+        <div class="cart-empty-title">Váš košík je prázdny</div>
+        <div class="cart-empty-sub">Pridajte vôňu pre začiatok</div>
+      </div>
+    </div>
+    <div class="cart-footer">
+      <div class="cart-subtotal">
+        <span class="cart-subtotal-label">Medzisúčet</span>
+        <span class="cart-subtotal-amount" id="cartTotal">&euro;0</span>
+      </div>
+      <p class="cart-note">Doprava: &euro;2 Slovensko &middot; &euro;3 Česko.</p>
+      <button class="cart-checkout-btn" id="checkoutBtn" disabled>Pokračovať k pokladni</button>
+    </div>
+  </div>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="index.html" onclick="closeMobileMenu()">Domov</a>
+    <a href="catalog.html" onclick="closeMobileMenu()">Katalóg</a>
+    <a href="index.html#faq" onclick="closeMobileMenu()">FAQ</a>
+  </div>
+
+  <!-- NAV -->
+  <nav id="nav" role="navigation">
+    <a href="index.html" class="nav-logo">Velour</a>
+    <div class="nav-right">
+      <ul class="nav-links">
+        <li><a href="catalog.html" class="active">Katalóg</a></li>
+        <li><a href="index.html#faq">FAQ</a></li>
+      </ul>
+      <button class="cart-btn" id="cartBtn" aria-label="Otvoriť košík">
+        Košík
+        <span class="cart-count" id="cartCount">0</span>
+      </button>
+      <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- CATALOG PAGE HEADER -->
+  <header class="catalog-page-header">
+    <div class="catalog-page-header-inner">
+      <h1 class="catalog-page-title">Celý <em>katalóg</em></h1>
+      <div class="catalog-page-divider"><span></span></div>
+      <p class="catalog-page-sub">Všetky vône na jednom mieste.</p>
+    </div>
+  </header>
+
+  <!-- CATALOG -->
+  <section class="catalog" id="catalog">
+    <div class="catalog-controls reveal">
+      <span class="filter-label">Značka</span>
+      <div id="filterButtons"></div>
+    </div>
+    <div class="catalog-grid" id="catalogGrid">
+      <div class="no-results" id="no-results">Pre tento filter sa nenašli žiadne vône.</div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-top">
+      <div class="footer-brand">
+        <span class="footer-logo">Velour</span>
+        <span class="footer-tagline">Prémiové dekanty vôní, zasielané z Trenčína po celej Európe.</span>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Navigácia</div>
+        <a href="index.html">Domov</a>
+        <a href="catalog.html">Katalóg</a>
+        <a href="index.html#faq">FAQ</a>
+        <a href="vop.html">Obchodné podmienky</a>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Kontakt</div>
+        <a href="mailto:info@velour.sk">info@velour.sk</a>
+        <a href="https://instagram.com/velour.sk" target="_blank">Instagram @velour.sk</a>
+        <span>Tren&#269;&#237;n, Slovensko</span>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copy">&copy; 2026 Velour. Všetky vône sú ochrannými známkami svojich príslušných vlastníkov.</span>
+    </div>
+  </footer>
+
+  <button class="back-to-top" id="backToTop" aria-label="Back to top">&#8679;</button>
+  <div class="toast" id="toast"></div>
+
+  <script src="products.js"></script>
+  <script>
+    // products array and getSlug() loaded from products.js
+
+    // Unique brands
+    function getUniqueBrands() {
+      return [...new Set(products.map(p => p.brand))].sort();
+    }
+
+    // Render brand filter buttons
+    function renderFilterButtons() {
+      const container = document.getElementById('filterButtons');
+      let html = '<button class="filter-btn active" data-filter="all">Všetky</button>';
+      getUniqueBrands().forEach(brand => {
+        const dataFilter = brand.toLowerCase().replace(/\s+/g, '-');
+        html += `<button class="filter-btn" data-filter="${dataFilter}">${brand}</button>`;
+      });
+      container.innerHTML = html;
+      container.querySelectorAll('.filter-btn').forEach(btn => btn.addEventListener('click', handleBrandFilter));
+    }
+
+    let currentBrand = 'all';
+
+    function handleBrandFilter(e) {
+      document.querySelectorAll('#filterButtons .filter-btn').forEach(b => b.classList.remove('active'));
+      e.target.classList.add('active');
+      currentBrand = e.target.dataset.filter;
+      const filtered = currentBrand === 'all' ? products : products.filter(p => p.dataBrand === currentBrand);
+      renderProducts(filtered);
+    }
+
+    // Render product cards
+    function renderProducts(productsToShow = products) {
+      const grid = document.getElementById('catalogGrid');
+
+      if (productsToShow.length === 0) {
+        grid.innerHTML = '<div class="no-results" id="no-results" style="display:block">Pre tento filter sa nenašli žiadne vône.</div>';
+        return;
+      }
+
+      let html = '';
+      productsToShow.forEach(product => {
+        const slug = getSlug(product);
+        const badgeHtml = product.badge ? `<span class="product-badge badge-${product.badge}">${product.badge}</span>` : '';
+        const notesHtml = product.notes.map(n => `<span class="note-pill">${n}</span>`).join('');
+        const minPrice = Math.min(...product.sizes.map(s => s.price));
+        html += `
+          <div class="product-card reveal" data-brand="${product.dataBrand}">
+            <a href="fragrance.html?slug=${slug}" class="product-visual-link">
+              <div class="product-visual">
+                <img src="${product.image}" alt="${product.brand} ${product.name}" style="width:auto;${product.imgStyle};object-fit:contain;mix-blend-mode:multiply;" loading="lazy">
+                ${badgeHtml}
+              </div>
+            </a>
+            <div class="product-info">
+              <div class="product-brand">${product.brand}</div>
+              <a href="fragrance.html?slug=${slug}" class="product-name-link">
+                <div class="product-name">${product.name}</div>
+              </a>
+              <div class="product-notes" aria-label="Notes">${notesHtml}</div>
+              <div class="product-desc">${product.desc}</div>
+              <div class="product-actions">
+                <div class="size-selector">
+                  ${product.sizes.map((size, i) => `
+                    <button class="size-btn ${i === 0 ? 'selected' : ''}" data-size="${size.size}" data-price="${size.price}">${size.size} &mdash; &euro;${size.price}</button>
+                  `).join('')}
+                </div>
+                <div class="product-bottom">
+                  <span class="product-price">Od &euro;${minPrice}</span>
+                  <button class="add-to-cart-btn" data-name="${product.name}" data-brand="${product.brand}">Pridať do košíka</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      });
+
+      grid.innerHTML = html + '<div class="no-results" id="no-results">Pre tento filter sa nenašli žiadne vône.</div>';
+
+      document.querySelectorAll('.reveal').forEach(el => {
+        if (!el.classList.contains('visible')) observer.observe(el);
+      });
+      attachProductListeners();
+    }
+
+    function attachProductListeners() {
+      document.querySelectorAll('.size-selector').forEach(selector => {
+        selector.querySelectorAll('.size-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            selector.querySelectorAll('.size-btn').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+          });
+        });
+      });
+
+      document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const card = btn.closest('.product-card');
+          const selectedSize = card.querySelector('.size-btn.selected');
+          if (!selectedSize) return;
+          const img = card.querySelector('.product-visual img');
+          const item = {
+            name: btn.dataset.name,
+            brand: btn.dataset.brand,
+            size: selectedSize.dataset.size,
+            price: parseFloat(selectedSize.dataset.price),
+            image: img ? img.src : ''
+          };
+          const existing = cart.find(c => c.name === item.name && c.size === item.size);
+          if (existing) { existing.qty = (existing.qty || 1) + 1; } else { item.qty = 1; cart.push(item); }
+          updateCartUI();
+          saveCart();
+          btn.textContent = '✓ Pridané';
+          btn.classList.add('added');
+          setTimeout(() => { btn.textContent = 'Pridať do košíka'; btn.classList.remove('added'); }, 1800);
+          showToast(item.name + ' (' + item.size + ') pridané do košíka');
+        });
+      });
+    }
+
+    // Nav scroll
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 40);
+      document.getElementById('backToTop').classList.toggle('visible', window.scrollY > 600);
+    });
+
+    document.getElementById('backToTop').addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // Mobile menu
+    const menuToggle = document.getElementById('menuToggle');
+    const mobileMenu = document.getElementById('mobileMenu');
+    menuToggle.addEventListener('click', () => {
+      menuToggle.classList.toggle('open');
+      mobileMenu.classList.toggle('open');
+      document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+    });
+    function closeMobileMenu() {
+      menuToggle.classList.remove('open');
+      mobileMenu.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    // Scroll reveal
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('visible'), i * 60);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Cart
+    let cart = [];
+
+    function saveCart() { sessionStorage.setItem('velourCart', JSON.stringify(cart)); }
+
+    function loadCart() {
+      const saved = sessionStorage.getItem('velourCart');
+      if (saved) {
+        try { cart = JSON.parse(saved); updateCartUI(); } catch (e) { cart = []; }
+      }
+    }
+
+    function updateCartUI() {
+      const total = cart.reduce((sum, item) => sum + item.price * (item.qty || 1), 0);
+      const count = cart.reduce((sum, item) => sum + (item.qty || 1), 0);
+      const countEl = document.getElementById('cartCount');
+      countEl.textContent = count;
+      countEl.classList.toggle('visible', count > 0);
+      countEl.classList.add('pop');
+      setTimeout(() => countEl.classList.remove('pop'), 200);
+      document.getElementById('cartTotal').textContent = '\u20AC' + total;
+      document.getElementById('checkoutBtn').disabled = count === 0;
+
+      const itemsEl = document.getElementById('cartItems');
+      if (cart.length === 0) {
+        itemsEl.innerHTML = '<div class="cart-empty"><div class="cart-empty-title">Váš košík je prázdny</div><div class="cart-empty-sub">Pridajte vôňu pre začiatok</div></div>';
+        return;
+      }
+      itemsEl.innerHTML = cart.map((item, i) => `
+        <div class="cart-item">
+          <div class="cart-item-visual">${item.image ? `<img src="${item.image}" style="width:100%;height:100%;object-fit:contain;mix-blend-mode:multiply;">` : `<div class="cart-item-bottle"></div>`}</div>
+          <div class="cart-item-info">
+            <div class="cart-item-brand">${item.brand}</div>
+            <div class="cart-item-name">${item.name}</div>
+            <div class="cart-item-size">${item.size}${(item.qty || 1) > 1 ? ' &times; ' + item.qty : ''}</div>
+            <div class="cart-item-bottom">
+              <span class="cart-item-price">&euro;${(item.price * (item.qty || 1)).toFixed(2).replace('.00','')}</span>
+              <div class="cart-item-qty">
+                <button class="cart-item-qty-btn" onclick="removeFromCart(${i})">&#8722;</button>
+                <span class="cart-item-qty-num">${item.qty || 1}</span>
+                <button class="cart-item-qty-btn" onclick="incrementCart(${i})">&#43;</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function removeFromCart(index) {
+      if ((cart[index].qty || 1) > 1) { cart[index].qty--; } else { cart.splice(index, 1); }
+      updateCartUI();
+      saveCart();
+    }
+    function incrementCart(index) {
+      cart[index].qty = (cart[index].qty || 1) + 1;
+      updateCartUI();
+      saveCart();
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2500);
+    }
+
+    const cartDrawer = document.getElementById('cartDrawer');
+    const cartOverlay = document.getElementById('cartOverlay');
+    function openCart() { cartDrawer.classList.add('open'); cartOverlay.classList.add('open'); document.body.style.overflow = 'hidden'; }
+    function closeCart() { cartDrawer.classList.remove('open'); cartOverlay.classList.remove('open'); document.body.style.overflow = ''; }
+    document.getElementById('cartBtn').addEventListener('click', openCart);
+    document.getElementById('cartClose').addEventListener('click', closeCart);
+    cartOverlay.addEventListener('click', closeCart);
+
+    document.getElementById('checkoutBtn').addEventListener('click', () => {
+      if (cart.length === 0) return;
+      showToast('Pokladňa čoskoro k dispozícii');
+    });
+
+    // Initialize
+    loadCart();
+    renderFilterButtons();
+    renderProducts();
+  </script>
+</body>
+</html>
