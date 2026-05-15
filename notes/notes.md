@@ -1,8 +1,10 @@
 # Git commands
 
 Save a snapshot:
-git add Velour.html
+cd /users/simonvelecky/
+git add .
 git commit -m "describe what changed"
+git push
 
 See all snapshots:
 git log
