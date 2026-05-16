@@ -131,7 +131,7 @@
     .filter-btn:hover { border-color: var(--gold); color: var(--brown); }
     .filter-btn.active { background: var(--dark); border-color: var(--dark); color: var(--cream); }
     .catalog-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-    .product-card { background: var(--cream); overflow: hidden; transition: transform 0.4s cubic-bezier(0.4,0,0.2,1), box-shadow 0.4s cubic-bezier(0.4,0,0.2,1); box-shadow: 0 2px 12px rgba(30,26,23,0.05); }
+    .product-card { background: var(--cream); overflow: hidden; transition: transform 0.4s cubic-bezier(0.4,0,0.2,1), box-shadow 0.4s cubic-bezier(0.4,0,0.2,1); box-shadow: 0 2px 12px rgba(30,26,23,0.05); cursor: pointer; display: flex; flex-direction: column; }
     .product-card:hover { transform: translateY(-8px); box-shadow: 0 20px 56px rgba(30,26,23,0.12); }
     .product-card.hidden { display: none; }
     .product-visual { height: 280px; background: radial-gradient(ellipse at 50% 65%, #EDE8DF, var(--sand)); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
@@ -145,13 +145,13 @@
     .product-badge { position: absolute; top: 14px; right: 14px; font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; padding: 5px 11px; border-radius: 2px; z-index: 2; }
     .badge-new { background: var(--gold); color: var(--dark); }
     .badge-popular { background: var(--accent-green); color: white; }
-    .product-info { padding: 22px 26px 26px; }
+    .product-info { padding: 22px 26px 26px; display: flex; flex-direction: column; flex: 1; }
     .product-brand { font-size: 9px; letter-spacing: 0.26em; text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
     .product-name { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 400; color: var(--dark); margin-bottom: 12px; line-height: 1.15; }
     .product-notes { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 14px; }
     .note-pill { font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--brown); background: var(--warm-white); border: 1px solid var(--sand); padding: 3px 9px; border-radius: 2px; }
     .product-desc { font-size: 12px; line-height: 1.75; color: var(--text); opacity: 0.68; margin-bottom: 18px; }
-    .product-actions { border-top: 1px solid var(--sand); padding-top: 18px; }
+    .product-actions { border-top: 1px solid var(--sand); padding-top: 18px; margin-top: auto; }
     .size-selector { display: flex; gap: 6px; margin-bottom: 14px; flex-wrap: wrap; }
     .size-btn { font-family: 'Jost', sans-serif; font-size: 10px; font-weight: 300; letter-spacing: 0.08em; padding: 7px 13px; border: 1px solid var(--sand); background: transparent; color: var(--text); cursor: pointer; transition: all 0.2s; border-radius: 3px; }
     .size-btn:hover { border-color: var(--gold); color: var(--brown); }
@@ -369,7 +369,7 @@
         const notesHtml = product.notes.map(n => `<span class="note-pill">${n}</span>`).join('');
         const minPrice = Math.min(...product.sizes.map(s => s.price));
         html += `
-          <div class="product-card reveal" data-brand="${product.dataBrand}">
+          <div class="product-card reveal" data-brand="${product.dataBrand}" data-slug="${slug}">
             <a href="fragrance.html?slug=${slug}" class="product-visual-link">
               <div class="product-visual">
                 <img src="${product.image}" alt="${product.brand} ${product.name}" style="width:auto;${product.imgStyle};object-fit:contain;mix-blend-mode:multiply;" loading="lazy">
@@ -414,6 +414,14 @@
             selector.querySelectorAll('.size-btn').forEach(b => b.classList.remove('selected'));
             btn.classList.add('selected');
           });
+        });
+      });
+
+      document.querySelectorAll('.product-card').forEach(card => {
+        card.addEventListener('click', (e) => {
+          if (e.target.closest('button') || e.target.closest('a')) return;
+          const slug = card.dataset.slug;
+          if (slug) window.location.href = `fragrance.html?slug=${slug}`;
         });
       });
 
