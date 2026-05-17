@@ -98,24 +98,30 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      gap: 12px;
+      padding: 32px 32px 28px;
+      overflow: visible;
+    }
+    .pd-image-wrap {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      align-items: center;
       justify-content: center;
-      gap: 28px;
-      padding: 40px 32px;
-      overflow: hidden;
+      width: 100%;
     }
     .pd-image-controls {
       display: flex;
-      flex-direction: row;
-      flex-wrap: nowrap;
+      flex-direction: column;
       align-items: center;
-      justify-content: space-between;
+      gap: 12px;
       width: 100%;
       position: relative;
       z-index: 1;
     }
     .pd-image-controls .pd-size-selector {
       margin-bottom: 0;
-      flex-wrap: nowrap;
+      justify-content: center;
     }
 
     .pd-image-col::before {
@@ -127,17 +133,43 @@
     }
 
     .pd-image {
-      max-height: 62vh;
       max-width: 72%;
+      max-height: 100%;
       width: auto;
+      height: auto;
       object-fit: contain;
       mix-blend-mode: multiply;
       position: relative;
       z-index: 1;
       transition: transform 0.6s cubic-bezier(0.4,0,0.2,1);
+      transform: scale(var(--img-scale, 1));
     }
 
-    .pd-image-col:hover .pd-image { transform: scale(1.03); }
+    .pd-image-col:hover .pd-image { transform: scale(calc(var(--img-scale, 1) * 1.03)); }
+
+    .pd-img-top { display: flex; align-items: center; justify-content: center; position: relative; width: 100%; }
+    .pd-back-img { position: absolute; left: 0; margin-bottom: 0; z-index: 10; }
+    .pd-img-header {
+      width: 100%;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .pd-img-brand {
+      font-size: 9px;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+    .pd-img-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(20px, 2.2vw, 30px);
+      font-weight: 300;
+      color: var(--dark);
+      letter-spacing: 0.04em;
+      line-height: 1.15;
+    }
 
     .pd-info-col {
       padding: 24px 64px 36px;
@@ -163,31 +195,6 @@
     .pd-back:hover { color: var(--brown); gap: 14px; }
     .pd-back-arrow { font-size: 14px; }
 
-    .pd-top-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 8px;
-    }
-    .pd-top-row .pd-back { margin-bottom: 0; }
-
-    .pd-brand-label {
-      font-size: 10px;
-      letter-spacing: 0.32em;
-      text-transform: uppercase;
-      color: var(--gold);
-      text-align: right;
-    }
-
-    .pd-name {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(32px, 3.5vw, 52px);
-      font-weight: 300;
-      line-height: 1.1;
-      color: var(--dark);
-      margin-bottom: 20px;
-      text-align: right;
-    }
 
     .pd-divider {
       width: 100%;
@@ -232,7 +239,7 @@
       transition: border-color 0.2s, background 0.2s, color 0.2s;
     }
     .pd-note-pill:hover { border-color: var(--gold); background: rgba(191,154,88,0.06); color: var(--dark); }
-    .pd-notes-image { max-width: 55%; height: auto; display: block; margin-right: auto; }
+    .pd-notes-image { max-width: 90%; height: auto; display: block; margin-right: auto; }
 
     .pd-separator { height: 1px; background: var(--sand); margin-bottom: 32px; }
 
@@ -241,6 +248,7 @@
       gap: 8px;
       flex-wrap: wrap;
       margin-bottom: 28px;
+      justify-content: center;
     }
 
     .size-btn { font-family: 'Jost', sans-serif; font-size: 10px; font-weight: 300; letter-spacing: 0.08em; padding: 9px 16px; border: 1px solid var(--sand); background: transparent; color: var(--text); cursor: pointer; transition: all 0.2s; border-radius: 3px; }
@@ -249,8 +257,9 @@
 
     .pd-actions-row {
       display: flex;
+      flex-direction: column;
       align-items: center;
-      gap: 24px;
+      gap: 12px;
     }
 
     .pd-price {
@@ -258,7 +267,6 @@
       font-size: 22px;
       color: var(--brown);
       letter-spacing: 0.02em;
-      min-width: 72px;
     }
 
     .pd-add-btn {
@@ -275,6 +283,7 @@
       transition: background 0.25s, border-color 0.25s;
       border-radius: 3px;
       white-space: nowrap;
+      width: 100%;
     }
     .pd-add-btn:hover { background: var(--brown); border-color: var(--brown); }
     .pd-add-btn.added { background: var(--gold); border-color: var(--gold); color: var(--dark); }
@@ -399,20 +408,22 @@
   <!-- PRODUCT DETAIL -->
   <div class="pd-wrap" id="pdWrap">
     <div class="pd-image-col">
-      <img id="pdImage" src="" alt="" class="pd-image">
+      <div class="pd-img-top">
+        <a href="catalog.html" class="pd-back pd-back-img"><span class="pd-back-arrow">&#8592;</span> Katalóg</a>
+        <div class="pd-img-header">
+          <div class="pd-img-brand" id="pdBrand"></div>
+          <div class="pd-img-name" id="pdName"></div>
+        </div>
+      </div>
+      <div class="pd-image-wrap">
+        <img id="pdImage" src="" alt="" class="pd-image">
+      </div>
       <div class="pd-image-controls">
         <div class="pd-size-selector" id="pdSizes"></div>
         <button class="pd-add-btn" id="pdAddBtn">Pridať do košíka</button>
       </div>
     </div>
     <div class="pd-info-col">
-      <div class="pd-top-row">
-        <a href="catalog.html" class="pd-back"><span class="pd-back-arrow">&#8592;</span> Katalóg</a>
-        <div class="pd-brand-label" id="pdBrand"></div>
-      </div>
-      <h1 class="pd-name" id="pdName"></h1>
-      <div class="pd-divider"></div>
-      <p class="pd-desc" id="pdDesc"></p>
       <div class="pd-section-label">Notes</div>
       <div class="pd-notes" id="pdNotes"></div>
     </div>
@@ -469,11 +480,13 @@
       const pdImage = document.getElementById('pdImage');
       pdImage.src = product.image;
       pdImage.alt = product.brand + ' ' + product.name;
-      pdImage.style.cssText = 'width:auto;' + product.imgStyle + ';object-fit:contain;mix-blend-mode:multiply;max-height:62vh;max-width:72%;';
+      pdImage.style.cssText = 'width:auto;height:auto;object-fit:contain;mix-blend-mode:multiply;max-width:72%;max-height:100%;';
+if (product.detailImgScale) pdImage.style.setProperty('--img-scale', product.detailImgScale);
 
       document.getElementById('pdBrand').textContent = product.brand;
       document.getElementById('pdName').textContent = product.name;
-      document.getElementById('pdDesc').textContent = product.desc;
+      const pdDesc = document.getElementById('pdDesc');
+      if (pdDesc) pdDesc.textContent = product.desc;
       if (product.notesImage) {
         document.getElementById('pdNotes').innerHTML = `<img src="${product.notesImage}" alt="Notes" class="pd-notes-image">`;
       } else {
@@ -543,9 +556,9 @@
 
     // Cart
     let cart = [];
-    function saveCart() { sessionStorage.setItem('velourCart', JSON.stringify(cart)); }
+    function saveCart() { localStorage.setItem('velour_cart', JSON.stringify(cart)); }
     function loadCart() {
-      const saved = sessionStorage.getItem('velourCart');
+      const saved = localStorage.getItem('velour_cart');
       if (saved) { try { cart = JSON.parse(saved); updateCartUI(); } catch(e) { cart = []; } }
     }
     function updateCartUI() {

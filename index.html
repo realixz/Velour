@@ -78,8 +78,10 @@
     .cart-item-size { font-size: 11px; color: var(--taupe); margin-bottom: 8px; }
     .cart-item-bottom { display: flex; justify-content: space-between; align-items: center; }
     .cart-item-price { font-size: 13px; color: var(--brown); letter-spacing: 0.05em; }
-    .cart-item-remove { background: none; border: none; cursor: pointer; font-size: 11px; color: var(--taupe); letter-spacing: 0.1em; text-transform: uppercase; transition: color 0.2s; padding: 0; font-family: 'Jost', sans-serif; }
-    .cart-item-remove:hover { color: var(--dark); }
+    .cart-item-qty { display: flex; align-items: center; gap: 0; border: 1px solid var(--sand); border-radius: 3px; overflow: hidden; }
+    .cart-item-qty-btn { background: none; border: none; cursor: pointer; width: 28px; height: 26px; display: flex; align-items: center; justify-content: center; font-size: 15px; color: var(--taupe); transition: background 0.15s, color 0.15s; font-family: 'Jost', sans-serif; font-weight: 300; line-height: 1; }
+    .cart-item-qty-btn:hover { background: var(--sand); color: var(--dark); }
+    .cart-item-qty-num { font-size: 11px; min-width: 22px; text-align: center; color: var(--dark); border-left: 1px solid var(--sand); border-right: 1px solid var(--sand); line-height: 26px; }
     .cart-footer { padding: 24px 32px 32px; border-top: 1px solid var(--sand); }
     .cart-subtotal { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
     .cart-subtotal-label { font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--taupe); }
@@ -562,11 +564,11 @@
     let cart = [];
 
     function saveCart() {
-      sessionStorage.setItem('velourCart', JSON.stringify(cart));
+      localStorage.setItem('velour_cart', JSON.stringify(cart));
     }
 
     function loadCart() {
-      const saved = sessionStorage.getItem('velourCart');
+      const saved = localStorage.getItem('velour_cart');
       if (saved) {
         try {
           cart = JSON.parse(saved);
@@ -578,15 +580,15 @@
     }
 
     function updateCartUI() {
-      const total = cart.reduce((sum, item) => sum + item.price, 0);
-      const count = cart.length;
+      const total = cart.reduce((sum, item) => sum + item.price * (item.qty || 1), 0);
+      const count = cart.reduce((sum, item) => sum + (item.qty || 1), 0);
       const countEl = document.getElementById('cartCount');
       countEl.textContent = count;
       countEl.classList.toggle('visible', count > 0);
       countEl.classList.add('pop');
       setTimeout(() => countEl.classList.remove('pop'), 200);
 
-      document.getElementById('cartTotal').textContent = '\u20AC' + total;
+      document.getElementById('cartTotal').textContent = '\u20AC' + total.toFixed(2).replace('.00','');
       document.getElementById('checkoutBtn').disabled = count === 0;
 
       const itemsEl = document.getElementById('cartItems');
@@ -602,8 +604,12 @@
             <div class="cart-item-name">${item.name}</div>
             <div class="cart-item-size">${item.size}</div>
             <div class="cart-item-bottom">
-              <span class="cart-item-price">&euro;${item.price}</span>
-              <button class="cart-item-remove" onclick="removeFromCart(${i})">Odstrániť</button>
+              <span class="cart-item-price">&euro;${(item.price * (item.qty || 1)).toFixed(2).replace('.00','')}</span>
+              <div class="cart-item-qty">
+                <button class="cart-item-qty-btn" onclick="removeFromCart(${i})">&#8722;</button>
+                <span class="cart-item-qty-num">${item.qty || 1}</span>
+                <button class="cart-item-qty-btn" onclick="incrementCart(${i})">&#43;</button>
+              </div>
             </div>
           </div>
         </div>
@@ -611,7 +617,12 @@
     }
 
     function removeFromCart(index) {
-      cart.splice(index, 1);
+      if ((cart[index].qty || 1) > 1) { cart[index].qty--; } else { cart.splice(index, 1); }
+      updateCartUI();
+      saveCart();
+    }
+    function incrementCart(index) {
+      cart[index].qty = (cart[index].qty || 1) + 1;
       updateCartUI();
       saveCart();
     }

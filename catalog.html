@@ -152,13 +152,13 @@
     .note-pill { font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--brown); background: var(--warm-white); border: 1px solid var(--sand); padding: 3px 9px; border-radius: 2px; }
     .product-desc { font-size: 12px; line-height: 1.75; color: var(--text); opacity: 0.68; margin-bottom: 18px; }
     .product-actions { border-top: 1px solid var(--sand); padding-top: 18px; margin-top: auto; }
-    .size-selector { display: flex; gap: 6px; margin-bottom: 14px; flex-wrap: wrap; }
+    .size-selector { display: flex; gap: 6px; margin-bottom: 14px; flex-wrap: wrap; justify-content: center; }
     .size-btn { font-family: 'Jost', sans-serif; font-size: 10px; font-weight: 300; letter-spacing: 0.08em; padding: 7px 13px; border: 1px solid var(--sand); background: transparent; color: var(--text); cursor: pointer; transition: all 0.2s; border-radius: 3px; }
     .size-btn:hover { border-color: var(--gold); color: var(--brown); }
     .size-btn.selected { background: var(--dark); border-color: var(--dark); color: var(--cream); }
-    .product-bottom { display: flex; justify-content: space-between; align-items: center; }
-    .product-price { font-family: 'Cormorant Garamond', serif; font-size: 16px; color: var(--brown); letter-spacing: 0.03em; }
-    .add-to-cart-btn { font-family: 'Jost', sans-serif; font-size: 10px; font-weight: 300; letter-spacing: 0.2em; text-transform: uppercase; padding: 11px 22px; background: var(--dark); color: var(--cream); border: none; cursor: pointer; transition: background 0.25s, letter-spacing 0.25s; border-radius: 2px; }
+    .product-bottom { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+    .product-price { font-family: 'Jost', sans-serif; font-size: 13px; font-weight: 300; color: var(--brown); letter-spacing: 0.05em; }
+    .add-to-cart-btn { font-family: 'Jost', sans-serif; font-size: 10px; font-weight: 300; letter-spacing: 0.2em; text-transform: uppercase; padding: 11px 22px; background: var(--dark); color: var(--cream); border: none; cursor: pointer; transition: background 0.25s, letter-spacing 0.25s; border-radius: 2px; width: 100%; }
     .add-to-cart-btn:hover { background: var(--brown); letter-spacing: 0.26em; }
     .add-to-cart-btn.added { background: var(--gold); color: var(--dark); letter-spacing: 0.2em; }
     .no-results { grid-column: 1 / -1; text-align: center; padding: 60px 0; font-family: 'Cormorant Garamond', serif; font-size: 24px; color: var(--taupe); font-style: italic; display: none; }
@@ -381,8 +381,6 @@
               <a href="fragrance.html?slug=${slug}" class="product-name-link">
                 <div class="product-name">${product.name}</div>
               </a>
-              <div class="product-notes" aria-label="Notes">${notesHtml}</div>
-              <div class="product-desc">${product.desc}</div>
               <div class="product-actions">
                 <div class="size-selector">
                   ${product.sizes.map((size, i) => `
@@ -390,7 +388,7 @@
                   `).join('')}
                 </div>
                 <div class="product-bottom">
-                  <span class="product-price">Od &euro;${minPrice}</span>
+                  <span class="product-price">Od ${minPrice}&euro;</span>
                   <button class="add-to-cart-btn" data-name="${product.name}" data-brand="${product.brand}">Pridať do košíka</button>
                 </div>
               </div>
@@ -489,10 +487,10 @@
     // Cart
     let cart = [];
 
-    function saveCart() { sessionStorage.setItem('velourCart', JSON.stringify(cart)); }
+    function saveCart() { localStorage.setItem('velour_cart', JSON.stringify(cart)); }
 
     function loadCart() {
-      const saved = sessionStorage.getItem('velourCart');
+      const saved = localStorage.getItem('velour_cart');
       if (saved) {
         try { cart = JSON.parse(saved); updateCartUI(); } catch (e) { cart = []; }
       }
