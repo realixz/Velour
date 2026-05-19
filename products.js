@@ -124,6 +124,13 @@ const products = [
     desc: "Minimalistická krása v čistej forme. Oolong čaj a pomelo sa prelínajú s kvetmi osmanthus do tichej, meditatívnej kompozície — biely pižmo a porcelánová čistota zanechajú stopu jemnú ako šepot.",
     sizes: [{size:"1ml",price:6},{size:"2ml",price:12},{size:"5ml",price:32}],
     image: "dannam-pomelo-oolong.png", imgStyle: "height:90%;margin-top:10px", badge: null, notesImage: "pomelooolong-notes.jpg"
+  },
+  {
+    brand: "Initio", name: "Lift Me Up", dataBrand: "initio",
+    notes: ["Magnolia", "Bergamot", "Tonka", "Ylang Ylang", "Vanilla", "Musk"],
+    desc: "",
+    sizes: [{size:"1ml",price:7},{size:"2ml",price:13},{size:"5ml",price:32}],
+    image: "initio-lift-me-up.png", imgStyle: "height:85%", detailImgScale: "0.8", badge: null, notesImage: "initio-lift-me-up-notes.jpg"
   }
 ];
 
