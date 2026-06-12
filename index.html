@@ -29,7 +29,7 @@
       --taupe: #C4B9A8; --brown: #8B7355; --dark: #1E1A17;
       --gold: #BF9A58; --text: #3D3530; --accent-green: #7A8B6F;
     }
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; overflow-x: hidden; }
     body { font-family: 'Jost', sans-serif; background: var(--cream); color: var(--text); font-weight: 300; overflow-x: hidden; }
 
     /* ANNOUNCEMENT BAR */
@@ -242,7 +242,7 @@
 
     /* INSTAGRAM CTA */
     .instagram { padding: 140px 60px; text-align: center; background: var(--dark); position: relative; overflow: hidden; }
-    .instagram::before { content: 'VELOUR'; position: absolute; font-family: 'Cormorant Garamond', serif; font-size: 220px; font-weight: 300; color: rgba(255,255,255,0.025); top: 50%; left: 50%; transform: translate(-50%, -50%); white-space: nowrap; pointer-events: none; letter-spacing: 0.2em; user-select: none; }
+
     .instagram-eyebrow { font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 28px; display: flex; align-items: center; justify-content: center; gap: 14px; opacity: 0.8; }
     .instagram-eyebrow::before, .instagram-eyebrow::after { content: ''; display: inline-block; width: 28px; height: 1px; background: var(--gold); opacity: 0.6; }
     .instagram-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(40px, 5vw, 68px); font-weight: 300; color: var(--cream); line-height: 1.12; margin-bottom: 24px; }

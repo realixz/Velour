@@ -22,7 +22,7 @@
       --taupe: #C4B9A8; --brown: #8B7355; --dark: #1E1A17;
       --gold: #BF9A58; --text: #3D3530; --accent-green: #7A8B6F;
     }
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; overflow-x: hidden; }
     body { font-family: 'Jost', sans-serif; background: var(--cream); color: var(--text); font-weight: 300; overflow-x: hidden; }
 
     /* ANNOUNCEMENT BAR */
@@ -133,21 +133,6 @@
       position: relative;
       overflow: hidden;
     }
-    .catalog-page-header::before {
-      content: 'VELOUR';
-      position: absolute;
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 200px;
-      font-weight: 300;
-      color: rgba(30,26,23,0.025);
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      white-space: nowrap;
-      letter-spacing: 0.2em;
-      user-select: none;
-      pointer-events: none;
-    }
     .catalog-page-header-inner { position: relative; z-index: 1; }
     .catalog-page-eyebrow { font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 20px; display: flex; align-items: center; justify-content: center; gap: 14px; }
     .catalog-page-eyebrow::before, .catalog-page-eyebrow::after { content: ''; display: inline-block; width: 28px; height: 1px; background: var(--gold); opacity: 0.6; }
@@ -157,7 +142,7 @@
     .catalog-page-divider::before, .catalog-page-divider::after { content: ''; display: block; width: 32px; height: 1px; background: var(--gold); opacity: 0.55; }
     .catalog-page-divider span { display: block; width: 4px; height: 4px; background: var(--gold); transform: rotate(45deg); opacity: 0.6; }
     .catalog-page-sub { font-size: 13px; color: var(--text); opacity: 0.6; line-height: 1.85; max-width: 340px; margin: 0 auto; }
-    .catalog-quiz-cta { display: inline-block; padding: 16px 52px; background: var(--dark); color: var(--cream); font-family: 'Jost', sans-serif; font-size: 11px; font-weight: 300; letter-spacing: 0.28em; text-transform: uppercase; text-decoration: none; border: 1px solid var(--dark); transition: background 0.3s, color 0.3s, border-color 0.3s; margin-top: 28px; }
+    .catalog-quiz-cta { display: block; width: -webkit-fit-content; width: fit-content; max-width: calc(100% - 48px); padding: 16px 52px; background: var(--dark); color: var(--cream); font-family: 'Jost', sans-serif; font-size: 11px; font-weight: 300; letter-spacing: 0.28em; text-transform: uppercase; text-decoration: none; border: 1px solid var(--dark); transition: background 0.3s, color 0.3s, border-color 0.3s; margin: 28px auto 0; }
     .catalog-quiz-cta:hover { background: transparent; color: var(--dark); border-color: var(--dark); }
 
     /* CATALOG */
@@ -284,7 +269,7 @@
       .mobile-menu { display: flex; }
       .cart-btn { display: none; }
       .catalog-page-header { padding: 136px 24px 56px; }
-      .catalog-page-header::before { font-size: 100px; }
+
       .catalog { padding: 48px 24px 80px; }
       .catalog-grid { grid-template-columns: 1fr 1fr; }
       .sets-section { padding: 48px 24px 0; }
