@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    width: 1400px;
+    height: 665px;
+    background: #F5F2EC;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Montserrat', sans-serif;
+  }
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    width: 100%;
+  }
+
+  /* ── NOTES header ── */
+  .header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    margin-bottom: 42px;
+  }
+  .line {
+    height: 2px;
+    background: #C4B9A8;
+  }
+  .line-left  { width: 280px; margin-left: 280px; margin-right: 20px; }
+  .line-right { width: 280px; margin-left: 20px;  margin-right: 280px; }
+  .title {
+    flex: 1;
+    text-align: center;
+    font-size: 27px;
+    font-weight: 400;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: #BF9A58;
+  }
+
+  /* ── notes row ── */
+  .notes-row {
+    display: flex;
+    justify-content: center;
+    gap: 26px;
+  }
+  .note-item {
+    text-align: center;
+    width: 175px;
+  }
+  .note-img {
+    width: 175px;
+    height: 175px;
+    object-fit: cover;
+    border-radius: 9px;
+    display: block;
+    margin-bottom: 28px;
+  }
+  .note-label {
+    font-size: 29px;
+    font-weight: 400;
+    color: #8B7355;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div class="line line-left"></div>
+    <span class="title">Notes</span>
+    <div class="line line-right"></div>
+  </div>
+
+  <div class="notes-row">
+    <div class="note-item">
+      <img class="note-img" src="coconut.jpg" alt="Coconut">
+      <div class="note-label">Coconut</div>
+    </div>
+    <div class="note-item">
+      <img class="note-img" src="vanilla.jpg" alt="Vanilla">
+      <div class="note-label">Vanilla</div>
+    </div>
+    <div class="note-item">
+      <img class="note-img" src="pineapple.jpg" alt="Pineapple">
+      <div class="note-label">Pineapple</div>
+    </div>
+    <div class="note-item">
+      <img class="note-img" src="papaya.jpg" alt="Papaya">
+      <div class="note-label">Papaya</div>
+    </div>
+    <div class="note-item">
+      <img class="note-img" src="woody-notes.jpg" alt="Woody Notes">
+      <div class="note-label">Woody Notes</div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
