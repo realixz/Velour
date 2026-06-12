@@ -23,8 +23,15 @@
     html { scroll-behavior: smooth; }
     body { font-family: 'Jost', sans-serif; background: var(--cream); color: var(--text); font-weight: 300; overflow-x: hidden; }
 
+    /* ANNOUNCEMENT BAR */
+    .announce-bar { position: fixed; top: 0; left: 0; right: 0; height: 36px; background: var(--dark); z-index: 210; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+    .announce-msg { position: absolute; font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(250,248,244,0.85); text-decoration: none; white-space: nowrap; opacity: 0; transform: translateY(8px); transition: opacity 0.45s, transform 0.45s; padding: 0 16px; }
+    .announce-msg.active { opacity: 1; transform: translateY(0); }
+    .announce-msg strong { color: var(--gold); font-weight: 400; }
+    a.announce-msg:hover strong { text-decoration: underline; }
+
     /* NAV */
-    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; display: flex; justify-content: space-between; align-items: center; padding: 28px 60px; background: rgba(250,248,244,0.97); backdrop-filter: blur(12px); box-shadow: 0 1px 0 var(--sand); transition: padding 0.4s; }
+    nav { position: fixed; top: 36px; left: 0; right: 0; z-index: 200; display: flex; justify-content: space-between; align-items: center; padding: 28px 60px; background: rgba(250,248,244,0.97); backdrop-filter: blur(12px); box-shadow: 0 1px 0 var(--sand); transition: padding 0.4s; }
     nav.scrolled { padding: 18px 60px; }
     .nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 300; letter-spacing: 0.25em; color: var(--dark); text-decoration: none; text-transform: uppercase; }
     .nav-right { display: flex; align-items: center; gap: 40px; }
@@ -65,9 +72,11 @@
     .cart-empty-title { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-style: italic; color: var(--taupe); margin-bottom: 8px; }
     .cart-empty-sub { font-size: 12px; color: var(--taupe); letter-spacing: 0.05em; }
     .cart-item { display: flex; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--sand); }
-    .cart-item-visual { width: 56px; height: 72px; background: var(--sand); border-radius: 4px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+    .cart-item-visual { width: 56px; height: 72px; background: var(--sand); border-radius: 4px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; gap: 2px; overflow: hidden; }
     .cart-item-bottle { width: 20px; height: 36px; background: linear-gradient(160deg, #EDE8DF, #C4B9A8); border-radius: 10px 10px 2px 2px; position: relative; }
     .cart-item-bottle::before { content: ''; position: absolute; top: -5px; left: 50%; transform: translateX(-50%); width: 6px; height: 6px; background: var(--dark); border-radius: 1px 1px 0 0; }
+    .cart-set-slot { flex: 0 0 auto; height: 28px; display: flex; align-items: center; justify-content: center; }
+    .cart-item-visual .cart-set-img { width: auto; max-width: none; mix-blend-mode: multiply; }
     .cart-item-info { flex: 1; }
     .cart-item-brand { font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 3px; }
     .cart-item-name { font-family: 'Cormorant Garamond', serif; font-size: 16px; color: var(--dark); margin-bottom: 4px; }
@@ -85,9 +94,32 @@
     .cart-subtotal-label { font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--taupe); }
     .cart-subtotal-amount { font-family: 'Cormorant Garamond', serif; font-size: 22px; color: var(--dark); }
     .cart-note { font-size: 11px; color: var(--taupe); line-height: 1.6; margin-bottom: 20px; }
+    .cart-shipping { margin-bottom: 16px; }
+    .cart-shipping-label { font-size: 11px; color: var(--text); letter-spacing: 0.05em; margin-bottom: 8px; }
+    .cart-shipping-label strong { color: var(--brown); font-weight: 400; }
+    .cart-shipping-track { height: 3px; background: var(--sand); border-radius: 2px; overflow: hidden; }
+    .cart-shipping-fill { height: 100%; width: 0; background: var(--gold); border-radius: 2px; transition: width 0.5s cubic-bezier(0.4,0,0.2,1); }
+    .cart-shipping-fill.full { background: var(--accent-green); }
     .cart-checkout-btn { width: 100%; padding: 18px; background: var(--dark); color: var(--cream); border: none; font-family: 'Jost', sans-serif; font-size: 11px; font-weight: 300; letter-spacing: 0.25em; text-transform: uppercase; cursor: pointer; transition: background 0.3s; }
     .cart-checkout-btn:hover { background: var(--brown); }
     .cart-checkout-btn:disabled { opacity: 0.4; cursor: default; }
+
+    /* NEWSLETTER POPUP */
+    .nl-overlay { position: fixed; inset: 0; background: rgba(42,36,32,0.45); z-index: 600; opacity: 0; pointer-events: none; transition: opacity 0.35s; }
+    .nl-overlay.open { opacity: 1; pointer-events: all; }
+    .nl-modal { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -48%); width: min(440px, calc(100vw - 40px)); background: var(--cream); z-index: 610; padding: 52px 40px 36px; text-align: center; opacity: 0; pointer-events: none; transition: opacity 0.35s, transform 0.35s; box-shadow: 0 24px 80px rgba(30,26,23,0.28); border-top: 2px solid var(--gold); }
+    .nl-modal.open { opacity: 1; pointer-events: all; transform: translate(-50%, -50%); }
+    .nl-close { position: absolute; top: 14px; right: 16px; background: none; border: none; cursor: pointer; font-size: 16px; color: var(--taupe); transition: color 0.2s; padding: 4px; }
+    .nl-close:hover { color: var(--dark); }
+    .nl-eyebrow { font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; }
+    .nl-title { font-family: 'Cormorant Garamond', serif; font-size: 34px; font-weight: 300; color: var(--dark); margin-bottom: 14px; line-height: 1.15; }
+    .nl-sub { font-size: 13px; line-height: 1.75; color: var(--text); opacity: 0.75; margin-bottom: 26px; }
+    .nl-form { display: flex; flex-direction: column; gap: 10px; }
+    .nl-input { width: 100%; padding: 14px 16px; border: 1px solid var(--sand); background: var(--warm-white); font-family: 'Jost', sans-serif; font-size: 13px; font-weight: 300; color: var(--dark); outline: none; transition: border-color 0.2s; text-align: center; letter-spacing: 0.05em; }
+    .nl-input:focus { border-color: var(--gold); }
+    .nl-btn { width: 100%; padding: 15px; background: var(--dark); color: var(--cream); border: none; font-family: 'Jost', sans-serif; font-size: 11px; font-weight: 300; letter-spacing: 0.25em; text-transform: uppercase; cursor: pointer; transition: background 0.3s; }
+    .nl-btn:hover { background: var(--brown); }
+    .nl-note { font-size: 10px; color: var(--taupe); margin-top: 14px; letter-spacing: 0.05em; }
 
     /* CATALOG PAGE HEADER */
     .catalog-page-header {
@@ -125,11 +157,47 @@
 
     /* CATALOG */
     .catalog { padding: 64px 60px 100px; background: var(--warm-white); }
-    .catalog-controls { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 48px; }
+    .catalog-controls { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 48px; position: relative; z-index: 70; }
     .filter-label { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--taupe); margin-right: 6px; min-width: 52px; }
     .filter-btn { font-family: 'Jost', sans-serif; font-size: 10px; font-weight: 300; letter-spacing: 0.14em; padding: 8px 20px; border: 1px solid var(--sand); background: transparent; color: var(--text); cursor: pointer; transition: all 0.25s; border-radius: 40px; text-transform: uppercase; }
     .filter-btn:hover { border-color: var(--gold); color: var(--brown); }
     .filter-btn.active { background: var(--dark); border-color: var(--dark); color: var(--cream); }
+
+    /* FILTER DROPDOWNS */
+    .filter-dd { position: relative; }
+    .filter-dd-btn { font-family: 'Jost', sans-serif; font-size: 10px; font-weight: 300; letter-spacing: 0.14em; padding: 10px 18px; border: 1px solid var(--sand); background: transparent; color: var(--text); cursor: pointer; transition: all 0.25s; border-radius: 40px; text-transform: uppercase; display: inline-flex; align-items: center; gap: 8px; }
+    .filter-dd-btn:hover { border-color: var(--gold); color: var(--brown); }
+    .filter-dd.open .filter-dd-btn { border-color: var(--dark); color: var(--dark); }
+    .filter-dd-btn.filtered { background: var(--dark); border-color: var(--dark); color: var(--cream); }
+    .filter-dd-caret { font-size: 9px; transition: transform 0.25s; line-height: 1; }
+    .filter-dd.open .filter-dd-caret { transform: rotate(180deg); }
+    .filter-dd-panel { position: absolute; top: calc(100% + 8px); left: 0; min-width: 240px; max-width: calc(100vw - 48px); max-height: 280px; overflow-y: auto; background: var(--cream); border: 1px solid var(--sand); border-radius: 6px; box-shadow: 0 18px 56px rgba(30,26,23,0.14); z-index: 60; padding: 6px; opacity: 0; pointer-events: none; transform: translateY(6px); transition: opacity 0.25s, transform 0.25s; }
+    .filter-dd.open .filter-dd-panel { opacity: 1; pointer-events: all; transform: translateY(0); }
+    .filter-dd-option { display: block; width: 100%; text-align: left; padding: 10px 14px; font-family: 'Jost', sans-serif; font-size: 12px; font-weight: 300; letter-spacing: 0.06em; color: var(--text); background: none; border: none; border-radius: 4px; cursor: pointer; transition: background 0.15s, color 0.15s; }
+    .filter-dd-option:hover { background: var(--warm-white); color: var(--brown); }
+    .filter-dd-option.selected { background: var(--dark); color: var(--cream); }
+    .filter-reset { font-family: 'Jost', sans-serif; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; background: none; border: none; color: var(--taupe); cursor: pointer; padding: 10px 6px; transition: color 0.2s; }
+    .filter-reset:hover { color: var(--dark); }
+
+    /* SETS SECTION */
+    .sets-section { padding: 64px 60px 0; background: var(--warm-white); }
+    .sets-eyebrow { font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; display: flex; align-items: center; gap: 14px; }
+    .sets-eyebrow::before { content: ''; display: inline-block; width: 28px; height: 1px; background: var(--gold); opacity: 0.7; flex-shrink: 0; }
+    .sets-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(30px, 3.5vw, 42px); font-weight: 300; line-height: 1.15; color: var(--dark); }
+    .sets-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 36px; }
+    .set-card { position: relative; display: flex; background: var(--cream); overflow: hidden; box-shadow: 0 2px 12px rgba(30,26,23,0.05); transition: transform 0.4s cubic-bezier(0.4,0,0.2,1), box-shadow 0.4s cubic-bezier(0.4,0,0.2,1); }
+    .set-card:hover { transform: translateY(-6px); box-shadow: 0 20px 56px rgba(30,26,23,0.12); }
+    .set-card-visual { position: absolute; top: 0; bottom: 0; left: 0; width: 46%; background: radial-gradient(ellipse at 50% 65%, #EDE8DF, var(--sand)); display: flex; align-items: center; justify-content: center; padding: 16px 8px 14px; overflow: hidden; container-type: inline-size; }
+    /* --b = jednotná viditeľná výška fľaše; škáluje sa so šírkou karty (cqw) */
+    .set-bottle { --b: min(38cqw, 110px); flex: 0 0 auto; width: calc(var(--w, 0.55) * var(--b)); height: var(--b); display: flex; align-items: center; justify-content: center; }
+    .set-bottle + .set-bottle { margin-left: calc(0.28 * var(--b)); }
+    .set-bottle img { height: calc(var(--h, 1) * var(--b)); width: auto; max-width: none; mix-blend-mode: multiply; }
+    .set-card-info { flex: 1; margin-left: 46%; padding: 26px 28px 22px; display: flex; flex-direction: column; min-width: 0; }
+    .set-desc { font-size: 12px; line-height: 1.75; color: var(--text); opacity: 0.68; margin-bottom: 16px; }
+    .set-card-bottom { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: auto; padding-top: 16px; border-top: 1px solid var(--sand); }
+    .badge-set { background: var(--dark); color: var(--gold); }
+    .set-items { font-size: 11px; color: var(--taupe); letter-spacing: 0.04em; line-height: 1.7; margin-bottom: 12px; }
+    .price-full { color: var(--taupe); text-decoration: line-through; font-size: 13px; margin-left: 8px; font-family: 'Jost', sans-serif; }
     .catalog-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
     .product-card { background: var(--cream); overflow: hidden; transition: transform 0.4s cubic-bezier(0.4,0,0.2,1), box-shadow 0.4s cubic-bezier(0.4,0,0.2,1); box-shadow: 0 2px 12px rgba(30,26,23,0.05); cursor: pointer; display: flex; flex-direction: column; }
     .product-card:hover { transform: translateY(-8px); box-shadow: 0 20px 56px rgba(30,26,23,0.12); }
@@ -205,13 +273,16 @@
     @media (max-width: 900px) {
       nav { padding: 20px 24px; }
       nav.scrolled { padding: 14px 24px; }
+      .announce-msg { font-size: 9px; letter-spacing: 0.14em; }
       .nav-links { display: none; }
       .menu-toggle { display: block; }
       .mobile-menu { display: flex; }
-      .catalog-page-header { padding: 100px 24px 56px; }
+      .catalog-page-header { padding: 136px 24px 56px; }
       .catalog-page-header::before { font-size: 100px; }
       .catalog { padding: 48px 24px 80px; }
       .catalog-grid { grid-template-columns: 1fr 1fr; }
+      .sets-section { padding: 48px 24px 0; }
+      .sets-grid { grid-template-columns: 1fr; }
       footer { padding: 40px 24px 24px; }
       .footer-top { flex-direction: column; gap: 32px; }
       .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
@@ -220,11 +291,21 @@
     }
     @media (max-width: 600px) {
       .catalog-grid { grid-template-columns: 1fr; }
+      .set-card { flex-direction: column; }
+      .set-card-visual { position: static; width: 100%; height: 190px; }
+      .set-card-info { margin-left: 0; }
       .catalog-page-eyebrow::before, .catalog-page-eyebrow::after { display: none; }
     }
   </style>
 </head>
 <body>
+
+  <!-- ANNOUNCEMENT BAR -->
+  <div class="announce-bar" id="announceBar" aria-live="polite">
+    <span class="announce-msg active">Doprava <strong>zadarmo</strong> od &euro;39</span>
+    <span class="announce-msg">Ručne odlievané z originálnych flakónov</span>
+    <a class="announce-msg" href="quiz.html">Nevieš si vybrať? <strong>Nájdi svoju vôňu &rarr;</strong></a>
+  </div>
 
   <!-- CART OVERLAY & DRAWER -->
   <div class="cart-overlay" id="cartOverlay"></div>
@@ -244,7 +325,11 @@
         <span class="cart-subtotal-label">Medzisúčet</span>
         <span class="cart-subtotal-amount" id="cartTotal">&euro;0</span>
       </div>
-      <p class="cart-note">Doprava: &euro;2 Slovensko &middot; &euro;3 Česko.</p>
+      <div class="cart-shipping">
+        <div class="cart-shipping-label" id="cartShippingLabel">Doprava zadarmo od &euro;39</div>
+        <div class="cart-shipping-track"><div class="cart-shipping-fill" id="cartShippingFill"></div></div>
+      </div>
+      <p class="cart-note">Doprava: &euro;2 Slovensko &middot; &euro;3 Česko &middot; zadarmo od &euro;39.</p>
       <button class="cart-checkout-btn" id="checkoutBtn" disabled>Pokračovať k pokladni</button>
     </div>
   </div>
@@ -253,6 +338,7 @@
   <div class="mobile-menu" id="mobileMenu">
     <a href="index.html" onclick="closeMobileMenu()">Domov</a>
     <a href="catalog.html" onclick="closeMobileMenu()">Katalóg</a>
+    <a href="quiz.html" onclick="closeMobileMenu()">Nájdi svoju vôňu</a>
     <a href="index.html#faq" onclick="closeMobileMenu()">FAQ</a>
   </div>
 
@@ -262,6 +348,7 @@
     <div class="nav-right">
       <ul class="nav-links">
         <li><a href="catalog.html" class="active">Katalóg</a></li>
+        <li><a href="quiz.html">Nájdi svoju vôňu</a></li>
         <li><a href="index.html#faq">FAQ</a></li>
       </ul>
       <button class="cart-btn" id="cartBtn" aria-label="Otvoriť košík">
@@ -283,11 +370,27 @@
     </div>
   </header>
 
+  <!-- SETS -->
+  <section class="sets-section" id="sety">
+    <div class="reveal">
+      <p class="sets-eyebrow">Namiešané trojice</p>
+      <h2 class="sets-title">Sety</h2>
+    </div>
+    <div class="sets-grid" id="setsGrid"></div>
+  </section>
+
   <!-- CATALOG -->
   <section class="catalog" id="catalog">
     <div class="catalog-controls reveal">
-      <span class="filter-label">Značka</span>
-      <div id="filterButtons"></div>
+      <div class="filter-dd" id="brandDD">
+        <button class="filter-dd-btn" id="brandDDBtn" aria-haspopup="listbox" aria-expanded="false">Značka: <span id="brandDDLabel">Všetky</span> <span class="filter-dd-caret">&#9662;</span></button>
+        <div class="filter-dd-panel" id="brandDDPanel" role="listbox"></div>
+      </div>
+      <div class="filter-dd" id="typeDD">
+        <button class="filter-dd-btn" id="typeDDBtn" aria-haspopup="listbox" aria-expanded="false">Typ vône: <span id="typeDDLabel">Všetky</span> <span class="filter-dd-caret">&#9662;</span></button>
+        <div class="filter-dd-panel" id="typeDDPanel" role="listbox"></div>
+      </div>
+      <button class="filter-reset" id="filterReset" style="display:none">Zrušiť filtre &#10005;</button>
     </div>
     <div class="catalog-grid" id="catalogGrid">
       <div class="no-results" id="no-results">Pre tento filter sa nenašli žiadne vône.</div>
@@ -304,6 +407,7 @@
         <div class="footer-col-title">Navigácia</div>
         <a href="index.html">Domov</a>
         <a href="catalog.html">Katalóg</a>
+        <a href="quiz.html">Nájdi svoju vôňu</a>
         <a href="index.html#faq">FAQ</a>
         <a href="vop.html">Obchodné podmienky</a>
       </div>
@@ -322,35 +426,180 @@
   <button class="back-to-top" id="backToTop" aria-label="Back to top">&#8679;</button>
   <div class="toast" id="toast"></div>
 
+  <!-- NEWSLETTER POPUP -->
+  <div class="nl-overlay" id="nlOverlay"></div>
+  <div class="nl-modal" id="nlModal" role="dialog" aria-modal="true" aria-label="Prihlásenie do Velour listu">
+    <button class="nl-close" id="nlClose" aria-label="Zavrieť">&#10005;</button>
+    <p class="nl-eyebrow">Velour list</p>
+    <h3 class="nl-title">&minus;10 % na prvú objednávku</h3>
+    <p class="nl-sub">Pridaj sa do zoznamu &mdash; pošleme ti zľavový kód a krátkeho sprievodcu, ako si vybrať vôňu, ktorá ti naozaj sadne.</p>
+    <form class="nl-form" id="nlForm">
+      <input type="email" class="nl-input" id="nlEmail" placeholder="tvoj@email.sk" required>
+      <button type="submit" class="nl-btn">Chcem zľavu</button>
+    </form>
+    <p class="nl-note">Žiadny spam. Odhlásenie jedným klikom.</p>
+  </div>
+
+  <script src="velour-config.js"></script>
   <script src="products.js"></script>
   <script>
     // products array and getSlug() loaded from products.js
 
-    // Unique brands
+    // Unique brands as [dataBrand, display name] — filter must use dataBrand,
+    // because display name sa nemusí dať zoslugovať späť (napr. "d'Annam" → "dannam")
     function getUniqueBrands() {
-      return [...new Set(products.map(p => p.brand))].sort();
+      const brands = new Map();
+      products.forEach(p => { if (!brands.has(p.dataBrand)) brands.set(p.dataBrand, p.brand); });
+      return [...brands.entries()].sort((a, b) => a[1].localeCompare(b[1], 'sk', { sensitivity: 'base' }));
     }
 
-    // Render brand filter buttons
-    function renderFilterButtons() {
-      const container = document.getElementById('filterButtons');
-      let html = '<button class="filter-btn active" data-filter="all">Všetky</button>';
-      getUniqueBrands().forEach(brand => {
-        const dataFilter = brand.toLowerCase().replace(/\s+/g, '-');
-        html += `<button class="filter-btn" data-filter="${dataFilter}">${brand}</button>`;
-      });
-      container.innerHTML = html;
-      container.querySelectorAll('.filter-btn').forEach(btn => btn.addEventListener('click', handleBrandFilter));
-    }
+    // Zobrazované názvy typov vône — kľúče zodpovedajú poľu `types` v products.js
+    const TYPE_LABELS = {
+      fresh: "Svieža & citrusová", fruity: "Ovocná", sweet: "Sladká",
+      spicy: "Korenistá", floral: "Kvetinová", woody: "Drevitá", musky: "Čistá & mošusová"
+    };
 
     let currentBrand = 'all';
+    let currentType = 'all';
 
-    function handleBrandFilter(e) {
-      document.querySelectorAll('#filterButtons .filter-btn').forEach(b => b.classList.remove('active'));
-      e.target.classList.add('active');
-      currentBrand = e.target.dataset.filter;
-      const filtered = currentBrand === 'all' ? products : products.filter(p => p.dataBrand === currentBrand);
-      renderProducts(filtered);
+    function renderFilterPanels() {
+      const brandPanel = document.getElementById('brandDDPanel');
+      let bHtml = '<button class="filter-dd-option selected" data-value="all">Všetky značky</button>';
+      getUniqueBrands().forEach(([dataBrand, brand]) => {
+        bHtml += `<button class="filter-dd-option" data-value="${dataBrand}">${brand}</button>`;
+      });
+      brandPanel.innerHTML = bHtml;
+      brandPanel.querySelectorAll('.filter-dd-option').forEach(btn => {
+        btn.addEventListener('click', () => selectFilter('brand', btn));
+      });
+
+      const typePanel = document.getElementById('typeDDPanel');
+      let tHtml = '<button class="filter-dd-option selected" data-value="all">Všetky typy</button>';
+      Object.entries(TYPE_LABELS).forEach(([key, label]) => {
+        tHtml += `<button class="filter-dd-option" data-value="${key}">${label}</button>`;
+      });
+      typePanel.innerHTML = tHtml;
+      typePanel.querySelectorAll('.filter-dd-option').forEach(btn => {
+        btn.addEventListener('click', () => selectFilter('type', btn));
+      });
+
+      [['brandDD', 'brandDDBtn'], ['typeDD', 'typeDDBtn']].forEach(([ddId, btnId]) => {
+        const dd = document.getElementById(ddId);
+        document.getElementById(btnId).addEventListener('click', (e) => {
+          e.stopPropagation();
+          const wasOpen = dd.classList.contains('open');
+          closeDropdowns();
+          if (!wasOpen) {
+            dd.classList.add('open');
+            dd.querySelector('.filter-dd-btn').setAttribute('aria-expanded', 'true');
+          }
+        });
+      });
+      document.addEventListener('click', closeDropdowns);
+      document.getElementById('filterReset').addEventListener('click', resetFilters);
+    }
+
+    function closeDropdowns() {
+      document.querySelectorAll('.filter-dd.open').forEach(dd => {
+        dd.classList.remove('open');
+        dd.querySelector('.filter-dd-btn').setAttribute('aria-expanded', 'false');
+      });
+    }
+
+    function selectFilter(kind, btn) {
+      btn.parentElement.querySelectorAll('.filter-dd-option').forEach(o => o.classList.remove('selected'));
+      btn.classList.add('selected');
+      const value = btn.dataset.value;
+      const label = value === 'all' ? 'Všetky' : btn.textContent;
+      if (kind === 'brand') {
+        currentBrand = value;
+        document.getElementById('brandDDLabel').textContent = label;
+        document.getElementById('brandDDBtn').classList.toggle('filtered', value !== 'all');
+      } else {
+        currentType = value;
+        document.getElementById('typeDDLabel').textContent = label;
+        document.getElementById('typeDDBtn').classList.toggle('filtered', value !== 'all');
+      }
+      closeDropdowns();
+      applyFilters();
+    }
+
+    function resetFilters() {
+      currentBrand = 'all';
+      currentType = 'all';
+      document.getElementById('brandDDLabel').textContent = 'Všetky';
+      document.getElementById('typeDDLabel').textContent = 'Všetky';
+      document.getElementById('brandDDBtn').classList.remove('filtered');
+      document.getElementById('typeDDBtn').classList.remove('filtered');
+      document.querySelectorAll('.filter-dd-panel').forEach(panel => {
+        panel.querySelectorAll('.filter-dd-option').forEach((o, i) => o.classList.toggle('selected', i === 0));
+      });
+      applyFilters();
+    }
+
+    function applyFilters() {
+      const filteredProducts = products.filter(p =>
+        (currentBrand === 'all' || p.dataBrand === currentBrand) &&
+        (currentType === 'all' || (p.types || []).includes(currentType))
+      );
+      renderProducts(filteredProducts);
+      document.getElementById('filterReset').style.display =
+        (currentBrand !== 'all' || currentType !== 'all') ? 'inline-block' : 'none';
+    }
+
+    // Sety — samostatná sekcia nad katalógom, filtre sa na ňu nevzťahujú
+    function renderSets() {
+      const grid = document.getElementById('setsGrid');
+      // Mierky fliaš (rovnaká výška, vycentrovanie v strede štvorca) sú
+      // zdieľané s košíkom vo VELOUR.bottleBox — pozri velour-config.js,
+      // je tam aj príkaz na dopočítanie hodnôt pre fľašu v novom sete.
+      grid.innerHTML = sets.map(set => {
+        const items = set.items.map(n => products.find(p => p.name === n)).filter(Boolean);
+        const bottlesHtml = items.map(p => {
+          const b = VELOUR.bottleBox[p.image] || { h: 1, w: 0.55, xPct: 0, yPct: 0 };
+          return `<div class="set-bottle" style="--w:${b.w};--h:${b.h}"><img src="${p.image}" alt="${p.brand} ${p.name}" style="transform:translate(${b.xPct}%,${b.yPct}%)" loading="lazy"></div>`;
+        }).join('');
+        const itemsLine = items.map(p => `${p.brand} &mdash; ${p.name}`).join('<br>');
+        return `
+          <div class="set-card reveal" data-set="${set.name}">
+            <div class="set-card-visual">
+              ${bottlesHtml}
+              <span class="product-badge badge-set">3&times;2 ml</span>
+            </div>
+            <div class="set-card-info">
+              <div class="product-brand">Velour Set &middot; ${set.tagline}</div>
+              <div class="product-name">${set.name}</div>
+              <div class="set-items">${itemsLine}</div>
+              <p class="set-desc">${set.desc}</p>
+              <div class="set-card-bottom">
+                <span class="product-price">&euro;${set.price.toFixed(2).replace('.00','')}<s class="price-full">&euro;${set.fullPrice.toFixed(2).replace('.00','')}</s></span>
+                <button class="add-to-cart-btn set-add-btn" data-set="${set.name}">Pridať set</button>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      grid.querySelectorAll('.set-add-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const set = sets.find(s => s.name === btn.dataset.set);
+          if (!set) return;
+          const items = set.items.map(n => products.find(p => p.name === n)).filter(Boolean);
+          const item = { name: set.name, brand: 'Velour Set', size: '3×2 ml', price: set.price, images: items.map(p => p.image) };
+          const existing = cart.find(c => c.name === item.name && c.size === item.size);
+          if (existing) { existing.qty = (existing.qty || 1) + 1; } else { item.qty = 1; cart.push(item); }
+          updateCartUI();
+          saveCart();
+          btn.textContent = '✓ Pridané';
+          btn.classList.add('added');
+          setTimeout(() => { btn.textContent = 'Pridať set'; btn.classList.remove('added'); }, 1800);
+          showToast(set.name + ' (3×2 ml) pridaný do košíka');
+        });
+      });
+
+      document.querySelectorAll('.reveal').forEach(el => {
+        if (!el.classList.contains('visible')) observer.observe(el);
+      });
     }
 
     // Render product cards
@@ -423,7 +672,7 @@
         });
       });
 
-      document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
+      document.querySelectorAll('.add-to-cart-btn:not(.set-add-btn)').forEach(btn => {
         btn.addEventListener('click', () => {
           const card = btn.closest('.product-card');
           const selectedSize = card.querySelector('.size-btn.selected');
@@ -506,6 +755,7 @@
       setTimeout(() => countEl.classList.remove('pop'), 200);
       document.getElementById('cartTotal').textContent = '\u20AC' + total;
       document.getElementById('checkoutBtn').disabled = count === 0;
+      updateShippingProgress(total);
 
       const itemsEl = document.getElementById('cartItems');
       if (cart.length === 0) {
@@ -514,7 +764,7 @@
       }
       itemsEl.innerHTML = cart.map((item, i) => `
         <div class="cart-item">
-          <div class="cart-item-visual">${item.image ? `<img src="${item.image}" style="width:100%;height:100%;object-fit:contain;mix-blend-mode:multiply;">` : `<div class="cart-item-bottle"></div>`}</div>
+          <div class="cart-item-visual">${item.images ? item.images.map(VELOUR.setThumb).join('') : item.image ? `<img src="${item.image}" style="width:100%;height:100%;object-fit:contain;mix-blend-mode:multiply;">` : `<div class="cart-item-bottle"></div>`}</div>
           <div class="cart-item-info">
             <div class="cart-item-brand">${item.brand}</div>
             <div class="cart-item-name">${item.name}</div>
@@ -530,6 +780,27 @@
           </div>
         </div>
       `).join('');
+    }
+
+    function updateShippingProgress(total) {
+      const freeFrom = (window.VELOUR && window.VELOUR.freeShippingFrom) || 39;
+      const label = document.getElementById('cartShippingLabel');
+      const fill = document.getElementById('cartShippingFill');
+      if (!label || !fill) return;
+      const missing = freeFrom - total;
+      if (total <= 0) {
+        label.innerHTML = 'Doprava zadarmo od €' + freeFrom;
+        fill.style.width = '0%';
+        fill.classList.remove('full');
+      } else if (missing > 0) {
+        label.innerHTML = 'Ešte <strong>€' + missing.toFixed(2).replace('.00','') + '</strong> a máš dopravu zadarmo';
+        fill.style.width = Math.min(100, (total / freeFrom) * 100) + '%';
+        fill.classList.remove('full');
+      } else {
+        label.innerHTML = '✓ Máš dopravu zadarmo';
+        fill.style.width = '100%';
+        fill.classList.add('full');
+      }
     }
 
     function removeFromCart(index) {
@@ -565,8 +836,57 @@
 
     // Initialize
     loadCart();
-    renderFilterButtons();
-    renderProducts();
+    renderSets();
+    renderFilterPanels();
+    applyFilters();
+
+    // Announcement bar rotation
+    const announceMsgs = document.querySelectorAll('.announce-msg');
+    let announceIdx = 0;
+    setInterval(() => {
+      announceMsgs[announceIdx].classList.remove('active');
+      announceIdx = (announceIdx + 1) % announceMsgs.length;
+      announceMsgs[announceIdx].classList.add('active');
+    }, 4500);
+
+    // Newsletter popup
+    (function() {
+      const overlay = document.getElementById('nlOverlay');
+      const modal = document.getElementById('nlModal');
+      if (!overlay || !modal) return;
+      if (localStorage.getItem('velour_nl_subscribed')) return;
+      const lastSeen = parseInt(localStorage.getItem('velour_nl_seen') || '0', 10);
+      if (Date.now() - lastSeen < 7 * 24 * 3600 * 1000) return;
+      let shown = false;
+      function openNl() {
+        if (shown) return;
+        shown = true;
+        overlay.classList.add('open');
+        modal.classList.add('open');
+        localStorage.setItem('velour_nl_seen', String(Date.now()));
+      }
+      function closeNl() { overlay.classList.remove('open'); modal.classList.remove('open'); }
+      setTimeout(openNl, 14000);
+      document.addEventListener('mouseout', (e) => { if (!e.relatedTarget && e.clientY <= 0) openNl(); });
+      overlay.addEventListener('click', closeNl);
+      document.getElementById('nlClose').addEventListener('click', closeNl);
+      document.getElementById('nlForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const input = document.getElementById('nlEmail');
+        const email = input.value.trim();
+        if (!/^\S+@\S+\.\S+$/.test(email)) { input.focus(); return; }
+        const endpoint = window.VELOUR && window.VELOUR.newsletterEndpoint;
+        if (endpoint) {
+          fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: email, source: 'popup' }) }).catch(() => {});
+        }
+        const stored = JSON.parse(localStorage.getItem('velour_nl_emails') || '[]');
+        stored.push({ email: email, ts: Date.now() });
+        localStorage.setItem('velour_nl_emails', JSON.stringify(stored));
+        localStorage.setItem('velour_nl_subscribed', email);
+        closeNl();
+        showToast('Si na zozname — kód ti pošleme e-mailom');
+      });
+    })();
   </script>
 </body>
 </html>
