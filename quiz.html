@@ -337,7 +337,7 @@
 
   <div class="toast" id="toast"></div>
 
-  <script src="velour-config.js"></script>
+  <script src="velour-config.js?v=2"></script>
   <script src="products.js"></script>
   <script>
     // ===== QUIZ DATA =====
@@ -599,7 +599,7 @@
       }
       itemsEl.innerHTML = cart.map((item, i) => `
         <div class="cart-item">
-          <div class="cart-item-visual">${item.images ? item.images.map(VELOUR.setThumb).join('') : item.image ? `<img src="${item.image}" style="width:100%;height:100%;object-fit:contain;mix-blend-mode:multiply;">` : `<div class="cart-item-bottle"></div>`}</div>
+          <div class="cart-item-visual">${item.images ? item.images.map(VELOUR.setThumb || (src => `<img class="cart-set-img" src="${src}" style="height:28px;width:auto;mix-blend-mode:multiply">`)).join('') : item.image ? `<img src="${item.image}" style="width:100%;height:100%;object-fit:contain;mix-blend-mode:multiply;">` : `<div class="cart-item-bottle"></div>`}</div>
           <div class="cart-item-info">
             <div class="cart-item-brand">${item.brand}</div>
             <div class="cart-item-name">${item.name}</div>

@@ -442,7 +442,7 @@
     <p class="nl-note">Žiadny spam. Odhlásenie jedným klikom.</p>
   </div>
 
-  <script src="velour-config.js"></script>
+  <script src="velour-config.js?v=2"></script>
   <script src="products.js"></script>
   <script>
     // products array and getSlug() loaded from products.js
@@ -558,7 +558,7 @@
       grid.innerHTML = sets.map(set => {
         const items = set.items.map(n => products.find(p => p.name === n)).filter(Boolean);
         const bottlesHtml = items.map(p => {
-          const b = VELOUR.bottleBox[p.image] || { h: 1, w: 0.55, xPct: 0, yPct: 0 };
+          const b = (VELOUR.bottleBox || {})[p.image] || { h: 1, w: 0.55, xPct: 0, yPct: 0 };
           return `<div class="set-bottle" style="--w:${b.w};--h:${b.h}"><img src="${p.image}" alt="${p.brand} ${p.name}" style="transform:translate(${b.xPct}%,${b.yPct}%)" loading="lazy"></div>`;
         }).join('');
         const itemsLine = items.map(p => `${p.brand} &mdash; ${p.name}`).join('<br>');
@@ -766,7 +766,7 @@
       }
       itemsEl.innerHTML = cart.map((item, i) => `
         <div class="cart-item">
-          <div class="cart-item-visual">${item.images ? item.images.map(VELOUR.setThumb).join('') : item.image ? `<img src="${item.image}" style="width:100%;height:100%;object-fit:contain;mix-blend-mode:multiply;">` : `<div class="cart-item-bottle"></div>`}</div>
+          <div class="cart-item-visual">${item.images ? item.images.map(VELOUR.setThumb || (src => `<img class="cart-set-img" src="${src}" style="height:28px;width:auto;mix-blend-mode:multiply">`)).join('') : item.image ? `<img src="${item.image}" style="width:100%;height:100%;object-fit:contain;mix-blend-mode:multiply;">` : `<div class="cart-item-bottle"></div>`}</div>
           <div class="cart-item-info">
             <div class="cart-item-brand">${item.brand}</div>
             <div class="cart-item-name">${item.name}</div>
@@ -838,7 +838,7 @@
 
     // Initialize
     loadCart();
-    renderSets();
+    try { renderSets(); } catch(e) { console.error('renderSets failed:', e); }
     renderFilterPanels();
     applyFilters();
 
