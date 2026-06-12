@@ -150,8 +150,8 @@
     .qr-all-wrap { text-align: center; margin-bottom: 18px; }
     .qr-catalog-link { display: block; text-align: center; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--taupe); text-decoration: none; transition: color 0.2s; }
     .qr-catalog-link:hover { color: var(--dark); }
-    .quiz-step { display: none; animation: fadeUp 0.5s forwards; }
-    .quiz-step.active { display: block; }
+    .quiz-step { display: none; }
+    .quiz-step.active { display: block; animation: fadeUp 0.5s both; }
     @keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
 
     /* FOOTER */
@@ -422,6 +422,9 @@
 
     function showStep(name) {
       Object.values(steps).forEach(s => s.classList.remove('active'));
+      // void offsetWidth forces Safari to recalculate layout before adding
+      // .active, which ensures the fadeUp animation triggers reliably
+      void steps[name].offsetWidth;
       steps[name].classList.add('active');
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
