@@ -351,7 +351,7 @@
         options: [
           { label: "Cez deň — práca, škola, bežný život", icon: "&#9728;", tags: { day: 3 } },
           { label: "Večer — rande, mesto, tlmené svetlá", icon: "&#9790;", tags: { night: 3 } },
-          { label: "V lete — slnko, voda, dovolenka", icon: "&#10047;", tags: { summer: 3 } },
+          { label: "Cez víkend — výlety, priatelia, voľno", icon: "&#9734;", tags: { universal: 2, soft: 1, day: 1 } },
           { label: "Stále — chcem jeden univerzál", icon: "&#9830;", tags: { universal: 3 } }
         ]
       },
@@ -361,7 +361,8 @@
           { label: "Sladké a hrejivé — vanilka, jantár, teplo", icon: "&#10022;", tags: { sweet: 3 } },
           { label: "Svieže a čisté — citrusy, vzduch, voda", icon: "&#10052;", tags: { fresh: 3 } },
           { label: "Kvetinové a jemné — magnólia, pivonka", icon: "&#10048;", tags: { floral: 3 } },
-          { label: "Drevité a zmyselné — mošus, drevo, koža", icon: "&#9650;", tags: { woody: 3 } }
+          { label: "Drevité — cedrové drevo, vetiver, santalové", icon: "&#9650;", tags: { woody: 3 } },
+          { label: "Musky a zmyselné — koža, biele musky", icon: "&#9675;", tags: { soft: 3 } }
         ]
       },
       {
@@ -372,43 +373,37 @@
         ]
       },
       {
-        q: "Vyber obraz, ktorý ťa láka najviac",
+        q: "V ktorom ročnom období ju plánuješ nosiť?",
         options: [
-          { label: "Západ slnka na pláži", icon: "&#9728;", tags: { summer: 2, sweet: 1 } },
-          { label: "Ranná káva v tichom ateliéri", icon: "&#9749;", tags: { day: 2, fresh: 1 } },
-          { label: "Nočný bar a tlmené svetlá", icon: "&#9790;", tags: { night: 2, loud: 1 } },
-          { label: "Čerstvo vyžehlená biela košeľa", icon: "&#10052;", tags: { soft: 2, fresh: 1 } }
+          { label: "Jar — kvitnúce sady, ľahký vietor", icon: "&#10048;", tags: { fresh: 2, floral: 3, soft: 1 } },
+          { label: "Leto — horúce dni, more, slnko", icon: "&#9728;", season: 'leto', tags: { night: -2 } },
+          { label: "Jeseň — teplé farby, premenlivé počasie", icon: "&#9830;", tags: { woody: 2, sweet: 2, day: 1, soft: 1 } },
+          { label: "Zima — mráz, teplý sveter, intimita", icon: "&#10052;", tags: { sweet: 3, woody: 2, night: 2, loud: 1 } },
+          { label: "Na celý rok — nezáleží na počasí", icon: "&#8734;", season: 'universal', tags: {} }
         ]
       },
-      {
-        q: "Koľko chceš investovať do 2 ml vzorky?",
-        options: [
-          { label: "Do €5 — chcem začať opatrne", icon: "&#9675;", budget: 5 },
-          { label: "Do €10 — niečo poriadne", icon: "&#9678;", budget: 10 },
-          { label: "Neriešim — chcem tú pravú", icon: "&#9679;", budget: Infinity }
-        ]
-      }
     ];
 
     const PROFILES = {
       sweet:  { title: "Hrejivý <em>gourmand</em>", sub: "Ťahá ťa to k vôňam, ktoré objímajú — vanilka, jantár a teplo kože. Tieto tri ti sadnú." },
       fresh:  { title: "Čistá <em>elegancia</em>", sub: "Citrusy, vzduch a čistota — vône, ktoré pôsobia ako pokojná sebadôvera." },
       floral: { title: "Kvetinová <em>duša</em>", sub: "Jemnosť s charakterom. Kvety, ktoré nepôsobia staromódne — len krásne." },
-      woody:  { title: "Tiché <em>drevo</em>", sub: "Mošus, drevo a koža. Vône, ktoré nekričia — a práve preto si ich ľudia pamätajú." }
+      woody:  { title: "Tiché <em>drevo</em>", sub: "Drevo a koža. Vône, ktoré nekričia — a práve preto si ich ľudia pamätajú." },
+      soft:   { title: "Druhá <em>koža</em>", sub: "Musky bližšie ku koži ako k vôni — čisté, zmyselné a takmer neviditeľné. Cítia ich len tí, čo sa k tebe dostanú blízko." }
     };
 
     // ===== QUIZ LOGIC =====
     let currentQ = 0;
     let answers = [];
     let userTags = {};
-    let userBudget = Infinity;
+    let selectedSeason = null;
 
     function recomputeTags() {
       userTags = {};
-      userBudget = Infinity;
+      selectedSeason = null;
       answers.forEach((optIdx, qIdx) => {
         const opt = QUESTIONS[qIdx].options[optIdx];
-        if (opt.budget !== undefined) userBudget = opt.budget;
+        if (opt.season) selectedSeason = opt.season;
         if (opt.tags) {
           for (const k in opt.tags) userTags[k] = (userTags[k] || 0) + opt.tags[k];
         }
@@ -473,16 +468,24 @@
           return { p: p, score: score, price: get2mlPrice(p) };
         })
         .sort((a, b) => b.score - a.score);
-      let picks = scored.filter(s => s.price <= userBudget).slice(0, 3);
-      if (picks.length < 3) {
-        const names = picks.map(x => x.p.name);
-        picks = picks.concat(scored.filter(s => !names.includes(s.p.name)).slice(0, 3 - picks.length));
+
+      const seasonFilter = {
+        leto: s => (s.p.quiz.summer || 0) >= 1 || (s.p.quiz.universal || 0) >= 1,
+        universal: s => (s.p.quiz.universal || 0) >= 1,
+      };
+
+      if (selectedSeason && seasonFilter[selectedSeason]) {
+        const picks = scored.filter(seasonFilter[selectedSeason]);
+        if (picks.length >= 3) return picks.slice(0, 3);
+        const seen = new Set(picks.map(s => s.p.name));
+        return picks.concat(scored.filter(s => !seen.has(s.p.name)).slice(0, 3 - picks.length));
       }
-      return picks;
+
+      return scored.slice(0, 3);
     }
 
     function profileKey() {
-      const axes = ['sweet', 'fresh', 'floral', 'woody'];
+      const axes = ['sweet', 'fresh', 'floral', 'woody', 'soft'];
       let best = 'fresh', bestVal = -1;
       axes.forEach(a => { if ((userTags[a] || 0) > bestVal) { bestVal = userTags[a] || 0; best = a; } });
       return best;
@@ -490,7 +493,10 @@
 
     function renderResults() {
       const picks = computeResults();
-      const prof = PROFILES[profileKey()];
+      let prof = PROFILES[profileKey()];
+      if (selectedSeason === 'leto' && profileKey() === 'sweet') {
+        prof = { title: "Letná <em>sladkosť</em>", sub: "Ľahká, ovocná a kvetinová strana sladkých vôní — tá, ktorá v horúčave poteší, nie premôže." };
+      }
       document.getElementById('qrProfileTitle').innerHTML = prof.title;
       document.getElementById('qrProfileSub').textContent = prof.sub.replace(/<[^>]+>/g, '');
       const cardsEl = document.getElementById('qrCards');
