@@ -26,7 +26,7 @@ window.VELOUR.bottleBox = {
   "bottles/louis-vuitton-imagination.png": { h: 1.40, w: 0.41, xPct: 0.1,  yPct: 0.3 },
   "bottles/initio-musk-therapy.png":       { h: 1.09, w: 0.52, xPct: 0,    yPct: 0.2 },
   "bottles/dannam-pomelo-oolong.png":      { h: 1.80, w: 0.73, xPct: -0.2, yPct: 0.3 },
-  "bottles/orto-parisi-bergamask.png":     { h: 1.19, w: 0.50, xPct: 0.1,  yPct: 8.2 },
+  "bottles/orto-parisi-bergamask.png":     { h: 1.0,  w: 0.45, xPct: 0,    yPct: 0 },
   "bottles/sospiro-vibrato.png":           { h: 1.01, w: 0.45, xPct: 0,    yPct: 0 },
   "bottles/xerjoff-cruzdelsur.png":        { h: 1.26, w: 0.43, xPct: 0,    yPct: -3.3 }
 };

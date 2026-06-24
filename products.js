@@ -37,7 +37,7 @@ const products = [
     types: ["fresh", "sweet", "floral"],
     quiz: { fresh: 2, sweet: 2, floral: 1, day: 2, summer: 1, universal: 1, loud: 1 },
     desc: "Jasný a teplý zároveň. Inšpirovaný umeleckou scénou Paríža 20. rokov — radostná, zlatá vôňa, ktorá sa cíti ako oslava.",
-    sizes: [{size:"2ml",price:11.5},{size:"5ml",price:29},{size:"10ml",price:55}],
+    sizes: [{size:"2ml",price:13.9},{size:"5ml",price:32.9},{size:"10ml",price:59.9}],
     image: "bottles/byredo-baldafrique absolu.png", imgStyle: "height:120%", badge: null, notesImage: "notes/baldafrique-notes.jpg"
   },
   {
@@ -46,7 +46,7 @@ const products = [
     types: ["floral", "woody"],
     quiz: { floral: 2, woody: 2, fresh: 1, universal: 2, day: 1, soft: 2 },
     desc: "Púšť za súmraku vo fľaši. Mojave Ghost Absolu berie vzdušnosť originálu a koncentruje ju — teplejšia, hutnejšia, hypnotickejšia.",
-    sizes: [{size:"2ml",price:11.5},{size:"5ml",price:29},{size:"10ml",price:55}],
+    sizes: [{size:"2ml",price:13.9},{size:"5ml",price:32.9},{size:"10ml",price:59.9}],
     image: "bottles/byredo-mojave-ghost-absolu.png", imgStyle: "height:160%", detailImgStyle: "height:160%;aspect-ratio:1/1", badge: null, notesImage: "notes/mojaveghost-notes.jpg"
   },
   {
@@ -55,7 +55,7 @@ const products = [
     types: ["fresh", "floral", "musky"],
     quiz: { fresh: 2, floral: 2, day: 2, universal: 1, soft: 2 },
     desc: "Minimalistická krása v čistej forme. Oolong čaj a pomelo sa prelínajú s kvetmi osmanthus do tichej, meditatívnej kompozície — biely musk a porcelánová čistota zanechajú stopu jemnú ako šepot.",
-    sizes: [{size:"2ml",price:12},{size:"5ml",price:32}],
+    sizes: [{size:"2ml",price:15.4},{size:"5ml",price:36.5}],
     image: "bottles/dannam-pomelo-oolong.png", imgStyle: "height:125%;margin-top:10px", badge: null, notesImage: "notes/pomelooolong-notes.jpg"
   },
   {
@@ -64,7 +64,7 @@ const products = [
     types: ["sweet", "woody"],
     quiz: { sweet: 3, woody: 1, night: 2, universal: 1, loud: 1 },
     desc: "Najelegantnejší pohľad Dioru na vanilku. Krémová a sofistikovaná bez náznaku gýča — rum a kakao jej dávajú hĺbku, santalové drevo pokoj.",
-    sizes: [{size:"2ml",price:12.5},{size:"5ml",price:32},{size:"10ml",price:59}],
+    sizes: [{size:"2ml",price:13.9},{size:"5ml",price:32.9},{size:"10ml",price:59.9}],
     image: "bottles/dior-vanilla-diorama.png", imgStyle: "height:85%", badge: null, notesImage: "notes/vanilladiorama-notes.jpg"
   },
   {
@@ -100,7 +100,7 @@ const products = [
     types: ["sweet", "spicy"],
     quiz: { sweet: 3, woody: 1, night: 2, universal: 1 },
     desc: "Vanilka v najzmyselnejšej podobe. Škorica a čierne korenie otvoria vôňu s iskrou, osmanthus pridá kvetinový šepot — a potom zostane len hlboká, krémová madagaskarská vanilka s tonkou a patchouli, ktorá sa odmieta pustiť.",
-    sizes: [{size:"2ml",price:5.9},{size:"5ml",price:11.9},{size:"10ml",price:19.9}],
+    sizes: [{size:"2ml",price:4.9},{size:"5ml",price:9.9},{size:"10ml",price:18}],
     image: "bottles/Essential Parfums-Divine Vanille.png", imgStyle: "height:90%", badge: null, notesImage: "notes/essential-parfums-divine-vanille.jpg"
   },
   {
@@ -109,7 +109,7 @@ const products = [
     types: ["fresh", "fruity"],
     quiz: { fresh: 3, sweet: 1, summer: 3, day: 2, loud: 1 },
     desc: "Žiarivý talizman, ktorý ohreje kožu. Jasné citrusy a šťavnatá hruška sa otvoria ako slnečné svetlo, kým sa usadia v jemnom, drevitom objatí.",
-    sizes: [{size:"2ml",price:11},{size:"5ml",price:28},{size:"10ml",price:53}],
+    sizes: [{size:"2ml",price:13},{size:"5ml",price:30.7},{size:"10ml",price:55.9}],
     image: "bottles/ex nihilo-blue talisman.png", imgStyle: "height:90%;margin-top:10px", badge: null, notesImage: "notes/bluetalisman-notes.jpg"
   },
   {
@@ -118,7 +118,7 @@ const products = [
     types: ["sweet", "spicy"],
     quiz: { sweet: 3, woody: 1, night: 3, loud: 2 },
     desc: "Návyková v tom najpriamejšom zmysle. Side Effect ťa obalí teplým rumom a tabakom, ktorý nikdy nepôsobí ťažko — len hlboko, nebezpečne pohodlne.",
-    sizes: [{size:"2ml",price:11.5},{size:"5ml",price:28},{size:"10ml",price:53}],
+    sizes: [{size:"2ml",price:9.9},{size:"5ml",price:23.9},{size:"10ml",price:41.9}],
     image: "bottles/initio-side-effect.png", imgStyle: "height:85%", badge: "popular", notesImage: "notes/sideeffect-notes.jpg"
   },
   {
@@ -127,7 +127,7 @@ const products = [
     types: ["musky", "fresh"],
     quiz: { fresh: 2, floral: 1, soft: 3, universal: 2, day: 1 },
     desc: "Čistý musk dovedený do jeho najčistejšej podoby. Jemný, blízky koži a takmer meditatívny — menej ako vôňa, ktorú nosíš, a viac ako druhá koža.",
-    sizes: [{size:"2ml",price:11.5},{size:"5ml",price:28},{size:"10ml",price:53}],
+    sizes: [{size:"2ml",price:10.4},{size:"5ml",price:24.7},{size:"10ml",price:44.9}],
     image: "bottles/initio-musk-therapy.png", imgStyle: "height:85%", badge: null, notesImage: "notes/musktherapy-notes.jpg"
   },
   {
@@ -154,7 +154,7 @@ const products = [
     types: ["floral", "fruity", "sweet"],
     quiz: { floral: 3, sweet: 2, night: 2, soft: 1 },
     desc: "Sladký sen s nečakanou hĺbkou. Šťavnaté lychee a bergamot s nádychom zázvoru otvoria vôňu svieže, kým pivónia a turecká ruža s kakaom vytvoria zmyselné srdce.",
-    sizes: [{size:"2ml",price:11},{size:"5ml",price:30},{size:"10ml",price:57}],
+    sizes: [{size:"2ml",price:13.9},{size:"5ml",price:32.9},{size:"10ml",price:59.9}],
     image: "bottles/louis-vuitton-attrape-reves.png", imgStyle: "height:110%;margin-top:-25px", badge: null, notesImage: "notes/attrapereves-notes.jpg"
   },
   {
@@ -163,7 +163,7 @@ const products = [
     types: ["musky"],
     quiz: { soft: 3, fresh: 2, universal: 3, day: 1 },
     desc: "Vôňa kože, zosilnená. Čisté syntetické musky tak ťažké, že ich skôr cítiš než čucháš — čisté, krémové a ticho nezabudnuteľné.",
-    sizes: [{size:"2ml",price:4.5},{size:"5ml",price:12}],
+    sizes: [{size:"2ml",price:15.9},{size:"5ml",price:38}],
     image: "bottles/nasomatto-silver-musk.png", imgStyle: "height:90%;margin-top:20px", badge: null, notesImage: "notes/silvermusk-notes.jpg"
   },
   {
@@ -172,7 +172,7 @@ const products = [
     types: ["sweet", "spicy", "floral"],
     quiz: { sweet: 2, floral: 2, woody: 1, universal: 2, soft: 1, night: 1 },
     desc: "Teplá, krémová a obaľujúca. Ani ťa obalí zázvorom a jemnou vanilkou s ambrou, ktorá pôsobí luxusne bez toho, aby bola sladká alebo ťažká.",
-    sizes: [{size:"2ml",price:8.5},{size:"5ml",price:21},{size:"10ml",price:39}],
+    sizes: [{size:"2ml",price:6.9},{size:"5ml",price:15.9},{size:"10ml",price:30}],
     image: "bottles/nishane-ani.png", imgStyle: "height:180%", badge: null, notesImage: "notes/ani-notes.jpg"
   },
   {
@@ -181,7 +181,7 @@ const products = [
     types: ["fresh", "musky"],
     quiz: { fresh: 3, woody: 1, day: 2, universal: 1, loud: 2 },
     desc: "Napätie medzi dvoma extrémami v jednej fľaši. Výbuch studeného, ostrého kalábrijského bergamotu, ktorý sa pomaly vzdáva teplému, na kožu blízkemu musku.",
-    sizes: [{size:"2ml",price:7.5},{size:"5ml",price:18}],
+    sizes: [{size:"2ml",price:15.9},{size:"5ml",price:36.9}],
     image: "bottles/orto-parisi-bergamask.png", imgStyle: "height:90%;margin-top:20px", badge: null, notesImage: "notes/bergamask-notes.jpg"
   },
   {
@@ -190,7 +190,7 @@ const products = [
     types: ["fresh", "floral"],
     quiz: { fresh: 2, floral: 2, day: 2, soft: 2 },
     desc: "Svieži a púdrovito elegantný. Grep a bergamot s jazmínom a magnóliou otvoria vôňu ako ranný vzduch, kým zázvor a bylinné tóny dodajú charakter.",
-    sizes: [{size:"2ml",price:7},{size:"5ml",price:18},{size:"10ml",price:33}],
+    sizes: [{size:"2ml",price:8.9},{size:"5ml",price:19.9},{size:"10ml",price:35.9}],
     image: "bottles/sospiro-vibrato.png", imgStyle: "height:90%;margin-top:10px", badge: null, notesImage: "notes/vibrato-notes.jpg"
   },
   {
@@ -199,7 +199,7 @@ const products = [
     types: ["fruity", "fresh", "sweet"],
     quiz: { sweet: 2, fresh: 2, summer: 3, day: 1, loud: 1 },
     desc: "Tropický výbuch, ktorý sa mení na niečo hlbšie. Mango, guava a ananás otvoria vôňu ako slnečný deň, kým čierne ríbezle a fialový list dodajú tajomstvo.",
-    sizes: [{size:"2ml",price:11},{size:"5ml",price:29}],
+    sizes: [{size:"2ml",price:13.9},{size:"5ml",price:32.9}],
     image: "bottles/xerjoff-cruzdelsur.png", imgStyle: "height:100%;margin-top:0px", badge: null, notesImage: "notes/cruzdelsur-notes.jpg"
   },
   {
@@ -208,7 +208,7 @@ const products = [
     types: ["spicy", "sweet", "woody"],
     quiz: { sweet: 2, woody: 2, night: 3, loud: 2 },
     desc: "Divoká a zmyselná. Korenistý peprom nabitý úvod sa roztáva do krémovej vanilky a jemnej semišovej kože — odvážna, no zostáva na koži ako druhá.",
-    sizes: [{size:"2ml",price:10},{size:"5ml",price:26},{size:"10ml",price:49}],
+    sizes: [{size:"2ml",price:9.9},{size:"5ml",price:22.9},{size:"10ml",price:39.9}],
     image: "bottles/ysl-babycat.png", imgStyle: "height:90%;margin-top:10px", badge: null, notesImage: "notes/babycat-notes.jpg"
   },
   {
@@ -217,7 +217,7 @@ const products = [
     types: ["fruity", "sweet"],
     quiz: { sweet: 2, fresh: 1, summer: 3, night: 1, loud: 2 },
     desc: "Tropický ostrov v jednej fľaši. Kokos a vanilka obialia pokožku ako slnečné teplo, kým ananás a papája dodajú svieži exotický náboj. Drevité tóny ukotvia vôňu a dodajú jej hĺbku.",
-    sizes: [{size:"2ml",price:7},{size:"5ml",price:16},{size:"10ml",price:29}],
+    sizes: [{size:"2ml",price:6.9},{size:"5ml",price:16.9},{size:"10ml",price:30}],
     image: "bottles/simone-andreoli-leisure-in-paradise.png", imgStyle: "height:90%;margin-top:0px", badge: null, notesImage: "notes/simone-andreoli-leisure-in-paradise.jpg"
   }
 
@@ -228,14 +228,14 @@ const sets = [
   {
     name: "Everyday Set", tagline: "Celý rok, každý deň",
     items: ["Imagination", "Musk Therapy", "Pomelo Oolong"],
-    size: "2ml", price: 32.9, fullPrice: 35,
+    size: "2ml", price: 35.9, fullPrice: 39.7,
     types: ["fresh", "musky"],
     desc: "Tri univerzálne vône, ktoré fungujú od rána do večera a od januára po december — čisté, decentné, vždy vhodné."
   },
   {
     name: "Citrus Set", tagline: "Ovocie & energia",
     items: ["Bergamask", "Vibrato", "Cruz del Sur II"],
-    size: "2ml", price: 23.9, fullPrice: 25.5,
+    size: "2ml", price: 34.9, fullPrice: 38.7,
     types: ["fresh", "fruity"],
     desc: "Citrusovo-ovocná trojica s ťahom: najostrejší bergamot na trhu, púdrová sviežosť a tropické slnko v jednom balení."
   }
